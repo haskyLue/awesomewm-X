@@ -8,7 +8,7 @@ require('beautiful')
 -- Notification library
 require('naughty')
 -- Widget library
--- require('wicked')         -- deprecated (converted wicked widgets to vicious widgets) Armageddon 05-29-2012
+-- require('wicked') -- deprecated (converted wicked widgets to vicious widgets) Armageddon 05-29-2012
 -- Custom widgets
 require('vicious')           -- http://awesome.naquadah.org/wiki/Vicious
 require('freedesktop.utils') -- 
