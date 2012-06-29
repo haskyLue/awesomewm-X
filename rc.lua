@@ -8,7 +8,7 @@ require('beautiful')
 -- Notification library
 require('naughty')
 -- Widget library
--- require('wicked') -- deprecated
+-- require('wicked')         -- deprecated (converted wicked widgets to vicious widgets) Armageddon 05-29-2012
 -- Custom widgets
 require('vicious')           -- http://awesome.naquadah.org/wiki/Vicious
 require('freedesktop.utils') -- 
@@ -42,14 +42,13 @@ do
 end
 -- }}}
 
--- {{{ Variable definitions
 -- Home sweet home
-home_path = '/home/pdq/'
+-- home_path = '/home/pdq/'
+home_path  = os.getenv('HOME') .. '/'
 
+-- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init(home_path .. '.config/awesome/themes/default/theme.lua')
-bottom_panel_color = '#222222' -- bottom panel color
-bottom_panel_text_color = '#D7D0C7' -- bottom panel text color
+beautiful.init(home_path  .. '.config/awesome/themes/default/theme.lua')
 
 -- This is used later as the default terminal and editor to run.
 terminal = 'urxvtc' -- requires urxvt daemon: 'urxvtd -q -o -f'
@@ -66,9 +65,6 @@ weather_code =  'CYWG' -- ICAO code
 
 -- Specify your folder with shortcuts here
 launcher_path = home_path .. '.config/awesome/launcher/'
-
-freedesktop.utils.terminal = terminal  -- default: 'urxvtc'
-freedesktop.utils.icon_theme = 'AwOken' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
 
 -- http://awesome.naquadah.org/wiki/Move_Mouse
 -- set the desired pixel coordinates:
@@ -147,6 +143,7 @@ end
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
+freedesktop.utils.icon_theme = beautiful.menu_icons
 menu_items = freedesktop.menu.new()
 myawesomemenu = {
    { 'Appearance', 'lxappearance', freedesktop.utils.lookup_icon({ icon = 'style' }) },
@@ -197,8 +194,8 @@ datewidget = widget({
     name = 'datewidget'
  })
 
-datewidget.bg = bottom_panel_color
-vicious.register(datewidget, vicious.widgets.date, '<span color="' .. bottom_panel_text_color .. '">%b %d, %R</span>')
+datewidget.bg = beautiful.bg_bottom
+vicious.register(datewidget, vicious.widgets.date, '<span color="' .. beautiful.fg_bottom .. '">%b %d, %R</span>')
 
 -- Calendar widget to attach to the textclock
 -- http://awesome.naquadah.org/wiki/Calendar_widget
@@ -207,11 +204,11 @@ calendar2.addCalendarToWidget(datewidget)
 
 -- Create a systray
 mysystray = widget({ type = 'systray' })
-mysystray.bg = bottom_panel_color
+mysystray.bg = beautiful.bg_bottom
 
 -- Separator Widget
 separator = widget({ type = 'textbox' })
-separator.bg = bottom_panel_color
+separator.bg = beautiful.bg_bottom
 separator.text  = ' '
 
 -- Disk useage widget
@@ -227,7 +224,7 @@ disk.addToWidget(diskwidget, 75, 90, true)
 
 -- Weather widget
 forecast = widget({ type = 'textbox', name = 'weather' })
-forecast.bg = bottom_panel_color
+forecast.bg = beautiful.bg_bottom
 weather_t = awful.tooltip({ objects = { forecast },})
 vicious.register(forecast, vicious.widgets.weather, function (widget, args) 
                                                       weather_t:set_text("City: " .. 
@@ -240,13 +237,13 @@ vicious.register(forecast, vicious.widgets.weather, function (widget, args)
                                                       args["{sky}"] .. "\nHumidity: " .. 
                                                       args["{humid}"] .. "%\n" .. "Pressure: " .. 
                                                       args["{press}"] .. " hPa") 
-                                                   return '<span color="' .. bottom_panel_text_color ..'">' .. args["{tempc}"] .. ' °C</span>' end, 1800, weather_code)
+                                                   return '<span color="' .. beautiful.fg_bottom ..'">' .. args["{tempc}"] .. ' °C</span>' end, 1800, weather_code)
 --'1800': check every 30 minutes.
 --'KEWB': the DMass ICAO code. https://en.wikipedia.org/wiki/List_of_airports_by_ICAO_code:_C
 
 -- awesome.naquadah.org/wiki/Awesompd_widget
 musicwidget = awesompd:create() -- Create awesompd widget
-musicwidget.font = 'Envy Code R' -- Set widget font 
+musicwidget.font = beautiful.font -- Set widget font 
 musicwidget.scrolling = true -- If true, the text in the widget will be scrolled
 musicwidget.output_size = 30 -- Set the size of widget in symbols
 musicwidget.update_interval = 10 -- Set the update interval in seconds
@@ -339,13 +336,13 @@ cpuwidget = widget({
 })
 
 cpuwidget.width = 105
-cpuwidget.bg = bottom_panel_color
-vicious.register(cpuwidget, vicious.widgets.cpu, '<span color="' .. bottom_panel_text_color .. '">Cores: $1%</span>')
+cpuwidget.bg = beautiful.bg_bottom
+vicious.register(cpuwidget, vicious.widgets.cpu, '<span color="' .. beautiful.fg_bottom .. '">Cores: $1%</span>')
 
 -- cpu widget
 cpugraphwidget = awful.widget.graph()
 cpugraphwidget:set_width(40)
-cpugraphwidget:set_background_color(bottom_panel_color)
+cpugraphwidget:set_background_color(beautiful.bg_bottom)
 cpugraphwidget:set_color(beautiful.fg_normal)
 cpugraphwidget:set_gradient_colors({ 'blue', 'blue', 'blue' })
 -- Register widget
@@ -353,7 +350,7 @@ vicious.register(cpugraphwidget, vicious.widgets.cpu, "$1")
 
 cpugraphwidget1 = awful.widget.graph()
 cpugraphwidget1:set_width(40)
-cpugraphwidget1:set_background_color(bottom_panel_color)
+cpugraphwidget1:set_background_color(beautiful.bg_bottom)
 cpugraphwidget1:set_color(beautiful.fg_normal)
 cpugraphwidget1:set_gradient_colors({ 'pink', 'pink', 'pink' })
 -- Register widget
@@ -361,7 +358,7 @@ vicious.register(cpugraphwidget1, vicious.widgets.cpu, "$2")
 
 cpugraphwidget2 = awful.widget.graph()
 cpugraphwidget2:set_width(40)
-cpugraphwidget2:set_background_color(bottom_panel_color)
+cpugraphwidget2:set_background_color(beautiful.bg_bottom)
 cpugraphwidget2:set_color(beautiful.fg_normal)
 cpugraphwidget2:set_gradient_colors({ 'orange', 'orange', 'orange' })
 -- Register widget
@@ -369,7 +366,7 @@ vicious.register(cpugraphwidget2, vicious.widgets.cpu, "$3")
 
 cpugraphwidget3 = awful.widget.graph()
 cpugraphwidget3:set_width(40)
-cpugraphwidget3:set_background_color(bottom_panel_color)
+cpugraphwidget3:set_background_color(beautiful.bg_bottom)
 cpugraphwidget3:set_color(beautiful.fg_normal)
 cpugraphwidget3:set_gradient_colors({ 'red', 'red', 'red' })
 -- Register widget
@@ -382,7 +379,7 @@ netwidget = widget({
     align = 'left'
 })
 
-netwidget.bg = bottom_panel_color
+netwidget.bg = beautiful.bg_bottom
 netwidget.width = 400
 vicious.register(netwidget, vicious.widgets.net, 'Traffic: ↓ ${eth0 down_kb}kb/s ↑ ${eth0 up_kb}kb/s  Total: ↓ ${eth0 rx_gb}GiB ↑ ${eth0 tx_gb}GiB', 5)
 
@@ -393,8 +390,8 @@ vicious.register(netwidget, vicious.widgets.net, 'Traffic: ↓ ${eth0 down_kb}kb
   --  as uptime in minutes, 4th as load average for past 1 minute, 5th
   --  for 5 minutes and 6th for 15 minutes
 uptimewidget = widget({ type = "textbox" })
-uptimewidget.bg = bottom_panel_color
-vicious.register(uptimewidget, vicious.widgets.uptime, '<span color="' .. bottom_panel_text_color .. '">Uptime: $1d $2:$3, $4, $5, $6</span>', 60)
+uptimewidget.bg = beautiful.bg_bottom
+vicious.register(uptimewidget, vicious.widgets.uptime, '<span color="' .. beautiful.fg_bottom .. '">Uptime: $1d $2:$3, $4, $5, $6</span>', 60)
 
 -- memory widget
 memwidget = widget({
@@ -402,12 +399,12 @@ memwidget = widget({
     name = 'memwidget'
 })
 
-memwidget.bg = bottom_panel_color
+memwidget.bg = beautiful.bg_bottom
 vicious.register(memwidget, vicious.widgets.mem, 'Memory: $1% $2MB/$3MB ')
 
 memgraphwidget = awful.widget.graph()
 memgraphwidget:set_width(60)
-memgraphwidget:set_background_color(bottom_panel_color)
+memgraphwidget:set_background_color(beautiful.bg_bottom)
 memgraphwidget:set_color(beautiful.fg_normal)
 memgraphwidget:set_gradient_colors({ '#218821', '#218821', '#218821' }) 
 -- Register widget
@@ -649,7 +646,7 @@ globalkeys = awful.util.table.join(
      function(cmd, cur_pos, ncomp)
              -- get the hosts
              local hosts = {}
-             f = io.popen('cut -d " " -f1 ' .. os.getenv("HOME") ..  '/.ssh/known_hosts | cut -d, -f1')
+             f = io.popen('cut -d " " -f1 ' .. home_path ..  '.ssh/known_hosts | cut -d, -f1')
              for host in f:lines() do
                      table.insert(hosts, host)
              end
