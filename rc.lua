@@ -46,6 +46,9 @@ end
 -- home_path = '/home/pdq/'
 home_path  = os.getenv('HOME') .. '/'
 
+-- wallpaper directory (/home/pdq/Pictures/morewallpapers/)
+wallpapers  = home_path .. 'Pictures/morewallpapers/'
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 beautiful.init(home_path  .. '.config/awesome/themes/default/theme.lua')
@@ -181,11 +184,10 @@ table.insert(menu_items, { 'Task Manager', 'lxtask', freedesktop.utils.lookup_ic
 
 mymainmenu = awful.menu.new({ items = menu_items, width = 150 })
 
-mylauncher = awful.widget.launcher({ image = image(beautiful.arch_icon), menu = mymainmenu })
+mylauncher = awful.widget.launcher({ image = image(beautiful.start_here_icon), menu = mymainmenu })
                                      
-mscpacmanwidget = awful.widget.launcher({ image = image(beautiful.mspacman_icon),  menu = mymainmenu })
-                                     
-pacmanwidget = awful.widget.launcher({ image = image(beautiful.pacman_icon),  menu = mymainmenu })
+-- mscpacmanwidget = awful.widget.launcher({ image = image(beautiful.mspacman_icon),  menu = mymainmenu })
+-- pacmanwidget = awful.widget.launcher({ image = image(beautiful.pacman_icon),  menu = mymainmenu })
 -- }}}
 
 -- {{{ Wiboxes

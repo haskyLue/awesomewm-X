@@ -84,7 +84,7 @@ theme.titlebar_maximized_button_focus_active  = home_path .. '.config/awesome/th
 -- You can use your own command to set your wallpaper
 -- theme.wallpaper_cmd = { 'awsetbg /home/pdq/.config/awesome/themes/default/background.png' }
 -- theme.wallpaper_cmd = { 'nitrogen --restore' }
-theme.wallpaper_cmd = {'awsetbg -t -f -r ' .. home_path .. 'Pictures/morewallpapers/'}
+theme.wallpaper_cmd = {'awsetbg -t -f -r ' .. wallpapers}
 theme.layout_fairh = home_path .. '.config/awesome/themes/default/layouts2/fairhw.png'
 theme.layout_fairv = home_path .. '.config/awesome/themes/default/layouts2/fairvw.png'
 theme.layout_floating  = home_path .. '.config/awesome/themes/default/layouts2/floatingw.png'
@@ -98,10 +98,11 @@ theme.layout_tiletop = home_path .. '.config/awesome/themes/default/layouts2/til
 theme.layout_spiral  = home_path .. '.config/awesome/themes/default/layouts2/spiralw.png'
 theme.layout_dwindle = home_path .. '.config/awesome/themes/default/layouts2/dwindlew.png'
 
-theme.awesome_icon = home_path .. '.config/awesome/icons/awesome16.png'
-theme.arch_icon = home_path .. '.config/awesome/icons/start-here monochrome light.png'
-theme.mspacman_icon = home_path .. '.config/awesome/icons/1.jpeg'
-theme.pacman_icon = home_path .. '.config/awesome/icons/th_Ghost_blue2.gif'
+--theme.awesome_icon = home_path .. '.config/awesome/icons/awesome16.png'
+theme.start_here_icon = home_path .. '.config/awesome/icons/start-here monochrome light.png'
+-- theme.start_here_icon = home_path .. '.config/awesome/icons/Gentoo.png'
+-- theme.mspacman_icon = home_path .. '.config/awesome/icons/1.jpeg'
+-- theme.pacman_icon = home_path .. '.config/awesome/icons/th_Ghost_blue2.gif'
 
 return theme
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:encoding=utf-8:textwidth=80
