@@ -336,7 +336,7 @@ cpuwidget = widget({
     name = 'cpuwidget'
 })
 
-cpuwidget.width = 105
+cpuwidget.width = 70
 cpuwidget.bg = beautiful.bg_bottom
 vicious.register(cpuwidget, vicious.widgets.cpu, '<span color="' .. beautiful.fg_bottom .. '">Cores: $1%</span>')
 
@@ -345,7 +345,7 @@ cpugraphwidget = awful.widget.graph()
 cpugraphwidget:set_width(40)
 cpugraphwidget:set_background_color(beautiful.bg_graphs)
 cpugraphwidget:set_color(beautiful.fg_normal)
-cpugraphwidget:set_gradient_colors({ 'blue', 'blue', 'blue' })
+cpugraphwidget:set_gradient_colors({ 'blue', '#008BFF', '#00E0FF' })
 -- Register widget
 vicious.register(cpugraphwidget, vicious.widgets.cpu, "$1")
 
@@ -353,7 +353,7 @@ cpugraphwidget1 = awful.widget.graph()
 cpugraphwidget1:set_width(40)
 cpugraphwidget1:set_background_color(beautiful.bg_graphs)
 cpugraphwidget1:set_color(beautiful.fg_normal)
-cpugraphwidget1:set_gradient_colors({ 'pink', 'pink', 'pink' })
+cpugraphwidget1:set_gradient_colors({ 'pink', '#FF0078', '#FFB3F6' })
 -- Register widget
 vicious.register(cpugraphwidget1, vicious.widgets.cpu, "$2")
 
@@ -361,7 +361,7 @@ cpugraphwidget2 = awful.widget.graph()
 cpugraphwidget2:set_width(40)
 cpugraphwidget2:set_background_color(beautiful.bg_graphs)
 cpugraphwidget2:set_color(beautiful.fg_normal)
-cpugraphwidget2:set_gradient_colors({ 'orange', 'orange', 'orange' })
+cpugraphwidget2:set_gradient_colors({ 'orange', '#FFA941', '#FFCC8E' })
 -- Register widget
 vicious.register(cpugraphwidget2, vicious.widgets.cpu, "$3")
 
@@ -369,7 +369,7 @@ cpugraphwidget3 = awful.widget.graph()
 cpugraphwidget3:set_width(40)
 cpugraphwidget3:set_background_color(beautiful.bg_graphs)
 cpugraphwidget3:set_color(beautiful.fg_normal)
-cpugraphwidget3:set_gradient_colors({ 'red', 'red', 'red' })
+cpugraphwidget3:set_gradient_colors({ 'red', '#960013', '#D0001B' })
 -- Register widget
 vicious.register(cpugraphwidget3, vicious.widgets.cpu, "$4")
 
