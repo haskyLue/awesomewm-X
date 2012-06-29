@@ -54,7 +54,9 @@ beautiful.init(home_path  .. '.config/awesome/themes/default/theme.lua')
 terminal = 'urxvtc' -- requires urxvt daemon: 'urxvtd -q -o -f'
 terminal_cmd = terminal .. ' -e '
 
-editor = os.getenv('EDITOR') or 'geany'
+-- editor = os.getenv('EDITOR') or 'geany'
+editor = 'geany' -- nano vim gedit geany etc.
+
 editor_cmd = terminal_cmd .. editor
 
 su_editor_cmd = terminal_cmd .. 'sudo ' .. editor
@@ -63,7 +65,7 @@ sudo_bash = terminal_cmd .. 'sudo bash '
 -- https://en.wikipedia.org/wiki/List_of_airports_by_ICAO_code:_C
 weather_code =  'CYWG' -- ICAO code
 
--- Specify your folder with shortcuts here
+-- Specify your custom launcher folder path  here
 launcher_path = home_path .. '.config/awesome/launcher/'
 
 -- http://awesome.naquadah.org/wiki/Move_Mouse
@@ -148,7 +150,7 @@ menu_items = freedesktop.menu.new()
 myawesomemenu = {
    { 'Appearance', 'lxappearance', freedesktop.utils.lookup_icon({ icon = 'style' }) },
    { 'Wallpaper', 'nitrogen', freedesktop.utils.lookup_icon({ icon = 'style' }) },
--- { 'Edit config', editor_cmd .. ' ' .. awesome.conffile, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
+   { 'Edit config', editor_cmd .. ' ' .. awesome.conffile, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
    { 'Preferred Apps' , 'exo-preferred-applications', freedesktop.utils.lookup_icon({ icon = 'help' })},
    { 'Reload', awesome.restart, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'Logout', awesome.quit, freedesktop.utils.lookup_icon({ icon = 'system-log-out' })},
@@ -179,8 +181,7 @@ table.insert(menu_items, { 'Task Manager', 'lxtask', freedesktop.utils.lookup_ic
 
 mymainmenu = awful.menu.new({ items = menu_items, width = 150 })
 
-mylauncher = awful.widget.launcher({ image = image(beautiful.arch_icon),
-                                     menu = mymainmenu })
+mylauncher = awful.widget.launcher({ image = image(beautiful.arch_icon), menu = mymainmenu })
                                      
 mscpacmanwidget = awful.widget.launcher({ image = image(beautiful.mspacman_icon),  menu = mymainmenu })
                                      
@@ -536,13 +537,13 @@ for s = 1, screen.count() do
          forecast,
          separator,
          separator,
+         separator,
          datewidget,
          separator,
          separator,
          separator,
          layout = awful.widget.layout.horizontal.leftright
      },
-         --   forecast,
          s == 1 and mysystray or nil,
          diskwidget,
          layout = awful.widget.layout.horizontal.rightleft
