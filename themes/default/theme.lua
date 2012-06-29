@@ -22,6 +22,7 @@ theme.fg_minimize   = '#7F7F7F'
 
 theme.bg_bottom     = '#222222' -- bottom panel color
 theme.fg_bottom     = '#D7D0C7' -- bottom panel text color
+theme.bg_graphs     = '#0f0f0f' -- graphs background color
 
 theme.border_width  = '0'
 theme.border_normal = '#000000'

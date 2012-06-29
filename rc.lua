@@ -343,7 +343,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, '<span color="' .. beautiful.fg
 -- cpu widget
 cpugraphwidget = awful.widget.graph()
 cpugraphwidget:set_width(40)
-cpugraphwidget:set_background_color(beautiful.bg_bottom)
+cpugraphwidget:set_background_color(beautiful.bg_graphs)
 cpugraphwidget:set_color(beautiful.fg_normal)
 cpugraphwidget:set_gradient_colors({ 'blue', 'blue', 'blue' })
 -- Register widget
@@ -351,7 +351,7 @@ vicious.register(cpugraphwidget, vicious.widgets.cpu, "$1")
 
 cpugraphwidget1 = awful.widget.graph()
 cpugraphwidget1:set_width(40)
-cpugraphwidget1:set_background_color(beautiful.bg_bottom)
+cpugraphwidget1:set_background_color(beautiful.bg_graphs)
 cpugraphwidget1:set_color(beautiful.fg_normal)
 cpugraphwidget1:set_gradient_colors({ 'pink', 'pink', 'pink' })
 -- Register widget
@@ -359,7 +359,7 @@ vicious.register(cpugraphwidget1, vicious.widgets.cpu, "$2")
 
 cpugraphwidget2 = awful.widget.graph()
 cpugraphwidget2:set_width(40)
-cpugraphwidget2:set_background_color(beautiful.bg_bottom)
+cpugraphwidget2:set_background_color(beautiful.bg_graphs)
 cpugraphwidget2:set_color(beautiful.fg_normal)
 cpugraphwidget2:set_gradient_colors({ 'orange', 'orange', 'orange' })
 -- Register widget
@@ -367,7 +367,7 @@ vicious.register(cpugraphwidget2, vicious.widgets.cpu, "$3")
 
 cpugraphwidget3 = awful.widget.graph()
 cpugraphwidget3:set_width(40)
-cpugraphwidget3:set_background_color(beautiful.bg_bottom)
+cpugraphwidget3:set_background_color(beautiful.bg_graphs)
 cpugraphwidget3:set_color(beautiful.fg_normal)
 cpugraphwidget3:set_gradient_colors({ 'red', 'red', 'red' })
 -- Register widget
@@ -405,7 +405,7 @@ vicious.register(memwidget, vicious.widgets.mem, 'Memory: $1% $2MB/$3MB ')
 
 memgraphwidget = awful.widget.graph()
 memgraphwidget:set_width(60)
-memgraphwidget:set_background_color(beautiful.bg_bottom)
+memgraphwidget:set_background_color(beautiful.bg_graphs)
 memgraphwidget:set_color(beautiful.fg_normal)
 memgraphwidget:set_gradient_colors({ '#218821', '#218821', '#218821' }) 
 -- Register widget
