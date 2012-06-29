@@ -8,13 +8,11 @@ require('beautiful')
 -- Notification library
 require('naughty')
 -- Widget library
--- require('wicked')
+-- require('wicked') -- deprecated
 -- Custom widgets
--- require('weather')           -- http://github.com/jesseadams/weather
 require('vicious')           -- http://awesome.naquadah.org/wiki/Vicious
 require('freedesktop.utils') -- 
 require('freedesktop.menu')  -- https://github.com/terceiro/awesome-freedesktop
--- require('cal')               -- https://github.com/Mic92/awesome-dotfiles
 require('revelation')        -- http://awesome.naquadah.org/wiki/Revelation
 require('awesompd/awesompd') -- awesome.naquadah.org/wiki/Awesompd_widget
 require('scratch')           -- http://awesome.naquadah.org/wiki/Scratchpad_manager
@@ -47,9 +45,9 @@ end
 -- {{{ Variable definitions
 -- Home sweet home
 home_path = '/home/pdq/'
+
 -- Themes define colours, icons, and wallpapers
 beautiful.init(home_path .. '.config/awesome/themes/default/theme.lua')
-
 bottom_panel_color = '#222222' -- bottom panel color
 bottom_panel_text_color = '#D7D0C7' -- bottom panel text color
 
@@ -63,7 +61,7 @@ editor_cmd = terminal_cmd .. editor
 su_editor_cmd = terminal_cmd .. 'sudo ' .. editor
 sudo_bash = terminal_cmd .. 'sudo bash '
 
--- weather_zipcode = '90210' -- USA/Canada postal code
+weather_code =  'CYWG' -- ICAO code
 
 -- Specify your folder with shortcuts here
 launcher_path = home_path .. '.config/awesome/launcher/'
@@ -193,32 +191,27 @@ pacmanwidget = awful.widget.launcher({ image = image(beautiful.pacman_icon),  me
 
 -- {{{ Wiboxes
 -- Create a textclock widget
-  datewidget = widget({
+datewidget = widget({
     type = 'textbox',
     name = 'datewidget'
  })
 
- datewidget.bg = bottom_panel_color
--- datewidget.width = 325
--- datewidget.width, datewidget.align = 140, 'right'
-
- vicious.register(datewidget, vicious.widgets.date,
-    '     <span color="' .. bottom_panel_text_color .. '">%b %d, %R</span>   ')
+datewidget.bg = bottom_panel_color
+vicious.register(datewidget, vicious.widgets.date, '<span color="' .. bottom_panel_text_color .. '">%b %d, %R</span>')
 
 -- Calendar widget to attach to the textclock
+-- http://awesome.naquadah.org/wiki/Calendar_widget
 require('calendar2')
 calendar2.addCalendarToWidget(datewidget)
-
 
 -- Create a systray
 mysystray = widget({ type = 'systray' })
 mysystray.bg = bottom_panel_color
 
--- {{{ Separator Widget
-separator = widget({ type = "textbox" })
+-- Separator Widget
+separator = widget({ type = 'textbox' })
 separator.bg = bottom_panel_color
 separator.text  = ' '
--- }}}
 
 -- Disk useage widget
 -- http://jasonmaur.com/awesome-wm-widgets-configuration/#disk-usage
@@ -232,20 +225,23 @@ disk = require('diskusage')
 disk.addToWidget(diskwidget, 75, 90, true)
 
 -- Weather widget
--- forecast = widget({ type = 'textbox', name = 'weather' })
--- forecast.bg = bottom_panel_color
--- forecast.width = 110
--- weather.register(forecast, weather_zipcode)
-
--- Weather widget
-forecast = widget({ type = "textbox", name = "weather" })
+forecast = widget({ type = 'textbox', name = 'weather' })
 forecast.bg = bottom_panel_color
 weather_t = awful.tooltip({ objects = { forecast },})
-
-vicious.register(forecast, vicious.widgets.weather, function (widget, args) weather_t:set_text("City: " .. args["{city}"] .. "\nTemperature: " .. args["{tempc}"] .. " °C\t" .. args["{tempf}"] .. " °F " .. "\nWind Condition: " .. args["{wind}"] .. "\nWind Speed: " .. args["{windkmh}"] .. " km/h\t" .. args["{windmph}"] .. " mph\t" .. "\nSky: " .. args["{sky}"] .. "\nHumidity: " .. args["{humid}"] .. "%\n" .. "Pressure: " .. args["{press}"] .. " hPa") return '<span color="' .. bottom_panel_text_color ..'">' .. args["{weather}"] .. '</span>' end, 1800, "KEWB")
+vicious.register(forecast, vicious.widgets.weather, function (widget, args) 
+                                                      weather_t:set_text("City: " .. 
+                                                      args["{city}"] .. "\nTemperature: " .. 
+                                                      args["{tempc}"] .. " °C\t" .. 
+                                                      args["{tempf}"] .. " °F " .. "\nWind Condition: " .. 
+                                                      args["{wind}"] .. "\nWind Speed: " .. 
+                                                      args["{windkmh}"] .. " km/h\t" .. 
+                                                      args["{windmph}"] .. " mph\t" .. "\nSky: " .. 
+                                                      args["{sky}"] .. "\nHumidity: " .. 
+                                                      args["{humid}"] .. "%\n" .. "Pressure: " .. 
+                                                      args["{press}"] .. " hPa") 
+                                                   return '<span color="' .. bottom_panel_text_color ..'">' .. args["{tempc}"] .. ' °C</span>' end, 1800, weather_code)
 --'1800': check every 30 minutes.
---'KEWB': the DMass ICAO code.
-
+--'KEWB': the DMass ICAO code. https://en.wikipedia.org/wiki/List_of_airports_by_ICAO_code:_C
 
 -- awesome.naquadah.org/wiki/Awesompd_widget
 musicwidget = awesompd:create() -- Create awesompd widget
@@ -296,6 +292,7 @@ musicwidget:run() -- After all configuration is done, run the widget
 -- End mpd
 
 -- Quick launch bar widget BEGINS
+-- https://awesome.naquadah.org/wiki/Quick_launch_bar_widget
 function getValue(t, key)
    _, _, res = string.find(t, key .. " *= *([^%c]+)%c")
    return res
@@ -334,7 +331,7 @@ for i = 1, table.getn(launchbar) do
 end
 -- Quick launch bar widget ENDS
 
--- load avg
+-- load avg / cpu widget
 cpuwidget = widget({
     type = 'textbox',
     name = 'cpuwidget'
@@ -342,9 +339,9 @@ cpuwidget = widget({
 
 cpuwidget.width = 105
 cpuwidget.bg = bottom_panel_color
+vicious.register(cpuwidget, vicious.widgets.cpu, '<span color="' .. bottom_panel_text_color .. '">Cores: $1%</span>')
 
-vicious.register(cpuwidget, vicious.widgets.cpu, '   <span color="' .. bottom_panel_text_color .. '">Cores: $1%</span>')
--- graphics cpu widget
+-- cpu widget
 cpugraphwidget = awful.widget.graph()
 cpugraphwidget:set_width(40)
 cpugraphwidget:set_background_color(bottom_panel_color)
@@ -377,7 +374,7 @@ cpugraphwidget3:set_gradient_colors({ 'red', 'red', 'red' })
 -- Register widget
 vicious.register(cpugraphwidget3, vicious.widgets.cpu, "$4")
 
-
+-- net widget
 netwidget = widget({
     type = 'textbox',
     name = 'netwidget',
@@ -386,9 +383,7 @@ netwidget = widget({
 
 netwidget.bg = bottom_panel_color
 netwidget.width = 400
-vicious.register(netwidget, vicious.widgets.net, 
-   -- '    Traffic: ↓ ${eth0 down_kb}kb/s ↑ ${eth0 up_kb}kb/s', 3)
-        '    Traffic: ↓ ${eth0 down_kb}kb/s ↑ ${eth0 up_kb}kb/s  Total: ↓ ${eth0 rx_gb}GiB ↑ ${eth0 tx_gb}GiB', 3)
+vicious.register(netwidget, vicious.widgets.net, 'Traffic: ↓ ${eth0 down_kb}kb/s ↑ ${eth0 up_kb}kb/s  Total: ↓ ${eth0 rx_gb}GiB ↑ ${eth0 tx_gb}GiB', 5)
 
 
 -- vicious.widgets.uptime
@@ -396,22 +391,19 @@ vicious.register(netwidget, vicious.widgets.net,
   -- returns 1st value as uptime in days, 2nd as uptime in hours, 3rd
   --  as uptime in minutes, 4th as load average for past 1 minute, 5th
   --  for 5 minutes and 6th for 15 minutes
-  
 uptimewidget = widget({ type = "textbox" })
 uptimewidget.bg = bottom_panel_color
 vicious.register(uptimewidget, vicious.widgets.uptime, '<span color="' .. bottom_panel_text_color .. '">Uptime: $1d $2:$3, $4, $5, $6</span>', 60)
 
-
-
+-- memory widget
 memwidget = widget({
     type = 'textbox',
     name = 'memwidget'
 })
-memwidget.bg = bottom_panel_color
-vicious.register(memwidget, vicious.widgets.mem,
-    '  Memory: $1% $2MB/$3MB ')
 
--- memory widget
+memwidget.bg = bottom_panel_color
+vicious.register(memwidget, vicious.widgets.mem, 'Memory: $1% $2MB/$3MB ')
+
 memgraphwidget = awful.widget.graph()
 memgraphwidget:set_width(60)
 memgraphwidget:set_background_color(bottom_panel_color)
@@ -435,12 +427,6 @@ my_bottom_wibox ={}
 mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
-
---widget separators
--- separator = widget({ type = 'textbox', name = 'separator'})
--- separator.text = ' '
--- separator = widget({ type = 'textbox',  name = 'separator', align = 'left'})
--- separator.text = ' '
 
 -- top panel items
 mytaglist.buttons = awful.util.table.join(
@@ -535,25 +521,32 @@ for s = 1, screen.count() do
       {
        separator,
          uptimewidget,
-         loadwidget,
+         separator,
+         separator,
          cpuwidget,
          cpugraphwidget,
          cpugraphwidget1,
          cpugraphwidget2,
          cpugraphwidget3,
          separator,
+         separator,
          memwidget,
          memgraphwidget,
          separator,
+         separator,
          netwidget,
-      --   forecast,
+         forecast,
+         separator,
+         separator,
          datewidget,
+         separator,
+         separator,
+         separator,
          layout = awful.widget.layout.horizontal.leftright
      },
          --   forecast,
          s == 1 and mysystray or nil,
-      separator,
-      diskwidget,
+         diskwidget,
          layout = awful.widget.layout.horizontal.rightleft
    }
 end
@@ -646,11 +639,11 @@ globalkeys = awful.util.table.join(
    awful.key({ modkey }, 'F12', function () scratch.drop(terminal, 'bottom', 'left', 0.50, 0.50) end),
    
    -- http://awesome.naquadah.org/wiki/SSH:_prompt
-   awful.key({ modkey, }, "F2", function ()
-     awful.prompt.run({ prompt = "ssh: " },
+   awful.key({ modkey, }, 'F2', function ()
+     awful.prompt.run({ prompt = 'ssh: ' },
      mypromptbox[mouse.screen].widget,
      function(h)
-             awful.util.spawn(terminal .. " -e ssh " .. h)
+             awful.util.spawn(terminal .. ' -e ssh ' .. h)
      end,
      function(cmd, cur_pos, ncomp)
              -- get the hosts
@@ -661,7 +654,7 @@ globalkeys = awful.util.table.join(
              end
              f:close()
              -- abort completion under certain circumstances
-             if #cmd == 0 or (cur_pos ~= #cmd + 1 and cmd:sub(cur_pos, cur_pos) ~= " ") then
+             if #cmd == 0 or (cur_pos ~= #cmd + 1 and cmd:sub(cur_pos, cur_pos) ~= ' ') then
                      return cmd, cur_pos
              end
              -- match
@@ -682,7 +675,7 @@ globalkeys = awful.util.table.join(
              -- return match and position
              return matches[ncomp], cur_pos
      end,
-     awful.util.getdir("cache") .. "/ssh_history")
+     awful.util.getdir('cache') .. '/ssh_history')
 end)
 
 )
