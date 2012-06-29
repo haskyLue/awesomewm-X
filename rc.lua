@@ -1,3 +1,4 @@
+-- https://github.com/idk/awesomewm-X
 -- Standard awesome library
 require('awful')
 require('awful.autofocus')
