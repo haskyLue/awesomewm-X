@@ -61,6 +61,7 @@ editor_cmd = terminal_cmd .. editor
 su_editor_cmd = terminal_cmd .. 'sudo ' .. editor
 sudo_bash = terminal_cmd .. 'sudo bash '
 
+-- https://en.wikipedia.org/wiki/List_of_airports_by_ICAO_code:_C
 weather_code =  'CYWG' -- ICAO code
 
 -- Specify your folder with shortcuts here
