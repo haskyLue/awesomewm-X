@@ -55,7 +55,7 @@ terminal = 'urxvtc' -- requires urxvt daemon: 'urxvtd -q -o -f'
 terminal_cmd = terminal .. ' -e '
 
 -- editor = os.getenv('EDITOR') or 'geany'
-editor = 'geany' -- nano vim gedit geany etc.
+editor = 'nano' -- nano vim gedit geany etc.
 
 editor_cmd = terminal_cmd .. editor
 
