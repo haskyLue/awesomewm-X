@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Task Manager
+Exec=lxtask
+Icon=/usr/share/icons/gnome/32x32/apps/utilities-system-monitor.png
+Position=5

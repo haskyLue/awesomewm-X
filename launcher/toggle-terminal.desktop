@@ -1,0 +1,6 @@
+ 
+[Desktop Entry]
+Name=Toggle Dropedown Terminal
+Exec=xdotool key super+F12
+Icon=/usr/share/icons/gnome/32x32/apps/konsole.png
+Position=0.2
