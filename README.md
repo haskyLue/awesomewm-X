@@ -123,6 +123,16 @@ HISTORY
    - Version enhancement: configuration tweaks
 
 
+Contributing
+------------
+
+1. Fork it.
+2. Create a branch (`git checkout -b my_awesomewm-X`)
+3. Commit your changes (`git commit -am "Added foo and bar"`)
+4. Push to the branch (`git push origin my_awesomewm-X`)
+5. Create an [Issue][7] with a link to your branch
+6. Join the Linux Distro Community IRC or Mumble! :D
+
 SHARE AND ENJOY!
 ----------------
 
