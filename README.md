@@ -82,9 +82,6 @@ SUPPORT
 
 [pdq][7]
 
- 
-SHARE AND ENJOY!
-----------------
 
 TODO
 ----
@@ -94,10 +91,10 @@ TODO
 3. configuration variable for OS. ie: archlinux, gentoo, ubuntu, fedora
 
 
+HISTORY
+-------
 
-* History
-
-** 2012-06-30: Version 0.0.2
+* 2012-06-30: Version 0.0.2
 
    - Convertion of deprecated wicked widgets to vicious widgets (Armageddon 06-29-2012)
    - Imported calendar2
@@ -109,7 +106,7 @@ TODO
    - Version enhancement: configuration tweaks
    - Version enhancement: optimization tweaks
 
-** 2012-02-18: Version 0.0.1
+* 2012-02-18: Version 0.0.1
       
    - Initial commit
    - Imported awesompd
@@ -124,6 +121,10 @@ TODO
    - Version enhancement: new configuration variables
    - Version enhancement: theme tweaks
    - Version enhancement: configuration tweaks
+
+
+SHARE AND ENJOY!
+----------------
 
 [1]: https://wiki.archlinux.org/index.php/Mpd
 [2]: https://wiki.archlinux.org/index.php/ConsoleKit
