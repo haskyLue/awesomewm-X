@@ -82,9 +82,19 @@ SUPPORT
 
 [pdq][7]
 
+ 
+SHARE AND ENJOY!
+----------------
 
-HISTORY
--------
+TODO
+----
+
+1. automatically check number of cores in use
+2. clean up theme
+3. configuration variable for OS. ie: archlinux, gentoo, ubuntu, fedora
+
+
+* History
 
 ** 2012-06-30: Version 0.0.2
 
@@ -113,16 +123,6 @@ HISTORY
    - Version enhancement: new configuration variables
    - Version enhancement: theme tweaks
    - Version enhancement: configuration tweaks
- 
-SHARE AND ENJOY!
-----------------
-
-TODO
-----
-
-1. automatically check number of cores in use
-2. clean up theme
-3. configuration variable for OS. ie: archlinux, gentoo, ubuntu, fedora
 
 [1]: https://wiki.archlinux.org/index.php/Mpd
 [2]: https://wiki.archlinux.org/index.php/ConsoleKit
