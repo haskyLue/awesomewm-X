@@ -10,50 +10,39 @@ https://github.com/idk/awesomewm-X
 Depends on: git
 Optional:   mpd (https://wiki.archlinux.org/index.php/Mpd)
 
-------------------------------------------------------------------------
-
 
 INSTALL Awesome Window Manager
 ------------------------------
 
 Ubuntu/Debian:
-# apt-get install awesome
+    # apt-get install awesome
 
 Archlinux:
-# pacman -S awesome
+    # pacman -S awesome
 
 Gentoo:
-# emerge -av awesome
+    # emerge -av awesome
 
 Fedora:
-# su -c 'wget -nd -P /etc/yum.repos.d http://repos.fedorapeople.org/repos/thm/awesome/fedora-awesome.repo'
-# su -c 'yum install awesome'
-
-
-------------------------------------------------------------------------
+    # su -c 'wget -nd -P /etc/yum.repos.d http://repos.fedorapeople.org/repos/thm/awesome/fedora-awesome.repo'
+    # su -c 'yum install awesome'
 
 
 INSTALL Awesomewm-X
 -------------------
 
-$ cd ~/.config
+    $ cd ~/.config
 
-$ git clone https://github.com/idk/awesomewm-X.git
+    $ git clone https://github.com/idk/awesomewm-X.git
 
-$ cp -r awesomewm-X awesome
-
-
-------------------------------------------------------------------------
+    $ cp -r awesomewm-X awesome
 
 
 CONFIGURATION
 -------------
 
-$nano -w ~/.config/awesome/rc.lua
-$nano -w ~/.config/awesome/themes/default/theme.lua
-
-
-------------------------------------------------------------------------
+    $ nano -w ~/.config/awesome/rc.lua
+    $ nano -w ~/.config/awesome/themes/default/theme.lua
 
 
 USAGE
@@ -70,27 +59,21 @@ SLIM (https://wiki.archlinux.org/index.php/SLIM) is a popular lightweight login 
 1) Edit /etc/slim.conf for start awesome session, add awesome to sessions line.
 For example:
 
-sessions             awesome,wmii,xmonad
+    sessions             awesome,wmii,xmonad
 
 2) Edit ~/.xinitrc file
 
-DEFAULT_SESSION=awesome
-case $1 in
-  awesome|wmii|xmonad) exec $1 ;;
-  *) exec $DEFAULT_SESSION ;;
-esac
+    DEFAULT_SESSION=awesome
+    case $1 in
+      awesome|wmii|xmonad) exec $1 ;;
+      *) exec $DEFAULT_SESSION ;;
+    esac
 
 However, you can also start awesome as preferred user without any login manager and even without logging in, after editing ~/.xinitrc and /etc/inittab properly. Refer to the article Start X at boot (https://wiki.archlinux.org/index.php/Start_X_at_boot). 
 
 
-------------------------------------------------------------------------
-
-
 SHARE AND ENJOY!
 ----------------
-
-
-------------------------------------------------------------------------
 
 
 TODO
