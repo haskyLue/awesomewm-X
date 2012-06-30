@@ -100,19 +100,19 @@ HISTORY
 
 ** 2012-02-18: Version 0.0.1
       
-     - Initial commit
-     - Imported awesompd
-     - Imported awesome-freedesktop
-     - Imported launchbar
-     - Imported revelation
-     - Imported scratch
-     - Imported diskusage
-     - Minor enhancement: default tags, tag names and layout
-     - Minor enhancement: bottom bar widgets (uptime, load, cpu, memory, net, weather, date)
-     - Minor enhancement: relocated systray to bottom bar
-     - Version enhancement: new configuration variables
-     - Version enhancement: theme tweaks
-     - Version enhancement: configuration tweaks
+   - Initial commit
+   - Imported awesompd
+   - Imported awesome-freedesktop
+   - Imported launchbar
+   - Imported revelation
+   - Imported scratch
+   - Imported diskusage
+   - Minor enhancement: default tags, tag names and layout
+   - Minor enhancement: bottom bar widgets (uptime, load, cpu, memory, net, weather, date)
+   - Minor enhancement: relocated systray to bottom bar
+   - Version enhancement: new configuration variables
+   - Version enhancement: theme tweaks
+   - Version enhancement: configuration tweaks
  
 SHARE AND ENJOY!
 ----------------
