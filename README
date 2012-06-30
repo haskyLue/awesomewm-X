@@ -48,4 +48,33 @@ $nano -w ~/.config/awesome/themes/default/theme.lua
 ------------------------------------------------------------------------
 
 
+USAGE
+
+To run awesome without a login manager, simply add exec awesome to the startup script of your choice (e.g. ~/.xinitrc.)
+
+If you have problems with some devices (like mounting usbkeys, reading dvds) be sure to read documentation about HAL and PolicyKit. When you do not use a login manager, nothing is automated. In some cases, using exec ck-launch-session awesome can solve your problems. For this to work, you must have the consolekit package installed, otherwise ck-launch-session will be an unrecognised command. See ConsoleKit.
+
+To start awesome from a login manager, see this article (https://wiki.archlinux.org/index.php/Display_Manager).
+
+SLIM (https://wiki.archlinux.org/index.php/SLIM) is a popular lightweight login manager and comes highly recommended. You should do like this:
+
+1) Edit /etc/slim.conf for start awesome session, add awesome to sessions line.
+For example:
+
+sessions             awesome,wmii,xmonad
+
+2) Edit ~/.xinitrc file
+
+DEFAULT_SESSION=awesome
+case $1 in
+  awesome|wmii|xmonad) exec $1 ;;
+  *) exec $DEFAULT_SESSION ;;
+esac
+
+However, you can also start awesome as preferred user without any login manager and even without logging in, after editing ~/.xinitrc and /etc/inittab properly. Refer to the article Start X at boot (https://wiki.archlinux.org/index.php/Start_X_at_boot). 
+
+
+------------------------------------------------------------------------
+
+
 SHARE AND ENJOY!
