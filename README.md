@@ -15,15 +15,19 @@ INSTALL Awesome Window Manager
 ------------------------------
 
 Ubuntu/Debian:
+
     # apt-get install awesome
 
 Archlinux:
+
     # pacman -S awesome
 
 Gentoo:
+
     # emerge -av awesome
 
 Fedora:
+
     # su -c 'wget -nd -P /etc/yum.repos.d http://repos.fedorapeople.org/repos/thm/awesome/fedora-awesome.repo'
     # su -c 'yum install awesome'
 
@@ -32,9 +36,7 @@ INSTALL Awesomewm-X
 -------------------
 
     $ cd ~/.config
-
     $ git clone https://github.com/idk/awesomewm-X.git
-
     $ cp -r awesomewm-X awesome
 
 
