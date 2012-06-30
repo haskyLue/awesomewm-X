@@ -4,6 +4,8 @@ http://awesome.naquadah.org/wiki/Main_Page
 
 https://github.com/idk/awesomewm-X
 
+Depends on: git
+Optional:   mpd (https://wiki.archlinux.org/index.php/Mpd)
 
 ------------------------------------------------------------------------
 
@@ -78,3 +80,14 @@ However, you can also start awesome as preferred user without any login manager 
 
 
 SHARE AND ENJOY!
+
+
+------------------------------------------------------------------------
+
+
+TODO
+
+automatically check number of cores in use
+clean up theme
+configuration variable for OS. ie: archlinux, gentoo, ubuntu, fedora
+
