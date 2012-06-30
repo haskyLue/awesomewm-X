@@ -8,7 +8,8 @@ http://awesome.naquadah.org/wiki/Main_Page
 https://github.com/idk/awesomewm-X
 
 Depends on: git
-Optional:   mpd (https://wiki.archlinux.org/index.php/Mpd)
+
+Optional:   [mpd][1]
 
 
 INSTALL Awesome Window Manager
@@ -52,11 +53,11 @@ USAGE
 
 To run awesome without a login manager, simply add exec awesome to the startup script of your choice (e.g. ~/.xinitrc.)
 
-If you have problems with some devices (like mounting usbkeys, reading dvds) be sure to read documentation about HAL and PolicyKit. When you do not use a login manager, nothing is automated. In some cases, using exec ck-launch-session awesome can solve your problems. For this to work, you must have the consolekit package (https://wiki.archlinux.org/index.php/ConsoleKit) installed, otherwise ck-launch-session will be an unrecognised command.
+If you have problems with some devices (like mounting usbkeys, reading dvds) be sure to read documentation about HAL and PolicyKit. When you do not use a login manager, nothing is automated. In some cases, using exec ck-launch-session awesome can solve your problems. For this to work, you must have the [consolekit][2] package installed, otherwise ck-launch-session will be an unrecognised command.
 
-To start awesome from a login manager, see this article (https://wiki.archlinux.org/index.php/Display_Manager).
+To start awesome from a login manager, see [this article][3].
 
-SLIM (https://wiki.archlinux.org/index.php/SLIM) is a popular lightweight login manager and comes highly recommended. You should do like this:
+[SLIM][4] is a popular lightweight login manager and comes highly recommended. You should do like this:
 
 1) Edit /etc/slim.conf for start awesome session, add awesome to sessions line.
 For example:
@@ -71,7 +72,7 @@ For example:
       *) exec $DEFAULT_SESSION ;;
     esac
 
-However, you can also start awesome as preferred user without any login manager and even without logging in, after editing ~/.xinitrc and /etc/inittab properly. Refer to the article Start X at boot (https://wiki.archlinux.org/index.php/Start_X_at_boot). 
+However, you can also start awesome as preferred user without any login manager and even without logging in, after editing ~/.xinitrc and /etc/inittab properly. Refer to the article [Start X at boot][5]. 
 
 
 SHARE AND ENJOY!
@@ -85,3 +86,8 @@ automatically check number of cores in use
 clean up theme
 configuration variable for OS. ie: archlinux, gentoo, ubuntu, fedora
 
+[1]: https://wiki.archlinux.org/index.php/Mpd
+[2]: https://wiki.archlinux.org/index.php/ConsoleKit
+[3]: https://wiki.archlinux.org/index.php/Display_Manager
+[4]: https://wiki.archlinux.org/index.php/SLIM
+[5]: https://wiki.archlinux.org/index.php/Start_X_at_boot
