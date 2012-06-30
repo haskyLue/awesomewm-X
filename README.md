@@ -51,7 +51,7 @@ CONFIGURATION
 USAGE
 -----
 
-To run awesome without a login manager, simply add exec awesome to the startup script of your choice (e.g. ~/.xinitrc.)
+To run awesome without a login manager, simply add `exec awesome` to the startup script of your choice (e.g. `~/.xinitrc`.)
 
 If you have problems with some devices (like mounting usbkeys, reading dvds) be sure to read documentation about `HAL` and `PolicyKit`. When you do not use a login manager, nothing is automated. In some cases, using `exec ck-launch-session awesome` can solve your problems. For this to work, you must have the [consolekit][2] package installed, otherwise `ck-launch-session` will be an unrecognised command.
 
@@ -78,11 +78,42 @@ However, you can also start awesome as preferred user without any login manager 
 SUPPORT
 -------
 
-[The Linux Distro Community LDC][6]
+[The Linux Distro Community][6]
 
 [pdq][7]
 
 
+HISTORY
+-------
+
+** 2012-06-30: Version 0.0.2
+
+   - Convertion of deprecated wicked widgets to vicious widgets (Armageddon 06-29-2012)
+   - Imported calendar2
+   - Minor enhancement: fixed home path
+   - Minor enhancement: addition of gentoo icon
+   - Minor enhancement: bottom bar widget (weather, calendar, total traffic)
+   - Version enhancement: new configuration variables
+   - Version enhancement: theme tweaks
+   - Version enhancement: configuration tweaks
+   - Version enhancement: optimization tweaks
+
+** 2012-02-18: Version 0.0.1
+      
+     - Initial commit
+     - Imported awesompd
+     - Imported awesome-freedesktop
+     - Imported launchbar
+     - Imported revelation
+     - Imported scratch
+     - Imported diskusage
+     - Minor enhancement: default tags, tag names and layout
+     - Minor enhancement: bottom bar widgets (uptime, load, cpu, memory, net, weather, date)
+     - Minor enhancement: relocated systray to bottom bar
+     - Version enhancement: new configuration variables
+     - Version enhancement: theme tweaks
+     - Version enhancement: configuration tweaks
+ 
 SHARE AND ENJOY!
 ----------------
 
