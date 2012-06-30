@@ -15,19 +15,19 @@ Optional:   [mpd][1]
 INSTALL Awesome Window Manager
 ------------------------------
 
-Ubuntu/Debian:
+`Ubuntu/Debian:`
 
     # apt-get install awesome
 
-Archlinux:
+`Archlinux:`
 
     # pacman -S awesome
 
-Gentoo:
+`Gentoo:`
 
     # emerge -av awesome
 
-Fedora:
+`Fedora:`
 
     # su -c 'wget -nd -P /etc/yum.repos.d http://repos.fedorapeople.org/repos/thm/awesome/fedora-awesome.repo'
     # su -c 'yum install awesome'
@@ -75,6 +75,11 @@ For example:
 However, you can also start awesome as preferred user without any login manager and even without logging in, after editing ~/.xinitrc and /etc/inittab properly. Refer to the article [Start X at boot][5]. 
 
 
+SUPPORT
+-------
+[The Linux Distro Community LDC][6]
+[pdq][7]
+
 SHARE AND ENJOY!
 ----------------
 
@@ -91,3 +96,5 @@ configuration variable for OS. ie: archlinux, gentoo, ubuntu, fedora
 [3]: https://wiki.archlinux.org/index.php/Display_Manager
 [4]: https://wiki.archlinux.org/index.php/SLIM
 [5]: https://wiki.archlinux.org/index.php/Start_X_at_boot
+[6]: http://www.linuxdistrocommunity.com
+[7]: https://github.com/idk/awesomewm-X/issues
