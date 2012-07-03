@@ -1,4 +1,9 @@
 -- https://github.com/idk/awesomewm-X
+-- debug
+-- https://github.com/idk/awesomewm-X pdq
+print('Started:' .. os.time())
+
+-- {{{ Require libraries
 -- Standard awesome library
 require('awful')
 require('awful.autofocus')
@@ -7,15 +12,26 @@ require('awful.rules')
 require('beautiful')
 -- Notification library
 require('naughty')
--- Widget library
 -- require('wicked') -- deprecated (converted wicked widgets to vicious widgets) Armageddon 06-29-2012
--- Custom widgets
-require('vicious')           -- http://awesome.naquadah.org/wiki/Vicious
-require('freedesktop.utils') -- 
-require('freedesktop.menu')  -- https://github.com/terceiro/awesome-freedesktop
-require('revelation')        -- http://awesome.naquadah.org/wiki/Revelation
+local vicious = require('vicious') -- http://awesome.naquadah.org/wiki/Vicious
+require('freedesktop.utils') -- https://github.com/terceiro/awesome-freedesktop
+require('freedesktop.menu') 
 require('awesompd/awesompd') -- awesome.naquadah.org/wiki/Awesompd_widget
-require('scratch')           -- http://awesome.naquadah.org/wiki/Scratchpad_manager
+-- Local libraries
+local req = {
+    awmXversion = '0.0.3',
+	revelation = require('revelation'), -- http://awesome.naquadah.org/wiki/Revelation
+	scratch = require('scratch'),       -- http://awesome.naquadah.org/wiki/Revelation
+	lognotify = require('lognotify'),	-- https://github.com/Mic92/lognotify
+	lfs = require('lfs'),
+	utils = require('utils'),
+	disk = require('diskusage'),
+	-- calendar widget
+	cal = utils.cal,
+	-- wrapper for pango markup
+	markup = utils.markup,
+}
+-- }}}
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -25,7 +41,6 @@ if awesome.startup_errors then
                     title = 'Oops, there were errors during startup!',
                     text = awesome.startup_errors })
 end
-
 -- Handle runtime errors after startup
 do
    local in_error = false
@@ -42,38 +57,25 @@ do
 end
 -- }}}
 
--- Home sweet home
--- home_path = '/home/pdq/'
-home_path  = os.getenv('HOME') .. '/'
-
--- wallpaper directory (/home/pdq/Pictures/morewallpapers/)
-wallpapers  = home_path .. 'Pictures/morewallpapers/'
-
 -- {{{ Variable definitions
+home_path  = os.getenv('HOME') .. '/'
 -- Themes define colours, icons, and wallpapers
-beautiful.init(home_path  .. '.config/awesome/themes/default/theme.lua')
+local theme_path = home_path  .. '.config/awesome/themes/current/theme.lua'
+beautiful.init(theme_path)
 
 -- This is used later as the default terminal and editor to run.
-terminal = 'urxvtc' -- requires urxvt daemon: 'urxvtd -q -o -f'
-terminal_cmd = terminal .. ' -e '
-
--- editor = os.getenv('EDITOR') or 'geany'
-editor = 'nano' -- nano vim gedit geany etc.
-
-editor_cmd = terminal_cmd .. editor
-
-su_editor_cmd = terminal_cmd .. 'sudo ' .. editor
-sudo_bash = terminal_cmd .. 'sudo bash '
+local terminal = 'urxvtc' -- requires urxvt daemon: 'urxvtd -q -o -f'
+local terminal_cmd = terminal .. ' -e '
+local editor = 'scribes' -- nano vim gedit geany scribes etc.
 
 -- https://en.wikipedia.org/wiki/List_of_airports_by_ICAO_code:_C
-weather_code =  'CYWG' -- ICAO code
+local weather_code =  'CYWG' -- ICAO code
 
 -- Specify your custom launcher folder path  here
-launcher_path = home_path .. '.config/awesome/launcher/'
+local launcher_path = home_path .. '.config/awesome/launcher/'
 
 -- http://awesome.naquadah.org/wiki/Move_Mouse
 -- set the desired pixel coordinates:
-
 --  if your screen is 1440x900 the this line sets the bottom right.
 -- local safeCoords = {x=1440, y=900}
 -- if your screen is 1440x900 the this line sets the bottom left.
@@ -88,10 +90,15 @@ local moveMouseOnStartup = true
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = 'Mod4'
+local modkey = 'Mod4'
+
+local exec = awful.util.spawn
+local editor_cmd = terminal_cmd .. editor
+local su_editor_cmd = terminal_cmd .. 'sudo ' .. editor
+local sudo_bash = terminal_cmd .. 'sudo bash '
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
-layouts = {
+local layouts = {
    awful.layout.suit.floating,        -- 1
    awful.layout.suit.tile,            -- 2
    awful.layout.suit.tile.left,       -- 3
@@ -108,14 +115,7 @@ layouts = {
 -- }}}
 
 -- {{{ Tags
--- Define a tag table which hold all screen tags.
--- tags = {}
--- for s = 1, screen.count() do
-    -- Each screen has its own tag table.
---     tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
--- end
-
-tags = {
+local tags = {
    names  = { 
       '1:Transporters', 
       '2:TheConn', 
@@ -125,18 +125,16 @@ tags = {
       '6:Engineering', 
       '7:TheBridge',
       '8:WarpCore'
-   --   '9:Test'
             },
    layout = {
       layouts[10], -- 1:firefox
-      layouts[6],  -- 2:weechat
+      layouts[3],  -- 2:weechat
       layouts[3],  -- 3:tmux->htop/ncmpcpp/shells
-      layouts[6],  -- 4:media playing
-      layouts[6],  -- 5:multitail local/remote
-      layouts[1],  -- 6:IDE/editor/projects
-      layouts[6],  -- 7:shells
+      layouts[3],  -- 4:media playing
+      layouts[3],  -- 5:multitail local/remote
+      layouts[3],  -- 6:IDE/editor/projects
+      layouts[1],  -- 7:shells
       layouts[1]   -- 8:shells
-   --   layouts[6]   -- 9:test
             }
         }
 
@@ -146,25 +144,67 @@ for s = 1, screen.count() do
 end
 -- }}}
 
+-- debug
+print('Menu:' .. os.time())
+
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 freedesktop.utils.icon_theme = beautiful.menu_icons
-menu_items = freedesktop.menu.new()
-myawesomemenu = {
+local menu_items = freedesktop.menu.new()
+
+-- themes menu pdq 07-02-2012
+local thememenu = {}
+local function theme_load(theme)
+   exec('ln -sfn ' .. home_path .. '.config/awesome/themes/' .. theme .. ' ' .. home_path .. '.config/awesome/themes/current')
+   awesome.restart()
+end
+local function theme_menu()
+   local cmd = 'ls -1 ' .. home_path .. '.config/awesome/themes/'
+   local f = io.popen(cmd)
+   for l in f:lines() do
+	  local item = { l, function () theme_load(l) end }
+	  table.insert(thememenu, item)
+   end
+   f:close()
+end
+theme_menu()
+
+-- menu icon menu pdq 07-02-2012
+local iconmenu = {}
+local function icon_load(icon)
+   exec('ln -sfn ' .. home_path .. '.config/awesome/icons/' .. icon .. ' ' .. home_path .. '.config/awesome/icons/menu_icon.png')
+   awesome.restart()
+   -- exec('sh ' .. home_path .. 'bin/refreshconky.sh')
+end
+local function icon_menu()
+   local cmd = 'ls -1 ' .. home_path .. '.config/awesome/icons/'
+   local f = io.popen(cmd)
+   for l in f:lines() do
+	  local item = { l, function () icon_load(l) end }
+	  table.insert(iconmenu, item)
+   end
+   f:close()
+end
+icon_menu()
+
+local myawesomemenu = {
    { 'Appearance', 'lxappearance', freedesktop.utils.lookup_icon({ icon = 'style' }) },
    { 'Wallpaper', 'nitrogen', freedesktop.utils.lookup_icon({ icon = 'style' }) },
+   { 'Themes', thememenu, freedesktop.utils.lookup_icon({ icon = 'style' }) },
+   { 'Menu icon', iconmenu, freedesktop.utils.lookup_icon({ icon = 'style' }) },
    { 'Edit config', editor_cmd .. ' ' .. awesome.conffile, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
-   { 'Preferred Apps' , 'exo-preferred-applications', freedesktop.utils.lookup_icon({ icon = 'help' })},
+   { 'Edit theme', editor_cmd .. ' ' .. theme_path, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
+   -- { 'Preferred Apps' , 'exo-preferred-applications', freedesktop.utils.lookup_icon({ icon = 'help' })},
    { 'Reload', awesome.restart, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'Logout', awesome.quit, freedesktop.utils.lookup_icon({ icon = 'system-log-out' })},
    { 'Shutdown' , 'sudo /sbin/halt -p', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' })},
    { 'Reboot' , 'sudo /sbin/reboot', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' })}
 }
 
-servicesmenu = {
-  { 'Transmission On', terminal_cmd .. 'transmission-daemon -g ' .. home_path .. '.config/transmission', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+local servicesmenu = {
+   { 'Transmission On', terminal_cmd .. 'transmission-daemon -g ' .. home_path .. '.config/transmission', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'Transmission Off', terminal_cmd .. 'killall transmission-daemon', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
-   { 'Mount HDD2', sudo_bash .. 'udisks --mount /dev/sdb4', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+   -- { 'Mount HDD2', sudo_bash .. 'udisks --mount /dev/sdb4', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'LAMP On', sudo_bash .. 'lamp start', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'LAMP Off', sudo_bash .. 'lamp stop', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'MPD On', sudo_bash .. 'rc.d start mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
@@ -173,62 +213,83 @@ servicesmenu = {
    -- { 'rtorrent Off', terminal_cmd .. 'killall rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
 }
 
--- table.insert(menu_items, { 'awesome', myawesomemenu, beautiful.awesome_icon })
+-- table.insert(menu_items, { 'Icon', iconmenu, beautiful.awesome_icon })
 table.insert(menu_items, { 'Interface', myawesomemenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
 table.insert(menu_items, { 'Services', servicesmenu, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) })
 table.insert(menu_items, { 'Terminal', terminal, freedesktop.utils.lookup_icon({icon = 'terminal'}) })
+
+if terminal == 'urxvtc' then
+-- Xdefaults menu pdq 07-02-2012
+	local xftmenu = {}
+	local function xft_load(xft_file)
+	   exec('ln -sfn ' .. home_path .. '.config/awesome/Xdefaults/' .. xft_file .. '/.Xdefaults ' .. home_path .. '.Xdefaults')
+	   exec('xrdb -merge ' .. home_path .. '.Xdefaults')
+	   exec('killall urxvtd')
+	   exec('urxvtd -q -o -f')
+	end
+	local function xft_menu()
+	   local cmd = 'ls -1 ' .. home_path .. '.config/awesome/Xdefaults/'
+	   local f = io.popen(cmd)
+	   for l in f:lines() do
+		  local item = { l, function () xft_load(l) end }
+		  table.insert(xftmenu, item)
+	   end
+	   f:close()
+	end
+	xft_menu()
+	table.insert(menu_items, { 'Xdefaults', xftmenu, freedesktop.utils.lookup_icon({icon = 'terminal'}) })
+end
+
 -- table.insert(menu_items, { 'Thunar', 'Thunar', freedesktop.utils.lookup_icon({icon = 'file-manager'}) })
 -- table.insert(menu_items, { 'SpaceFM', 'spacefm', freedesktop.utils.lookup_icon({icon = 'file-manager'}) })
 table.insert(menu_items, { 'Dolphin', 'dolphin', freedesktop.utils.lookup_icon({icon = 'file-manager'}) })
 table.insert(menu_items, { 'Task Manager', 'lxtask', freedesktop.utils.lookup_icon({icon = 'utilities-system-monitor'}) })
 
-mymainmenu = awful.menu.new({ items = menu_items, width = 150 })
-
-mylauncher = awful.widget.launcher({ image = image(beautiful.start_here_icon), menu = mymainmenu })
-                                     
--- mscpacmanwidget = awful.widget.launcher({ image = image(beautiful.mspacman_icon),  menu = mymainmenu })
--- pacmanwidget = awful.widget.launcher({ image = image(beautiful.pacman_icon),  menu = mymainmenu })
+local mymainmenu = awful.menu.new({ items = menu_items, width = 150 })
+local mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon), menu = mymainmenu })
 -- }}}
 
--- {{{ Wiboxes
--- Create a textclock widget
-datewidget = widget({
-    type = 'textbox',
-    name = 'datewidget'
- })
+-- debug
+print('Widgets:' .. os.time())
 
+-- {{{ Widgets
+-- Create a textclock widget
+local datewidget = widget({ type = 'textbox', name = 'datewidget' })
 datewidget.bg = beautiful.bg_bottom
 vicious.register(datewidget, vicious.widgets.date, '<span color="' .. beautiful.fg_bottom .. '">%b %d, %R</span>')
 
--- Calendar widget to attach to the textclock
--- http://awesome.naquadah.org/wiki/Calendar_widget
-require('calendar2')
-calendar2.addCalendarToWidget(datewidget)
+-- Calendar tooltip
+req.cal.register(datewidget, req.markup.fg(beautiful.fg_focus, '<b>%s</b>'))
 
 -- Create a systray
-mysystray = widget({ type = 'systray' })
+local mysystray = widget({ type = 'systray' })
 mysystray.bg = beautiful.bg_bottom
 
--- Separator Widget
-separator = widget({ type = 'textbox' })
-separator.bg = beautiful.bg_bottom
+-- Separator Widgets
+local separator = widget({ type = 'textbox' })
 separator.text  = ' '
+
+local separator_bottom = widget({ type = 'textbox' })
+separator_bottom.bg = beautiful.bg_bottom
+separator_bottom.text  = ' '
 
 -- Disk useage widget
 -- http://jasonmaur.com/awesome-wm-widgets-configuration/#disk-usage
-diskwidget = widget({ type = 'textbox' })
+local diskwidget = widget({ type = 'textbox' })
 diskwidget.width = 100
-diskwidget.text = 'Diskusage'
-disk = require('diskusage')
+diskwidget.bg = beautiful.bg_bottom
+diskwidget.text = '<span color="' .. beautiful.fg_bottom ..'">Diskusage</span>'
+
 -- the first argument is the widget to trigger the diskusage
 -- the second/third is the percentage at which a line gets orange/red
 -- true = show only local filesystems
-disk.addToWidget(diskwidget, 75, 90, true)
+req.disk.addToWidget(diskwidget, 75, 90, true)
 
 -- Weather widget
-forecast = widget({ type = 'textbox', name = 'weather' })
+local forecast = widget({ type = 'textbox', name = 'weather' })
 forecast.bg = beautiful.bg_bottom
-weather_t = awful.tooltip({ objects = { forecast },})
+forecast.width = 50
+local weather_t = awful.tooltip({ objects = { forecast },})
 vicious.register(forecast, vicious.widgets.weather, function (widget, args) 
                                                       weather_t:set_text("City: " .. 
                                                       args["{city}"] .. "\nTemperature: " .. 
@@ -241,11 +302,11 @@ vicious.register(forecast, vicious.widgets.weather, function (widget, args)
                                                       args["{humid}"] .. "%\n" .. "Pressure: " .. 
                                                       args["{press}"] .. " hPa") 
                                                    return '<span color="' .. beautiful.fg_bottom ..'">' .. args["{tempc}"] .. ' °C</span>' end, 1800, weather_code)
---'1800': check every 30 minutes.
---'KEWB': the DMass ICAO code. https://en.wikipedia.org/wiki/List_of_airports_by_ICAO_code:_C
-
+                                                   
 -- awesome.naquadah.org/wiki/Awesompd_widget
-musicwidget = awesompd:create() -- Create awesompd widget
+local musicwidget = awesompd:create() -- Create awesompd widget
+musicwidget.widget.bg = beautiful.bg_bottom
+musicwidget.fg = beautiful.fg_bottom
 musicwidget.font = beautiful.font -- Set widget font 
 musicwidget.scrolling = true -- If true, the text in the widget will be scrolled
 musicwidget.output_size = 30 -- Set the size of widget in symbols
@@ -267,7 +328,7 @@ musicwidget.album_cover_size = 50
 musicwidget.mpd_config = home_path .. '.mpdconf'
 -- Specify the browser you use so awesompd can open links from
 -- Jamendo in it.
-musicwidget.browser = 'firefox'
+musicwidget.browser = 'firefox-beta-bin'
 -- Specify decorators on the left and the right side of the
 -- widget. Or just leave empty strings if you decorate the widget
 -- from outside.
@@ -294,12 +355,12 @@ musicwidget:run() -- After all configuration is done, run the widget
 
 -- Quick launch bar widget BEGINS
 -- https://awesome.naquadah.org/wiki/Quick_launch_bar_widget
-function getValue(t, key)
+local function getValue(t, key)
    _, _, res = string.find(t, key .. " *= *([^%c]+)%c")
    return res
 end
 
-function split (s,t)
+local function split (s,t)
    local l = {n=0}
    local f = function (s)
       l.n = l.n + 1
@@ -311,9 +372,8 @@ function split (s,t)
    return l
 end
 
-launchbar = { layout = awful.widget.layout.horizontal.rightleft }
-filedir = launcher_path
-files = split(io.popen('ls ' .. filedir .. '*.desktop'):read('*all'),"\n")
+local launchbar = { layout = awful.widget.layout.horizontal.rightleft }
+local files = split(io.popen('ls ' .. launcher_path .. '*.desktop'):read('*all'),"\n")
 for i = 1, table.getn(files) do
    local t = io.open(files[i]):read('*all')
    launchbar[i] = { image = image(getValue(t,'Icon')),
@@ -333,84 +393,65 @@ end
 -- Quick launch bar widget ENDS
 
 -- load avg / cpu widget
-cpuwidget = widget({
-    type = 'textbox',
-    name = 'cpuwidget'
-})
-
+local cpuwidget = widget({ type = 'textbox', name = 'cpuwidget' })
 cpuwidget.width = 70
 cpuwidget.bg = beautiful.bg_bottom
 vicious.register(cpuwidget, vicious.widgets.cpu, '<span color="' .. beautiful.fg_bottom .. '">Cores: $1%</span>')
 
 -- cpu widget
-cpugraphwidget = awful.widget.graph()
+local cpugraphwidget = awful.widget.graph()
 cpugraphwidget:set_width(40)
 cpugraphwidget:set_background_color(beautiful.bg_graphs)
 cpugraphwidget:set_color(beautiful.fg_normal)
 cpugraphwidget:set_gradient_colors({ 'blue', '#008BFF', '#00E0FF' })
--- Register widget
 vicious.register(cpugraphwidget, vicious.widgets.cpu, "$1")
 
-cpugraphwidget1 = awful.widget.graph()
+local cpugraphwidget1 = awful.widget.graph()
 cpugraphwidget1:set_width(40)
 cpugraphwidget1:set_background_color(beautiful.bg_graphs)
 cpugraphwidget1:set_color(beautiful.fg_normal)
 cpugraphwidget1:set_gradient_colors({ 'pink', '#FF0078', '#FFB3F6' })
--- Register widget
 vicious.register(cpugraphwidget1, vicious.widgets.cpu, "$2")
 
-cpugraphwidget2 = awful.widget.graph()
+local cpugraphwidget2 = awful.widget.graph()
 cpugraphwidget2:set_width(40)
 cpugraphwidget2:set_background_color(beautiful.bg_graphs)
 cpugraphwidget2:set_color(beautiful.fg_normal)
 cpugraphwidget2:set_gradient_colors({ 'orange', '#FFA941', '#FFCC8E' })
--- Register widget
 vicious.register(cpugraphwidget2, vicious.widgets.cpu, "$3")
 
-cpugraphwidget3 = awful.widget.graph()
+local cpugraphwidget3 = awful.widget.graph()
 cpugraphwidget3:set_width(40)
 cpugraphwidget3:set_background_color(beautiful.bg_graphs)
 cpugraphwidget3:set_color(beautiful.fg_normal)
 cpugraphwidget3:set_gradient_colors({ 'red', '#960013', '#D0001B' })
--- Register widget
 vicious.register(cpugraphwidget3, vicious.widgets.cpu, "$4")
 
 -- net widget
-netwidget = widget({
-    type = 'textbox',
-    name = 'netwidget',
-    align = 'left'
-})
-
+local netwidget = widget({ type = 'textbox', name = 'netwidget', align = 'left' })
 netwidget.bg = beautiful.bg_bottom
 netwidget.width = 400
-vicious.register(netwidget, vicious.widgets.net, 'Traffic: ↓ ${eth0 down_kb}kb/s ↑ ${eth0 up_kb}kb/s  Total: ↓ ${eth0 rx_gb}GiB ↑ ${eth0 tx_gb}GiB', 5)
-
+vicious.register(netwidget, vicious.widgets.net, '<span color="' .. beautiful.fg_bottom .. '">Traffic: ↓ ${eth0 down_mb}mb/s ↑ ${eth0 up_kb}kb/s  Total: ↓ ${eth0 rx_gb}GiB ↑ ${eth0 tx_gb}GiB</span>', 5)
 
 -- vicious.widgets.uptime
   -- provides system uptime and load information
   -- returns 1st value as uptime in days, 2nd as uptime in hours, 3rd
   --  as uptime in minutes, 4th as load average for past 1 minute, 5th
   --  for 5 minutes and 6th for 15 minutes
-uptimewidget = widget({ type = "textbox" })
+local uptimewidget = widget({ type = "textbox" })
 uptimewidget.bg = beautiful.bg_bottom
 vicious.register(uptimewidget, vicious.widgets.uptime, '<span color="' .. beautiful.fg_bottom .. '">Uptime: $1d $2:$3, $4, $5, $6</span>', 60)
 
 -- memory widget
-memwidget = widget({
-    type = 'textbox',
-    name = 'memwidget'
-})
-
+local memwidget = widget({ type = 'textbox', name = 'memwidget' })
 memwidget.bg = beautiful.bg_bottom
-vicious.register(memwidget, vicious.widgets.mem, 'Memory: $1% $2MB/$3MB ')
+vicious.register(memwidget, vicious.widgets.mem, '<span color="' .. beautiful.fg_bottom .. '">Memory: $1% $2MB/$3MB</span> ')
 
-memgraphwidget = awful.widget.graph()
+local memgraphwidget = awful.widget.graph()
 memgraphwidget:set_width(60)
 memgraphwidget:set_background_color(beautiful.bg_graphs)
 memgraphwidget:set_color(beautiful.fg_normal)
 memgraphwidget:set_gradient_colors({ '#218821', '#218821', '#218821' }) 
--- Register widget
 vicious.register(memgraphwidget, vicious.widgets.mem, '$1', 5)
 
 -- Simple function to move the mouse to the coordinates set above.
@@ -422,12 +463,31 @@ if moveMouseOnStartup then
         moveMouse(safeCoords.x, safeCoords.y)
 end
 
+-- {{{ Naughty log notify
+ilog = req.lognotify{
+   logs = {
+      mpd = { file = home_path ..'.mpd/log', ignore = {'player_thread: played'} },
+      pacman = { file = '/var/log/pacman.log', },
+      syslog = { file = '/var/log/syslog.log', },
+      kernel = { file = '/var/log/kernel.log', ignore = {'Mark'} },
+      php = { file = '/var/log/httpd/error_log' },
+     --  awesome = { file = awful.util.getdir('config')..'/log', ignore = {'[awesome]'} },
+   },
+   interval = 1,
+   naughty_timeout = 15
+}
+ilog:start()
+-- }}}
+
+-- debug
+print('Wiboxes:' .. os.time())
+
 -- Create a wibox for each screen and add it (i only use 1 screen)
-my_top_wibox = {}
-my_bottom_wibox ={}
-mypromptbox = {}
-mylayoutbox = {}
-mytaglist = {}
+local my_top_wibox = {}
+local my_bottom_wibox ={}
+local mypromptbox = {}
+local mylayoutbox = {}
+local mytaglist = {}
 
 -- top panel items
 mytaglist.buttons = awful.util.table.join(
@@ -438,7 +498,7 @@ mytaglist.buttons = awful.util.table.join(
                     awful.button({ }, 4, awful.tag.viewnext),
                     awful.button({ }, 5, awful.tag.viewprev)
                     )
-mytasklist = {}
+local mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
                      awful.button({ }, 1, function (c)
                                               if c == client.focus then
@@ -506,10 +566,10 @@ for s = 1, screen.count() do
          layout = awful.widget.layout.horizontal.leftright
       },
       mylayoutbox[s],
-      -- netwidget,
-      separator,
+     separator,
+      s == 1 and mysystray or nil,
       launchbar,
-            musicwidget.widget,
+       separator,
       mytasklist[s],
       layout = awful.widget.layout.horizontal.rightleft
    }
@@ -520,34 +580,36 @@ for s = 1, screen.count() do
    -- my_bottom_wibox[s].y=20
    my_bottom_wibox[s].widgets = {
       {
-       separator,
+       separator_bottom,
          uptimewidget,
-         separator,
-         separator,
+         separator_bottom,
+         separator_bottom,
          cpuwidget,
          cpugraphwidget,
          cpugraphwidget1,
          cpugraphwidget2,
          cpugraphwidget3,
-         separator,
-         separator,
+         separator_bottom,
+         separator_bottom,
          memwidget,
          memgraphwidget,
-         separator,
-         separator,
+         separator_bottom,
+         separator_bottom,
          netwidget,
-         forecast,
-         separator,
-         separator,
-         separator,
-         datewidget,
-         separator,
-         separator,
-         separator,
+         diskwidget,
+         separator_bottom,
+         musicwidget.widget,
+         separator_bottom,
+         separator_bottom,
          layout = awful.widget.layout.horizontal.leftright
      },
-         s == 1 and mysystray or nil,
-         diskwidget,
+         separator_bottom,
+         datewidget,
+         separator_bottom,
+         separator_bottom,
+         forecast,
+         separator_bottom,
+         separator_bottom,
          layout = awful.widget.layout.horizontal.rightleft
    }
 end
@@ -562,11 +624,11 @@ root.buttons(awful.util.table.join(
 -- }}}
 
 -- {{{ Key bindings
-globalkeys = awful.util.table.join(
+local globalkeys = awful.util.table.join(
    awful.key({ modkey,           }, 'Left',   awful.tag.viewprev       ),
    awful.key({ modkey,           }, 'Right',  awful.tag.viewnext       ),
    awful.key({ modkey,           }, 'Escape', awful.tag.history.restore),
-   awful.key({ modkey,           },  'e', revelation),  -- revelation
+   awful.key({ modkey,           },  'e', req.revelation),  -- revelation
    awful.key({ modkey,           }, 'j',
         function ()
             awful.client.focus.byidx( 1)
@@ -594,7 +656,7 @@ globalkeys = awful.util.table.join(
         end),
 
    -- Standard program
-   awful.key({ modkey,           }, 'Return', function () awful.util.spawn(terminal) end),
+   awful.key({ modkey,           }, 'Return', function () exec(terminal) end),
    awful.key({ modkey, 'Control' }, 'r', awesome.restart),
    awful.key({ modkey, 'Shift'   }, 'q', awesome.quit),
    awful.key({ modkey,           }, 'l',     function () awful.tag.incmwfact( 0.05)    end),
@@ -622,29 +684,27 @@ globalkeys = awful.util.table.join(
    -- http://awesome.naquadah.org/wiki/Move_Mouse
    awful.key({ modkey , 'Control' }, 'm', function() moveMouse(safeCoords.x, safeCoords.y) end),
    
-   -- toggle top panel
-   awful.key({ modkey }, 't', 
+   awful.key({ modkey }, 't', -- toggle bottom panel
               function ()
                   my_top_wibox[mouse.screen].visible = not my_top_wibox[mouse.screen].visible
               end),
-              
-   -- toggle bottom panel
-   awful.key({ modkey }, 'b', 
+
+   awful.key({ modkey }, 'b', -- toggle bottom panel
               function ()
                   my_bottom_wibox[mouse.screen].visible = not my_bottom_wibox[mouse.screen].visible
               end),
               
    -- scratch
-   -- scratch.drop(prog, vert, horiz, width, height, sticky, screen)
-   -- awful.key({ modkey }, 'F11', function () scratch.drop('gmrun') end),
-   awful.key({ modkey }, 'F12', function () scratch.drop(terminal, 'bottom', 'left', 0.50, 0.50) end),
+   -- req.scratch.drop(prog, vert, horiz, width, height, sticky, screen)
+   -- awful.key({ modkey }, 'F11', function () req.scratch.drop('gmrun') end),
+   awful.key({ modkey }, 'F12', function () req.scratch.drop(terminal, 'bottom', 'left', 0.50, 0.50) end),
    
    -- http://awesome.naquadah.org/wiki/SSH:_prompt
    awful.key({ modkey, }, 'F2', function ()
      awful.prompt.run({ prompt = 'ssh: ' },
      mypromptbox[mouse.screen].widget,
      function(h)
-             awful.util.spawn(terminal .. ' -e ssh ' .. h)
+             exec(terminal .. ' -e ssh ' .. h)
      end,
      function(cmd, cur_pos, ncomp)
              -- get the hosts
@@ -678,14 +738,13 @@ globalkeys = awful.util.table.join(
      end,
      awful.util.getdir('cache') .. '/ssh_history')
 end)
-
 )
 
 -- mpd
 musicwidget:append_global_keys()
    root.keys(globalkeys)
 
-clientkeys = awful.util.table.join(
+local clientkeys = awful.util.table.join(
    awful.key({ modkey,           }, 'f',      function (c) c.fullscreen = not c.fullscreen  end),
    awful.key({ modkey, 'Shift'   }, 'c',      function (c) c:kill()                         end),
    awful.key({ modkey,           }, 'c',      function (c) c:kill()                         end),
@@ -708,7 +767,7 @@ clientkeys = awful.util.table.join(
 )
 
 -- Compute the maximum number of digit we need, limited to 9
-keynumber = 0
+local keynumber = 0
 for s = 1, screen.count() do
    keynumber = math.min(9, math.max(#tags[s], keynumber));
 end
@@ -746,7 +805,7 @@ for i = 1, keynumber do
                   end))
 end
 
-clientbuttons = awful.util.table.join(
+local clientbuttons = awful.util.table.join(
    awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
    awful.button({ modkey }, 1, awful.mouse.client.move),
    awful.button({ modkey }, 3, awful.mouse.client.resize))
@@ -775,16 +834,12 @@ awful.rules.rules = {
      properties = { opacity = 0.8 } },
    { rule = {name = 'Xchat'},                -- messages tag
      properties = {tag = tags[1][2]} },     
---   { rule = {name = 'finch'},               -- messages tag
---     properties = {tag = tags[1][2]} },
    { rule = {name = 'irssi'},               -- messages tag
      properties = {tag = tags[1][2]} },
    { rule = {name = 'ncmpc++ ver. 0.5.8'},  -- messages tag
      properties = {tag = tags[1][3]} },
---   { rule = {name = 'cmatrix'},             -- messages tag
---     properties = {tag = tags[1][3]} },
---   { rule = {name = 'Tyrs'},                -- messages tag
---     properties = {tag = tags[1][3]} },
+   { rule = {name = 'Spacefm'},             -- messages tag
+     properties = { opacity = 0.8 } },
 -- { rule = {class = 'Totem'},              -- nowplaying tag
 --   properties = {tag = tags[1][4]} },
    { rule = {class = 'Mplayer'},           -- nowplaying tag
@@ -849,11 +904,10 @@ client.add_signal('focus', function(c) c.border_color = beautiful.border_focus e
 client.add_signal('unfocus', function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-require('lfs') 
 -- {{{ Run once functions
 local function processwalker()
    local function yieldprocess()
-      for dir in lfs.dir('/proc') do
+      for dir in req.lfs.dir('/proc') do
          -- All directories in /proc containing a number, represent a process
          if tonumber(dir) ~= nil then
             local f, err = io.open('/proc/'..dir..'/cmdline')
@@ -875,43 +929,40 @@ local function run_once(process, cmd)
    local regex_killer = {
       ["+"]  = "%+", ["-"] = "%-",
       ["*"]  = "%*", ["?"]  = "%?" }
-
    for p in processwalker() do
       if p:find(process:gsub("[-+?*]", regex_killer)) then
          return
       end
    end
-   return awful.util.spawn(cmd or process)
+   return exec(cmd or process)
 end
 -- }}}
 
 --{{{ Autostart programs here or in ~/.xinitrc (Autostart Daemons in /etc/rc.conf)
--- launch terminal stuffs
--- run_once('irssi', 'urxvt -e irssi')
--- run_once('cmatrix', 'urxvt -e cmatrix -C magenta')
--- launch common applications
 -- run_once('dropboxd')
--- run_once('shutter')
--- run_once('pidgin')
 -- launch application launcher
 run_once('synapse')
 -- launch clipboard manager
 run_once('parcellite')
 -- launch mouse icon fade out
 -- run_once('unclutter')
--- launch conkys
-run_once('conky', home_path .. '.config/conky/archconky.sh')
 -- launch the composite manager
 -- run_once('xcompmgr')
 -- run_once('cairo-compmgr')
--- run_once('unagi')
--- launch the desktop icons
-run_once('idesk')
 -- launch the desktop live wallpaper
 -- run_once('xplanetFX')
---
 -- Use the second argument, if the programm you wanna start, 
 -- differs from the what you want to search.
 -- run_once('redshift', 'redshift -o -l 0:0 -t 6500:5500')
--- run_once('redshift', 'redshift -o -l 0:0 -b 0.8 -t 6500:4500')
 -- }}}
+
+-- welcome message
+naughty.notify{
+  title = 'Awesome '.. awesome.version,
+  text = string.format('Awesomewm-X: '.. req.awmXversion .."\nTheme: "
+         .. beautiful.theme_name .."\nUser: %s@%s\nTime: %s",
+  os.getenv('USER'), awful.util.pread('hostname'):match("[^\n]*"), os.date()),
+  timeout = 20 }
+
+-- debug
+print('Ended:' .. os.time())

@@ -94,6 +94,19 @@ TODO
 HISTORY
 -------
 
+* 2012-07-03: Version 0.0.3
+
+   - Imported lognotify
+   - Imported utils
+   - Added Xdefaults themes
+   - Removed calendar2
+   - Major enhancement: added 30 themes and theme switcher
+   - Minor enhancement: addition of selectable menu icon
+   - Version enhancement: new configuration variables
+   - Version enhancement: theme tweaks
+   - Version enhancement: configuration tweaks
+   - Version enhancement: optimization tweaks
+
 * 2012-06-30: Version 0.0.2
 
    - Convertion of deprecated wicked widgets to vicious widgets (Armageddon 06-29-2012)

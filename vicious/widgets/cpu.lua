@@ -1,4 +1,4 @@
----------------------------------------------------
+ ---------------------------------------------------
 -- Licensed under the GNU General Public License v2
 --  * (c) 2011, Adrian C. <anrxc@sysphere.org>
 --  * (c) 2009, Lucas de Vries <lucas@glacicle.com>

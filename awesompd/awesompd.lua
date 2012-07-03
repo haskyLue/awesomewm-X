@@ -182,6 +182,7 @@ function awesompd:create()
    self.__index = self
    instance.current_server = 1
    instance.widget = widget({ type = "textbox" })
+   instance.widget.bg = "#000000"
    instance.notification = nil
    instance.scroll_pos = 1
    instance.text = ""
@@ -811,8 +812,8 @@ function awesompd:notify_state(state_changed)
 end
 
 function awesompd:wrap_output(text)
-   return format('<span font="%s">%s%s%s</span>', 
-                 self.font, self.ldecorator, 
+   return format('<span color="%s" font="%s">%s%s%s</span>', 
+                 self.fg, self.font, self.ldecorator, 
                  awesompd.protect_string(text), self.rdecorator)
 end
 
