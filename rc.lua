@@ -1,6 +1,6 @@
 -- https://github.com/idk/awesomewm-X
+
 -- debug
--- https://github.com/idk/awesomewm-X pdq
 print('Started:' .. os.time())
 
 -- {{{ Require libraries
