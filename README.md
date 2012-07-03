@@ -7,7 +7,7 @@ http://awesome.naquadah.org/wiki/Main_Page
 
 https://github.com/idk/awesomewm-X
 
-Depends on: git
+Depends on: git and [luanotify][8]
 
 Optional:   [mpd][1]
 
@@ -156,3 +156,4 @@ SHARE AND ENJOY!
 [5]: https://wiki.archlinux.org/index.php/Start_X_at_boot
 [6]: http://www.linuxdistrocommunity.com
 [7]: https://github.com/idk/awesomewm-X/issues
+[8]: http://www3.telus.net/taj_khattra/luainotify.html
