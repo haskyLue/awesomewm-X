@@ -21,7 +21,7 @@ require('freedesktop.menu')
 require('awesompd/awesompd') -- awesome.naquadah.org/wiki/Awesompd_widget
 
 local req = {
-    awmXversion = '0.0.3',
+    awmXversion = '0.0.4', -- codename freakygirl
     revelation = require('revelation'), -- http://awesome.naquadah.org/wiki/Revelation
     scratch = require('scratch'),       -- http://awesome.naquadah.org/wiki/Revelation
     lognotify = require('lognotify'),	-- https://github.com/Mic92/lognotify
