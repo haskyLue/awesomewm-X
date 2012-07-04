@@ -50,7 +50,7 @@ CONFIGURATION
 -------------
 
     $ nano -w ~/.config/awesome/rc.lua
-    $ nano -w ~/.config/awesome/themes/default/theme.lua
+    $ nano -w ~/.config/awesome/themes/current/theme.lua
     
 Or in Awesome menu Interface->Edit Config
 Or in Awesome menu Interface->Edit Theme
