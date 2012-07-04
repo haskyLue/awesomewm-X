@@ -39,6 +39,11 @@ INSTALL Awesomewm-X
     $ cd ~/.config
     $ git clone https://github.com/idk/awesomewm-X.git
     $ cp -r awesomewm-X awesome
+    $ mkdir ~/.config/awesome/Xdefaults/$USER
+    $ mv ~/.Xdefaults ~/.config/awesome/Xdefaults/$USER/.Xdefaults
+    $ ln -sfn ~/.config/awesome/Xdefaults/$USER/.Xdefaults ~/.Xdefaults
+    $ ln -sfn ~/.config/awesome/themes/pdq ~/.config/awesome/themes/current
+    $ ln -sfn ~/.config/awesome/icons/AwesomeLight.png ~/.config/awesome/icons/menu_icon.png
 
 
 CONFIGURATION
@@ -46,6 +51,9 @@ CONFIGURATION
 
     $ nano -w ~/.config/awesome/rc.lua
     $ nano -w ~/.config/awesome/themes/default/theme.lua
+    
+Or in Awesome menu Interface->Edit Config
+Or in Awesome menu Interface->Edit Theme
 
 
 USAGE
