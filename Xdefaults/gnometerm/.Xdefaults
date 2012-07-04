@@ -24,23 +24,30 @@ URxvt*internalborder: 6
 ! rxvt-unicode
 URxvt*urgentOnBell:  true
 
-URxvt*color0: #000000
-URxvt*color1: #8a110e
-URxvt*color2: #669f3d
-URxvt*color3: #b3751e
-URxvt*color4: #493d9f
-URxvt*color5: #9216a3
-URxvt*color6: #198a9c
-URxvt*color7: #bfbdc0
-
-URxvt*color8: #686773
-URxvt*color9: #fc5166
-URxvt*color10: #63ff54
-URxvt*color11: #ffd75c
-URxvt*color12: #766eff
-URxvt*color13: #e151ff
-URxvt*color14: #57ffec
-URxvt*color15: #ffffff
+! Black
+*color0:   #000000
+*color8:   #555753
+! Red
+*color1:   #cc0000
+*color9:   #ef2929
+! Green
+*color2:   #4e9a06
+*color10:  #8ae234
+! Yellow
+*color3:   #c4a000
+*color11:  #fce94f
+! Blue
+*color4:   #3465a4
+*color12:  #729fcf
+! Magenta
+*color5:   #75507b
+*color13:  #ad7fa8
+! Cyan
+*color6:   #06989a
+*color14:  #34e2e2
+! White
+*color7:   #d3d7cf
+*color15:  #eeeeec
 
 ! enable clickable links
 URxvt*urlLauncher: firefox
@@ -51,6 +58,8 @@ URxvt*matcher.pattern.2: \\bwww\\.[\\w-]\\.[\\w./?&@#-]*[\\w/-]
 URxvt*tabbed.tabbar-fg: 11
 URxvt*tabbed.tabbar-bg: 0
 URxvt*tabbed.tab-fg:    14
+URxvt*tabbed.tab-bg:    0
+
 URxvt*tabbed.tab-bg:    0
 
 ! include font and bg/fg colors

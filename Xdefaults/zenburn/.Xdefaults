@@ -24,23 +24,31 @@ URxvt*internalborder: 6
 ! rxvt-unicode
 URxvt*urgentOnBell:  true
 
-URxvt*color0: #000000
-URxvt*color1: #8a110e
-URxvt*color2: #669f3d
-URxvt*color3: #b3751e
-URxvt*color4: #493d9f
-URxvt*color5: #9216a3
-URxvt*color6: #198a9c
-URxvt*color7: #bfbdc0
-
-URxvt*color8: #686773
-URxvt*color9: #fc5166
-URxvt*color10: #63ff54
-URxvt*color11: #ffd75c
-URxvt*color12: #766eff
-URxvt*color13: #e151ff
-URxvt*color14: #57ffec
-URxvt*color15: #ffffff
+! black + red
+!URxvt*color0:     #3f3f3f
+URxvt*color0:      #101010
+URxvt*color1:      #705050
+! green + yellow
+URxvt*color2:      #60b48a
+URxvt*color3:      #f0dfaf
+! blue + purple
+URxvt*color4:      #506070
+URxvt*color5:      #dc8cc3
+! cyan + white
+URxvt*color6:      #8cd0d3
+URxvt*color7:      #dcdccc
+! bright-black + bright-red
+URxvt*color8:      #000000
+URxvt*color9:      #dca3a3
+! bright-green + bright-yellow
+URxvt*color10:     #c3bf9f
+URxvt*color11:     #f0dfaf
+! bright-blue + bright-purple
+URxvt*color12:     #94bff3
+URxvt*color13:     #ec93d3
+! bright-cyan + bright-white
+URxvt*color14:     #93e0e3
+URxvt*color15:     #ffffff
 
 ! enable clickable links
 URxvt*urlLauncher: firefox

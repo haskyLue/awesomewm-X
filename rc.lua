@@ -1,7 +1,7 @@
--- https://github.com/idk/awesomewm-X
-
--- debug
-print('Started:' .. os.time())
+-- https://github.com/idk/awesomewm-X pdq
+require('socket') -- luasocket
+local timer = timer
+timer.start = socket.gettime() -- debug
 
 -- {{{ Require libraries
 -- Standard awesome library
@@ -14,24 +14,29 @@ require('beautiful')
 require('naughty')
 -- require('wicked') -- deprecated (converted wicked widgets to vicious widgets) Armageddon 06-29-2012
 local vicious = require('vicious') -- http://awesome.naquadah.org/wiki/Vicious
+
+-- Local libraries
 require('freedesktop.utils') -- https://github.com/terceiro/awesome-freedesktop
 require('freedesktop.menu') 
 require('awesompd/awesompd') -- awesome.naquadah.org/wiki/Awesompd_widget
--- Local libraries
+
 local req = {
     awmXversion = '0.0.3',
-	revelation = require('revelation'), -- http://awesome.naquadah.org/wiki/Revelation
-	scratch = require('scratch'),       -- http://awesome.naquadah.org/wiki/Revelation
-	lognotify = require('lognotify'),	-- https://github.com/Mic92/lognotify
-	lfs = require('lfs'),
-	utils = require('utils'),
-	disk = require('diskusage'),
-	-- calendar widget
-	cal = utils.cal,
-	-- wrapper for pango markup
-	markup = utils.markup,
+    revelation = require('revelation'), -- http://awesome.naquadah.org/wiki/Revelation
+    scratch = require('scratch'),       -- http://awesome.naquadah.org/wiki/Revelation
+    lognotify = require('lognotify'),	-- https://github.com/Mic92/lognotify
+    lfs = require('lfs'),
+    utils = require('utils'),
+    disk = require('diskusage'),
+    -- calendar widget
+    cal = utils.cal,
+    -- wrapper for pango markup
+    markup = utils.markup,
 }
 -- }}}
+
+timer.libs = socket.gettime() -- debug
+timer.libsdiff = timer.libs-timer.start
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -59,44 +64,89 @@ end
 
 -- {{{ Variable definitions
 home_path  = os.getenv('HOME') .. '/'
+
 -- Themes define colours, icons, and wallpapers
-local theme_path = home_path  .. '.config/awesome/themes/current/theme.lua'
+local theme_path = home_path  .. '.config/awesome/themes/current/theme.lua' -- DO NOT modify
 beautiful.init(theme_path)
 
--- This is used later as the default terminal and editor to run.
-local terminal = 'urxvtc' -- requires urxvt daemon: 'urxvtd -q -o -f'
-local terminal_cmd = terminal .. ' -e '
-local editor = 'scribes' -- nano vim gedit geany scribes etc.
+local usr = {
 
--- https://en.wikipedia.org/wiki/List_of_airports_by_ICAO_code:_C
-local weather_code =  'CYWG' -- ICAO code
+    terminal      = 'urxvtc', -- requires urxvt daemon: 'urxvtd -q -o -f'
 
--- Specify your custom launcher folder path  here
-local launcher_path = home_path .. '.config/awesome/launcher/'
+    terminal_cmd  = 'urxvtc -e ',
 
--- http://awesome.naquadah.org/wiki/Move_Mouse
--- set the desired pixel coordinates:
---  if your screen is 1440x900 the this line sets the bottom right.
--- local safeCoords = {x=1440, y=900}
--- if your screen is 1440x900 the this line sets the bottom left.
-local safeCoords = {x=0, y=900}
---  this line sets top middle(ish).
--- local safeCoords = {x=720, y=0}
--- Flag to tell Awesome whether to do this at startup.
-local moveMouseOnStartup = true
+    editor        = 'scribes', -- nano vim gedit geany scribes etc.
 
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
-local modkey = 'Mod4'
+    gui_editor    = 'yes', -- terminal or gui based. (true/false)
+    
+    terminal_font = "URxvt*font: xft:terminus:pixelsize=16:antialias=false\n" ..
+                 -- "!URxvt*font: xft:Envy Code R-10\n" ..
+                    "URxvt*iconFile: /usr/share/icons/gnome/24x24/apps/terminal.png\n" ..
+                    "URxvt*background: #1C1C1C\n" ..
+                 -- "URxvt*background: #676767\n" .. -- grey
+                    "URxvt*foreground: #d3d3d3\n" ..
+                    "URxvt*transparent: false\n" .. 
+                    "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
+                    "*underlineColor: #de5105\n",
 
-local exec = awful.util.spawn
-local editor_cmd = terminal_cmd .. editor
-local su_editor_cmd = terminal_cmd .. 'sudo ' .. editor
-local sudo_bash = terminal_cmd .. 'sudo bash '
+    -- gui_sudo   = 'kdesu', -- sudo command for gui applications (gksudo, kdesu)
 
+    file_manager = {
+        -- 'DISABLED', -- uncomment this out to hide menu entries
+        'dolphin',
+        -- 'Thunar',
+        'spacefm',
+        -- 'pcmanfm,
+    },
+
+    web_browser = {
+        'DISABLED', -- uncomment this out to hide menu entries
+        -- 'firefox'
+        'firefox-beta-bin',
+        'chromium',
+        -- 'opera',
+        -- 'midori',
+    },
+
+    weather_code =  'CYWG', -- 'CYWG' -- ICAO code
+
+    launcher_path = home_path .. '.config/awesome/launcher/', -- no need to change
+
+    -- http://awesome.naquadah.org/wiki/Move_Mouse
+    -- set the desired pixel coordinates:
+    --  if your screen is 1440x900 the this line sets the bottom right.
+    -- local safeCoords = {x=1440, y=900}
+    -- if your screen is 1440x900 the this line sets the bottom left.
+    safeCoords = {x=0, y=900},
+    --  this line sets top middle(ish).
+    -- local safeCoords = {x=720, y=0}
+    -- Flag to tell Awesome whether to do this at startup.
+    moveMouseOnStartup = true,
+
+    -- Default modkey.
+    -- Usually, Mod4 is the key with a logo between Control and Alt(Mod1).
+    -- If you do not like this or do not have such a key,
+    -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
+    -- However, you can use another modifier like Mod1, but it may interact with others.
+    modkey = 'Mod4',
+
+    exec = awful.util.spawn,
+}
+
+if usr.gui_editor == 'yes' then
+   editor_cmd = usr.editor
+   -- su_editor_cmd = usr.gui_sudo .. ' ' .. usr.editor
+else
+   editor_cmd = usr.terminal_cmd .. usr.editor
+   -- su_editor_cmd = usr.terminal_cmd .. 'sudo ' .. usr.editor
+end
+
+local sudo_bash = usr.terminal_cmd .. 'sudo bash '
+
+local f = assert(io.open(home_path .. '.config/awesome/.urxvt_font', 'w+'))
+local t = f:write(usr.terminal_font)
+f:close()
+    
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts = {
    awful.layout.suit.floating,        -- 1
@@ -127,7 +177,7 @@ local tags = {
       '8:WarpCore'
             },
    layout = {
-      layouts[10], -- 1:firefox
+      layouts[3], -- 1:firefox 10
       layouts[3],  -- 2:weechat
       layouts[3],  -- 3:tmux->htop/ncmpcpp/shells
       layouts[3],  -- 4:media playing
@@ -144,18 +194,19 @@ for s = 1, screen.count() do
 end
 -- }}}
 
--- debug
-print('Menu:' .. os.time())
+timer.usr = socket.gettime() -- debug
+timer.usrdiff = timer.usr-timer.libs
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 freedesktop.utils.icon_theme = beautiful.menu_icons
 local menu_items = freedesktop.menu.new()
 
+-- {{{ Functions
 -- themes menu pdq 07-02-2012
 local thememenu = {}
 local function theme_load(theme)
-   exec('ln -sfn ' .. home_path .. '.config/awesome/themes/' .. theme .. ' ' .. home_path .. '.config/awesome/themes/current')
+   usr.exec('ln -sfn ' .. home_path .. '.config/awesome/themes/' .. theme .. ' ' .. home_path .. '.config/awesome/themes/current')
    awesome.restart()
 end
 local function theme_menu()
@@ -172,9 +223,8 @@ theme_menu()
 -- menu icon menu pdq 07-02-2012
 local iconmenu = {}
 local function icon_load(icon)
-   exec('ln -sfn ' .. home_path .. '.config/awesome/icons/' .. icon .. ' ' .. home_path .. '.config/awesome/icons/menu_icon.png')
+   usr.exec('ln -sfn ' .. home_path .. '.config/awesome/icons/' .. icon .. ' ' .. home_path .. '.config/awesome/icons/menu_icon.png')
    awesome.restart()
-   -- exec('sh ' .. home_path .. 'bin/refreshconky.sh')
 end
 local function icon_menu()
    local cmd = 'ls -1 ' .. home_path .. '.config/awesome/icons/'
@@ -187,13 +237,26 @@ local function icon_menu()
 end
 icon_menu()
 
-local myawesomemenu = {
+-- menu item function for awesome pdq -07-03-2012
+function usr_menu_item(usr_entry, usr_icon)
+   for key, usr_item in pairs(usr_entry) do
+      if usr_item == 'DISABLED' then
+         break
+      end
+      usr_menu_entry = usr_item:gsub("^%l", string.upper)
+      table.insert(menu_items, { usr_menu_entry, usr_item, freedesktop.utils.lookup_icon({icon = usr_icon}) })
+   end
+end
+
+local myawesomemenu = { 
+   { 'Awesome Help', 'xdg-open http://awesome.naquadah.org/doc/manpages/awesome.1.html', freedesktop.utils.lookup_icon({ icon = 'help' }) },
    { 'Appearance', 'lxappearance', freedesktop.utils.lookup_icon({ icon = 'style' }) },
    { 'Wallpaper', 'nitrogen', freedesktop.utils.lookup_icon({ icon = 'style' }) },
    { 'Themes', thememenu, freedesktop.utils.lookup_icon({ icon = 'style' }) },
    { 'Menu icon', iconmenu, freedesktop.utils.lookup_icon({ icon = 'style' }) },
    { 'Edit config', editor_cmd .. ' ' .. awesome.conffile, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
    { 'Edit theme', editor_cmd .. ' ' .. theme_path, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
+   { 'Debug Awesome', usr.terminal_cmd .. ' tail -f ' .. home_path .. '.cache/awesome/stderr', freedesktop.utils.lookup_icon({ icon = 'help' }) },
    -- { 'Preferred Apps' , 'exo-preferred-applications', freedesktop.utils.lookup_icon({ icon = 'help' })},
    { 'Reload', awesome.restart, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'Logout', awesome.quit, freedesktop.utils.lookup_icon({ icon = 'system-log-out' })},
@@ -202,30 +265,33 @@ local myawesomemenu = {
 }
 
 local servicesmenu = {
-   { 'Transmission On', terminal_cmd .. 'transmission-daemon -g ' .. home_path .. '.config/transmission', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
-   { 'Transmission Off', terminal_cmd .. 'killall transmission-daemon', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+   { 'Transmission On', usr.terminal_cmd .. 'transmission-daemon -g ' .. home_path .. '.config/transmission', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+   { 'Transmission Off', usr.terminal_cmd .. 'killall transmission-daemon', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    -- { 'Mount HDD2', sudo_bash .. 'udisks --mount /dev/sdb4', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'LAMP On', sudo_bash .. 'lamp start', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'LAMP Off', sudo_bash .. 'lamp stop', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'MPD On', sudo_bash .. 'rc.d start mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'MPD Off', sudo_bash .. 'rc.d stop mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
-   -- { 'rtorrent On', terminal_cmd .. 'tmux new-window rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
-   -- { 'rtorrent Off', terminal_cmd .. 'killall rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
+   -- { 'rtorrent On', usr.terminal_cmd .. 'tmux new-window rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+   -- { 'rtorrent Off', usr.terminal_cmd .. 'killall rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
 }
 
--- table.insert(menu_items, { 'Icon', iconmenu, beautiful.awesome_icon })
 table.insert(menu_items, { 'Interface', myawesomemenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
 table.insert(menu_items, { 'Services', servicesmenu, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) })
-table.insert(menu_items, { 'Terminal', terminal, freedesktop.utils.lookup_icon({icon = 'terminal'}) })
 
-if terminal == 'urxvtc' then
+-- Add menu items for web browsers pdq 07-03-2012
+usr_menu_item(usr.web_browser, 'web-browser')
+table.insert(menu_items, { 'Task Manager', 'lxtask', freedesktop.utils.lookup_icon({icon = 'gnome-monitor.png'}) })
+table.insert(menu_items, { 'Terminal', usr.terminal, freedesktop.utils.lookup_icon({icon = 'terminal'}) })
+
 -- Xdefaults menu pdq 07-02-2012
+if usr.terminal == 'urxvtc' then
 	local xftmenu = {}
 	local function xft_load(xft_file)
-	   exec('ln -sfn ' .. home_path .. '.config/awesome/Xdefaults/' .. xft_file .. '/.Xdefaults ' .. home_path .. '.Xdefaults')
-	   exec('xrdb -merge ' .. home_path .. '.Xdefaults')
-	   exec('killall urxvtd')
-	   exec('urxvtd -q -o -f')
+	   usr.exec('ln -sfn ' .. home_path .. '.config/awesome/Xdefaults/' .. xft_file .. '/.Xdefaults ' .. home_path .. '.Xdefaults')
+	   usr.exec('xrdb ' .. home_path .. '.Xdefaults')
+	   usr.exec('killall urxvtd')
+	   usr.exec('urxvtd -q -o -f')
 	end
 	local function xft_menu()
 	   local cmd = 'ls -1 ' .. home_path .. '.config/awesome/Xdefaults/'
@@ -240,17 +306,15 @@ if terminal == 'urxvtc' then
 	table.insert(menu_items, { 'Xdefaults', xftmenu, freedesktop.utils.lookup_icon({icon = 'terminal'}) })
 end
 
--- table.insert(menu_items, { 'Thunar', 'Thunar', freedesktop.utils.lookup_icon({icon = 'file-manager'}) })
--- table.insert(menu_items, { 'SpaceFM', 'spacefm', freedesktop.utils.lookup_icon({icon = 'file-manager'}) })
-table.insert(menu_items, { 'Dolphin', 'dolphin', freedesktop.utils.lookup_icon({icon = 'file-manager'}) })
-table.insert(menu_items, { 'Task Manager', 'lxtask', freedesktop.utils.lookup_icon({icon = 'utilities-system-monitor'}) })
+-- Add menu items for file managers pdq 07-03-2012
+usr_menu_item(usr.file_manager, 'file-manager')
 
 local mymainmenu = awful.menu.new({ items = menu_items, width = 150 })
 local mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon), menu = mymainmenu })
 -- }}}
 
--- debug
-print('Widgets:' .. os.time())
+timer.menu = socket.gettime() -- debug
+timer.menudiff = timer.menu-timer.usr
 
 -- {{{ Widgets
 -- Create a textclock widget
@@ -301,9 +365,9 @@ vicious.register(forecast, vicious.widgets.weather, function (widget, args)
                                                       args["{sky}"] .. "\nHumidity: " .. 
                                                       args["{humid}"] .. "%\n" .. "Pressure: " .. 
                                                       args["{press}"] .. " hPa") 
-                                                   return '<span color="' .. beautiful.fg_bottom ..'">' .. args["{tempc}"] .. ' °C</span>' end, 1800, weather_code)
-                                                   
--- awesome.naquadah.org/wiki/Awesompd_widget
+                                                   return '<span color="' .. beautiful.fg_bottom ..'">' .. args["{tempc}"] .. ' °C</span>' end, 1800, usr.weather_code)
+
+-- {{{ awesome.naquadah.org/wiki/Awesompd_widget
 local musicwidget = awesompd:create() -- Create awesompd widget
 musicwidget.widget.bg = beautiful.bg_bottom
 musicwidget.fg = beautiful.fg_bottom
@@ -317,29 +381,24 @@ musicwidget.path_to_icons = home_path .. '.config/awesome/awesompd/icons'
 -- this option on the fly in awesompd itself.
 -- possible formats: awesompd.FORMAT_MP3, awesompd.FORMAT_OGG
 musicwidget.jamendo_format = awesompd.FORMAT_MP3
--- If true, song notifications for Jamendo tracks and local tracks will also contain
+-- If true, song notifications for Jamendo tracks and local tracks will also contain 
 -- album cover image.
 musicwidget.show_album_cover = true
--- Specify how big in pixels should an album cover be. Maximum value
--- is 100.
+-- Specify how big in pixels should an album cover be. Maximum value is 100.
 musicwidget.album_cover_size = 50
--- This option is necessary if you want the album covers to be shown
--- for your local tracks.
+-- This option is necessary if you want the album covers to be shown for your local tracks.
 musicwidget.mpd_config = home_path .. '.mpdconf'
--- Specify the browser you use so awesompd can open links from
--- Jamendo in it.
-musicwidget.browser = 'firefox-beta-bin'
+-- Specify the browser you use so awesompd can open links from Jamendo in it.
+musicwidget.browser = usr.web_browser
 -- Specify decorators on the left and the right side of the
--- widget. Or just leave empty strings if you decorate the widget
--- from outside.
+-- widget. Or just leave empty strings if you decorate the widget from outside.
 musicwidget.ldecorator = ' ♫ '
 musicwidget.rdecorator = ' ♫ '
 -- Set all the servers to work with (here can be any servers you use)
 musicwidget.servers = {
   { server = 'localhost',
-       port = 6600 } }
---  { server = '192.168.0.72',
---       port = 6600 } }
+    port = 6600 } 
+}
 -- Set the buttons of the widget
 musicwidget:register_buttons({ { '', awesompd.MOUSE_LEFT, musicwidget:command_toggle() },
                             { 'Control', awesompd.MOUSE_SCROLL_UP, musicwidget:command_prev_track() },
@@ -349,11 +408,11 @@ musicwidget:register_buttons({ { '', awesompd.MOUSE_LEFT, musicwidget:command_to
                             { '', awesompd.MOUSE_RIGHT, musicwidget:command_show_menu() },
                             { '', 'XF86AudioLowerVolume', musicwidget:command_volume_down() },
                             { '', 'XF86AudioRaiseVolume', musicwidget:command_volume_up() },
-                            { modkey, 'Pause', musicwidget:command_playpause() } })
+                            { usr.modkey, 'Pause', musicwidget:command_playpause() } })
 musicwidget:run() -- After all configuration is done, run the widget
--- End mpd
+-- }}}
 
--- Quick launch bar widget BEGINS
+-- {{{ Quick launch bar widget
 -- https://awesome.naquadah.org/wiki/Quick_launch_bar_widget
 local function getValue(t, key)
    _, _, res = string.find(t, key .. " *= *([^%c]+)%c")
@@ -373,7 +432,7 @@ local function split (s,t)
 end
 
 local launchbar = { layout = awful.widget.layout.horizontal.rightleft }
-local files = split(io.popen('ls ' .. launcher_path .. '*.desktop'):read('*all'),"\n")
+local files = split(io.popen('ls ' .. usr.launcher_path .. '*.desktop'):read('*all'),"\n")
 for i = 1, table.getn(files) do
    local t = io.open(files[i]):read('*all')
    launchbar[i] = { image = image(getValue(t,'Icon')),
@@ -381,7 +440,7 @@ for i = 1, table.getn(files) do
  --                   tooltip = getValue(t,'Name'),
                     position = tonumber(getValue(t,'Position')) or 255 }
 end
--- 
+
 table.sort(launchbar, function(a,b) return a.position < b.position end)
 for i = 1, table.getn(launchbar) do
    local txt = launchbar[i].tooltip
@@ -390,7 +449,7 @@ for i = 1, table.getn(launchbar) do
 --   tt:set_text (txt)
 --   tt:set_timeout (0)
 end
--- Quick launch bar widget ENDS
+-- }}}
 
 -- load avg / cpu widget
 local cpuwidget = widget({ type = 'textbox', name = 'cpuwidget' })
@@ -459,12 +518,12 @@ local function moveMouse(x_co, y_co)
     mouse.coords({ x=x_co, y=y_co })
 end
 -- Optionally move the mouse when rc.lua is read (startup)
-if moveMouseOnStartup then
-        moveMouse(safeCoords.x, safeCoords.y)
+if usr.moveMouseOnStartup then
+        moveMouse(usr.safeCoords.x, usr.safeCoords.y)
 end
 
 -- {{{ Naughty log notify
-ilog = req.lognotify{
+ilog = req.lognotify {
    logs = {
       mpd = { file = home_path ..'.mpd/log', ignore = {'player_thread: played'} },
       pacman = { file = '/var/log/pacman.log', },
@@ -479,8 +538,8 @@ ilog = req.lognotify{
 ilog:start()
 -- }}}
 
--- debug
-print('Wiboxes:' .. os.time())
+timer.widgets = socket.gettime() -- debug
+timer.widgetsdiff = timer.widgets-timer.menu
 
 -- Create a wibox for each screen and add it (i only use 1 screen)
 local my_top_wibox = {}
@@ -492,9 +551,9 @@ local mytaglist = {}
 -- top panel items
 mytaglist.buttons = awful.util.table.join(
                     awful.button({ }, 1, awful.tag.viewonly),
-                    awful.button({ modkey }, 1, awful.client.movetotag),
+                    awful.button({ usr.modkey }, 1, awful.client.movetotag),
                     awful.button({ }, 3, awful.tag.viewtoggle),
-                    awful.button({ modkey }, 3, awful.client.toggletag),
+                    awful.button({ usr.modkey }, 3, awful.client.toggletag),
                     awful.button({ }, 4, awful.tag.viewnext),
                     awful.button({ }, 5, awful.tag.viewprev)
                     )
@@ -522,7 +581,7 @@ mytasklist.buttons = awful.util.table.join(
                                               end
                                           end),
                  -- awful.button({ }, 3, function (c)
-				--							  client.focus = c
+				 --							  client.focus = c
                  --                             instance = awful.menu.clients({ width=100 })
                  --                             end
                  --                         end),
@@ -615,6 +674,9 @@ for s = 1, screen.count() do
 end
 -- }}}
 
+timer.wiboxes = socket.gettime() -- debug
+timer.wiboxesdiff = timer.wiboxes-timer.widgets
+
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
    awful.button({ }, 3, function () mymainmenu:toggle() end),
@@ -625,29 +687,29 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 local globalkeys = awful.util.table.join(
-   awful.key({ modkey,           }, 'Left',   awful.tag.viewprev       ),
-   awful.key({ modkey,           }, 'Right',  awful.tag.viewnext       ),
-   awful.key({ modkey,           }, 'Escape', awful.tag.history.restore),
-   awful.key({ modkey,           },  'e', req.revelation),  -- revelation
-   awful.key({ modkey,           }, 'j',
+   awful.key({ usr.modkey,           }, 'Left',   awful.tag.viewprev       ),
+   awful.key({ usr.modkey,           }, 'Right',  awful.tag.viewnext       ),
+   awful.key({ usr.modkey,           }, 'Escape', awful.tag.history.restore),
+   awful.key({ usr.modkey,           },  'e', req.revelation),  -- revelation
+   awful.key({ usr.modkey,           }, 'j',
         function ()
             awful.client.focus.byidx( 1)
             if client.focus then client.focus:raise() end
         end),
-   awful.key({ modkey,           }, 'k',
+   awful.key({ usr.modkey,           }, 'k',
         function ()
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-   awful.key({ modkey,           }, 'w', function () mymainmenu:show({keygrabber=true}) end),
+   awful.key({ usr.modkey,           }, 'w', function () mymainmenu:show({keygrabber=true}) end),
 
    -- Layout manipulation
-   awful.key({ modkey, 'Shift'   }, 'j', function () awful.client.swap.byidx(  1)    end),
-   awful.key({ modkey, 'Shift'   }, 'k', function () awful.client.swap.byidx( -1)    end),
-   awful.key({ modkey, 'Control' }, 'j', function () awful.screen.focus_relative( 1) end),
-   awful.key({ modkey, 'Control' }, 'k', function () awful.screen.focus_relative(-1) end),
-   awful.key({ modkey,           }, 'u', awful.client.urgent.jumpto),
-   awful.key({ modkey,           }, 'Tab',
+   awful.key({ usr.modkey, 'Shift'   }, 'j', function () awful.client.swap.byidx(  1)    end),
+   awful.key({ usr.modkey, 'Shift'   }, 'k', function () awful.client.swap.byidx( -1)    end),
+   awful.key({ usr.modkey, 'Control' }, 'j', function () awful.screen.focus_relative( 1) end),
+   awful.key({ usr.modkey, 'Control' }, 'k', function () awful.screen.focus_relative(-1) end),
+   awful.key({ usr.modkey,           }, 'u', awful.client.urgent.jumpto),
+   awful.key({ usr.modkey,           }, 'Tab',
         function ()
             awful.client.focus.history.previous()
             if client.focus then
@@ -656,23 +718,23 @@ local globalkeys = awful.util.table.join(
         end),
 
    -- Standard program
-   awful.key({ modkey,           }, 'Return', function () exec(terminal) end),
-   awful.key({ modkey, 'Control' }, 'r', awesome.restart),
-   awful.key({ modkey, 'Shift'   }, 'q', awesome.quit),
-   awful.key({ modkey,           }, 'l',     function () awful.tag.incmwfact( 0.05)    end),
-   awful.key({ modkey,           }, 'h',     function () awful.tag.incmwfact(-0.05)    end),
-   awful.key({ modkey, 'Shift'   }, 'h',     function () awful.tag.incnmaster( 1)      end),
-   awful.key({ modkey, 'Shift'   }, 'l',     function () awful.tag.incnmaster(-1)      end),
-   awful.key({ modkey, 'Control' }, 'h',     function () awful.tag.incncol( 1)         end),
-   awful.key({ modkey, 'Control' }, 'l',     function () awful.tag.incncol(-1)         end),
-   awful.key({ modkey,           }, 'space', function () awful.layout.inc(layouts,  1) end),
-   awful.key({ modkey, 'Shift'   }, 'space', function () awful.layout.inc(layouts, -1) end),
-   awful.key({ modkey, 'Control' }, 'n', awful.client.restore),
+   awful.key({ usr.modkey,           }, 'Return', function () usr.exec(usr.terminal) end),
+   awful.key({ usr.modkey, 'Control' }, 'r', awesome.restart),
+   awful.key({ usr.modkey, 'Shift'   }, 'q', awesome.quit),
+   awful.key({ usr.modkey,           }, 'l',     function () awful.tag.incmwfact( 0.05)    end),
+   awful.key({ usr.modkey,           }, 'h',     function () awful.tag.incmwfact(-0.05)    end),
+   awful.key({ usr.modkey, 'Shift'   }, 'h',     function () awful.tag.incnmaster( 1)      end),
+   awful.key({ usr.modkey, 'Shift'   }, 'l',     function () awful.tag.incnmaster(-1)      end),
+   awful.key({ usr.modkey, 'Control' }, 'h',     function () awful.tag.incncol( 1)         end),
+   awful.key({ usr.modkey, 'Control' }, 'l',     function () awful.tag.incncol(-1)         end),
+   awful.key({ usr.modkey,           }, 'space', function () awful.layout.inc(layouts,  1) end),
+   awful.key({ usr.modkey, 'Shift'   }, 'space', function () awful.layout.inc(layouts, -1) end),
+   awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore),
 
    -- Prompt
-   awful.key({ modkey },            'r',     function () mypromptbox[mouse.screen]:run() end),
+   awful.key({ usr.modkey },            'r',     function () mypromptbox[mouse.screen]:run() end),
 
-   awful.key({ modkey }, 'x',
+   awful.key({ usr.modkey }, 'x',
               function ()
                   awful.prompt.run({ prompt = 'Run Lua code: ' },
                   mypromptbox[mouse.screen].widget,
@@ -682,29 +744,29 @@ local globalkeys = awful.util.table.join(
               
    -- Custom new
    -- http://awesome.naquadah.org/wiki/Move_Mouse
-   awful.key({ modkey , 'Control' }, 'm', function() moveMouse(safeCoords.x, safeCoords.y) end),
+   awful.key({ usr.modkey , 'Control' }, 'm', function() moveMouse(usr.safeCoords.x, usr.safeCoords.y) end),
    
-   awful.key({ modkey }, 't', -- toggle bottom panel
+   awful.key({ usr.modkey }, 't', -- toggle bottom panel
               function ()
                   my_top_wibox[mouse.screen].visible = not my_top_wibox[mouse.screen].visible
               end),
 
-   awful.key({ modkey }, 'b', -- toggle bottom panel
+   awful.key({ usr.modkey }, 'b', -- toggle bottom panel
               function ()
                   my_bottom_wibox[mouse.screen].visible = not my_bottom_wibox[mouse.screen].visible
               end),
               
    -- scratch
    -- req.scratch.drop(prog, vert, horiz, width, height, sticky, screen)
-   -- awful.key({ modkey }, 'F11', function () req.scratch.drop('gmrun') end),
-   awful.key({ modkey }, 'F12', function () req.scratch.drop(terminal, 'bottom', 'left', 0.50, 0.50) end),
+   -- awful.key({ usr.modkey }, 'F11', function () req.scratch.drop('gmrun') end),
+   awful.key({ usr.modkey }, 'F12', function () req.scratch.drop(usr.terminal, 'bottom', 'left', 0.50, 0.50) end),
    
    -- http://awesome.naquadah.org/wiki/SSH:_prompt
-   awful.key({ modkey, }, 'F2', function ()
+   awful.key({ usr.modkey, }, 'F2', function ()
      awful.prompt.run({ prompt = 'ssh: ' },
      mypromptbox[mouse.screen].widget,
      function(h)
-             exec(terminal .. ' -e ssh ' .. h)
+             usr.exec(usr.terminal .. ' -e ssh ' .. h)
      end,
      function(cmd, cur_pos, ncomp)
              -- get the hosts
@@ -745,21 +807,21 @@ musicwidget:append_global_keys()
    root.keys(globalkeys)
 
 local clientkeys = awful.util.table.join(
-   awful.key({ modkey,           }, 'f',      function (c) c.fullscreen = not c.fullscreen  end),
-   awful.key({ modkey, 'Shift'   }, 'c',      function (c) c:kill()                         end),
-   awful.key({ modkey,           }, 'c',      function (c) c:kill()                         end),
-   awful.key({ modkey, 'Control' }, 'space',  awful.client.floating.toggle                     ),
-   awful.key({ modkey, 'Control' }, 'Return', function (c) c:swap(awful.client.getmaster()) end),
-   awful.key({ modkey,           }, 'o',      awful.client.movetoscreen                        ),
-   awful.key({ modkey, 'Shift'   }, 'r',      function (c) c:redraw()                       end),
-   awful.key({ modkey, 'Shift'   }, 't',      function (c) c.ontop = not c.ontop            end),
-   awful.key({ modkey,           }, 'n',
+   awful.key({ usr.modkey,           }, 'f',      function (c) c.fullscreen = not c.fullscreen  end),
+   awful.key({ usr.modkey, 'Shift'   }, 'c',      function (c) c:kill()                         end),
+   awful.key({ usr.modkey,           }, 'c',      function (c) c:kill()                         end),
+   awful.key({ usr.modkey, 'Control' }, 'space',  awful.client.floating.toggle                     ),
+   awful.key({ usr.modkey, 'Control' }, 'Return', function (c) c:swap(awful.client.getmaster()) end),
+   awful.key({ usr.modkey,           }, 'o',      awful.client.movetoscreen                        ),
+   awful.key({ usr.modkey, 'Shift'   }, 'r',      function (c) c:redraw()                       end),
+   awful.key({ usr.modkey, 'Shift'   }, 't',      function (c) c.ontop = not c.ontop            end),
+   awful.key({ usr.modkey,           }, 'n',
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
             c.minimized = true
         end),
-   awful.key({ modkey,           }, 'm',
+   awful.key({ usr.modkey,           }, 'm',
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
@@ -777,27 +839,27 @@ end
 -- This should map on the top row of your keyboard, usually 1 to 9.
 for i = 1, keynumber do
    globalkeys = awful.util.table.join(globalkeys,
-      awful.key({ modkey }, '#' .. i + 9,
+      awful.key({ usr.modkey }, '#' .. i + 9,
                   function ()
                         local screen = mouse.screen
                         if tags[screen][i] then
                             awful.tag.viewonly(tags[screen][i])
                         end
                   end),
-      awful.key({ modkey, 'Control' }, '#' .. i + 9,
+      awful.key({ usr.modkey, 'Control' }, '#' .. i + 9,
                   function ()
                       local screen = mouse.screen
                       if tags[screen][i] then
                           awful.tag.viewtoggle(tags[screen][i])
                       end
                   end),
-      awful.key({ modkey, 'Shift' }, '#' .. i + 9,
+      awful.key({ usr.modkey, 'Shift' }, '#' .. i + 9,
                   function ()
                       if client.focus and tags[client.focus.screen][i] then
                           awful.client.movetotag(tags[client.focus.screen][i])
                       end
                   end),
-      awful.key({ modkey, 'Control', 'Shift' }, '#' .. i + 9,
+      awful.key({ usr.modkey, 'Control', 'Shift' }, '#' .. i + 9,
                   function ()
                       if client.focus and tags[client.focus.screen][i] then
                           awful.client.toggletag(tags[client.focus.screen][i])
@@ -807,8 +869,8 @@ end
 
 local clientbuttons = awful.util.table.join(
    awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
-   awful.button({ modkey }, 1, awful.mouse.client.move),
-   awful.button({ modkey }, 3, awful.mouse.client.resize))
+   awful.button({ usr.modkey }, 1, awful.mouse.client.move),
+   awful.button({ usr.modkey }, 3, awful.mouse.client.resize))
 
 -- Set keys
 root.keys(globalkeys)
@@ -864,7 +926,7 @@ awful.rules.rules = {
  --  { rule = {class = 'Glista'},             -- appearance tag
  --    properties = {tag = tags[1][8] } },
    { rule = {class = 'Shutter'},            -- desktop tag
-     properties = {tag = tags[1][2]}, floating = true,  },
+     properties = {floating = true } },
  --  { rule = { class = 'Nitrogen' }, 
  --   properties = { tag = tags[1][7], 
  --                   floating = true, 
@@ -879,7 +941,7 @@ awful.rules.rules = {
 -- Signal function to execute when a new client appears.
 client.add_signal('manage', function (c, startup)
    -- Add a titlebar
-   -- awful.titlebar.add(c, { modkey = modkey })
+   -- awful.titlebar.add(c, { usr.modkey = usr.modkey })
    -- Enable sloppy focus
    c:add_signal('mouse::enter', function(c)
       if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
@@ -903,6 +965,12 @@ end)
 client.add_signal('focus', function(c) c.border_color = beautiful.border_focus end)
 client.add_signal('unfocus', function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+-- Round number off to decimals function
+function round(number, decimal)
+	local multiplier = 10^(decimal or 0)
+	return math.floor(number * multiplier + 0.5) / multiplier
+end
 
 -- {{{ Run once functions
 local function processwalker()
@@ -934,7 +1002,7 @@ local function run_once(process, cmd)
          return
       end
    end
-   return exec(cmd or process)
+   return usr.exec(cmd or process)
 end
 -- }}}
 
@@ -948,21 +1016,34 @@ run_once('parcellite')
 -- run_once('unclutter')
 -- launch the composite manager
 -- run_once('xcompmgr')
--- run_once('cairo-compmgr')
--- launch the desktop live wallpaper
--- run_once('xplanetFX')
--- Use the second argument, if the programm you wanna start, 
--- differs from the what you want to search.
+-- Use the second argument, if the programm you wanna start differs from the what you want to search.
 -- run_once('redshift', 'redshift -o -l 0:0 -t 6500:5500')
 -- }}}
 
--- welcome message
-naughty.notify{
-  title = 'Awesome '.. awesome.version,
-  text = string.format('Awesomewm-X: '.. req.awmXversion .."\nTheme: "
-         .. beautiful.theme_name .."\nUser: %s@%s\nTime: %s",
-  os.getenv('USER'), awful.util.pread('hostname'):match("[^\n]*"), os.date()),
-  timeout = 20 }
+timer.awfulkeys = socket.gettime() -- debug
+timer.awfulkeysdiff = timer.awfulkeys-timer.wiboxes
+-- {{{ Script execution time
+local function timer_output()
+    return "\n::: Session started: ".. os.date() .. " :::\r\n\n" .. 
+            "Awesomewm-X: ".. req.awmXversion .."\n" ..
+            "Theme: ".. beautiful.theme_name .."\n" .. 
+            "User: " .. os.getenv('USER') .."@" .. awful.util.pread('hostname'):match("[^\n]*") .. "\n" ..
+            "Libraries: Loaded in " .. round(timer.libsdiff, 4) .. "\n" ..
+            "User: Loaded in " .. round(timer.usrdiff, 4) .. "\n" ..
+            "Menus: Loaded in " .. round(timer.menudiff, 4) .. "\n" ..
+            "Widgets: Loaded in " .. round(timer.widgetsdiff, 4) .. "\n" ..
+            "Wiboxes: Loaded in " .. round(timer.wiboxesdiff, 4) .. "\n" ..
+            "Awfulkeys: Loaded in " .. round(timer.awfulkeysdiff, 4) .. "\n" ..
+            "Execution time: " .. round(socket.gettime() - timer.start, 3) .. " seconds\n"
+end
 
--- debug
-print('Ended:' .. os.time())
+timer.output = timer_output()
+
+-- Welcome message
+naughty.notify {
+    title = 'Awesome '.. awesome.version,
+    text = timer.output,
+    timeout = 20
+}
+io.stderr:write(timer.output) -- debug
+-- }}}

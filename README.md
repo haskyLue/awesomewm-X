@@ -7,7 +7,7 @@ http://awesome.naquadah.org/wiki/Main_Page
 
 https://github.com/idk/awesomewm-X
 
-Depends on: git and [luanotify][8]
+Depends on: git [luasocket][9] and [luainotify][8]
 
 Optional:   [mpd][1]
 
@@ -94,6 +94,15 @@ TODO
 HISTORY
 -------
 
+* 2012-07-04: Version 0.0.4
+
+   - Added Xdefaults config in rc.lua
+   - Major enhancement: debugger and script execution timer
+   - Version enhancement: new menu functions
+   - Version enhancement: theme tweaks
+   - Version enhancement: configuration tweaks
+   - Version enhancement: optimization tweaks
+
 * 2012-07-03: Version 0.0.3
 
    - Imported lognotify
@@ -157,3 +166,4 @@ SHARE AND ENJOY!
 [6]: http://www.linuxdistrocommunity.com
 [7]: https://github.com/idk/awesomewm-X/issues
 [8]: http://www3.telus.net/taj_khattra/luainotify.html
+[9]: http://w3.impa.br/~diego/software/luasocket

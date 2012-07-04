@@ -20,22 +20,11 @@ URxvt*font:					xft:Envy Code R-10
 URxvt*cursorBlink:				true
 URxvt*cursorUnderline:				true
 URxvt*scrollColor:				#111111
-URxvt*perl-ext-common:				default,clipboard,matcher
-URxvt*iconFile:    /home/pdq/.icons/elementary2/apps/32/terminal.svg
-
-URxvt*keysym.M-c:   perl:clipboard:copy
-URxvt*keysym.M-v:   perl:clipboard:paste
-URxvt*keysym.M-C-v: perl:clipboard:paste_escaped
-
 URxvt*internalborder: 6
 
 ! rxvt-unicode
 URxvt*urgentOnBell:  true
 
-URxvt*transparent: false
-
-URxvt.foreground: #D7D0C7
-URxvt.background: #151515
 ! Black
 URxvt.color0: #303030
 URxvt.color8: #404040
@@ -71,3 +60,6 @@ URxvt*tabbed.tabbar-fg: 11
 URxvt*tabbed.tabbar-bg: 0
 URxvt*tabbed.tab-fg:    14
 URxvt*tabbed.tab-bg:    0
+
+! include font and bg/fg colors
+# include ".config/awesome/.urxvt_font"

@@ -24,24 +24,22 @@ URxvt*internalborder: 6
 ! rxvt-unicode
 URxvt*urgentOnBell:  true
 
-URxvt*color0: #000000
-URxvt*color1: #8a110e
-URxvt*color2: #669f3d
-URxvt*color3: #b3751e
-URxvt*color4: #493d9f
-URxvt*color5: #9216a3
-URxvt*color6: #198a9c
-URxvt*color7: #bfbdc0
-
-URxvt*color8: #686773
-URxvt*color9: #fc5166
-URxvt*color10: #63ff54
-URxvt*color11: #ffd75c
-URxvt*color12: #766eff
-URxvt*color13: #e151ff
-URxvt*color14: #57ffec
-URxvt*color15: #ffffff
-
+*color0:       rgb:00/00/00
+*color1:       rgb:dc/74/d1
+*color2:       rgb:0e/b8/c7
+*color3:       rgb:df/e3/7e
+!*color4: ???
+*color5:       rgb:9e/88/f0
+*color6:       rgb:73/f7/ff
+*color7:       rgb:e1/dd/dd
+*color8:       rgb:8b/8f/93
+*color9:       rgb:dc/74/d1
+*color10:      rgb:0e/b8/c7
+*color11:      rgb:df/e3/7e
+*color13:      rgb:9e/88/f0
+*color14:      rgb:73/f7/ff
+*color15:      rgb:e1/dd/dd
+ 
 ! enable clickable links
 URxvt*urlLauncher: firefox
 URxvt*matcher.button: 1

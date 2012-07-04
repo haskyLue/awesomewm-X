@@ -19,28 +19,28 @@ URxvt*scrollBar:		      false
 URxvt*cursorBlink:				true
 URxvt*cursorUnderline:				true
 URxvt*scrollColor:				#111111
+
 URxvt*internalborder: 6
 
 ! rxvt-unicode
 URxvt*urgentOnBell:  true
 
-URxvt*color0: #000000
-URxvt*color1: #8a110e
-URxvt*color2: #669f3d
-URxvt*color3: #b3751e
-URxvt*color4: #493d9f
-URxvt*color5: #9216a3
-URxvt*color6: #198a9c
-URxvt*color7: #bfbdc0
-
-URxvt*color8: #686773
-URxvt*color9: #fc5166
-URxvt*color10: #63ff54
-URxvt*color11: #ffd75c
-URxvt*color12: #766eff
-URxvt*color13: #e151ff
-URxvt*color14: #57ffec
-URxvt*color15: #ffffff
+*color0:  #1c1c1c
+*color8:  #3d3a3a
+*color1:  #d770af
+*color9:  #d28abf
+*color2 : #9acc79
+*color10: #8fb676
+*color3:  #d0d26b
+*color11: #c8bc45
+*color4 : #77b6c5
+*color12: #8fa7b9
+*color5:  #a488d9
+*color13: #bd89de
+*color6:  #7fcab3
+*color14: #6ec2a8
+*color7:  #8d8d8d
+*color15: #dad3d3
 
 ! enable clickable links
 URxvt*urlLauncher: firefox

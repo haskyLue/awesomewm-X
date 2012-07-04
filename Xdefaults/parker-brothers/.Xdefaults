@@ -24,23 +24,32 @@ URxvt*internalborder: 6
 ! rxvt-unicode
 URxvt*urgentOnBell:  true
 
-URxvt*color0: #000000
-URxvt*color1: #8a110e
-URxvt*color2: #669f3d
-URxvt*color3: #b3751e
-URxvt*color4: #493d9f
-URxvt*color5: #9216a3
-URxvt*color6: #198a9c
-URxvt*color7: #bfbdc0
-
-URxvt*color8: #686773
-URxvt*color9: #fc5166
-URxvt*color10: #63ff54
-URxvt*color11: #ffd75c
-URxvt*color12: #766eff
-URxvt*color13: #e151ff
-URxvt*color14: #57ffec
-URxvt*color15: #ffffff
+! Parker Brothers colors
+!black
+*color0:    #322a2c
+*color8:    #46423b
+!red
+*color1:    #79220E
+*color9:    #AA261F
+!green
+*color2:    #344B1B
+*color10:   #76550F
+!yellow
+!*color3:    #c77920
+*color3:    #B45B00
+*color11:   #B57F02
+!blue
+*color4:    #434045
+*color12:   #908862
+!magenta
+*color5:    #5C1E25
+*color13:   #624A35
+!cyan
+*color6:    #394745
+*color14:   #393E38
+!white
+*color7:    #AE8842
+*color15:   #A59058
 
 ! enable clickable links
 URxvt*urlLauncher: firefox

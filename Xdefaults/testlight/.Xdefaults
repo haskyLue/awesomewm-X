@@ -16,31 +16,21 @@ URxvt*borderLess:				false
 URxvt*depth:					32
 URxvt*scrollBar_right:				false
 URxvt*scrollBar:		      false
+URxvt*font:					xft:Envy Code R-10
 URxvt*cursorBlink:				true
 URxvt*cursorUnderline:				true
 URxvt*scrollColor:				#111111
+URxvt*perl-ext-common:				default,clipboard,matcher
+URxvt*iconFile:    /home/pdq/.icons/elementary2/apps/32/terminal.svg
+
 URxvt*internalborder: 6
 
 ! rxvt-unicode
 URxvt*urgentOnBell:  true
 
-URxvt*color0: #000000
-URxvt*color1: #8a110e
-URxvt*color2: #669f3d
-URxvt*color3: #b3751e
-URxvt*color4: #493d9f
-URxvt*color5: #9216a3
-URxvt*color6: #198a9c
-URxvt*color7: #bfbdc0
+URxvt*transparent: false
 
-URxvt*color8: #686773
-URxvt*color9: #fc5166
-URxvt*color10: #63ff54
-URxvt*color11: #ffd75c
-URxvt*color12: #766eff
-URxvt*color13: #e151ff
-URxvt*color14: #57ffec
-URxvt*color15: #ffffff
+source /home/pdq/.xcolors
 
 ! enable clickable links
 URxvt*urlLauncher: firefox
@@ -52,6 +42,3 @@ URxvt*tabbed.tabbar-fg: 11
 URxvt*tabbed.tabbar-bg: 0
 URxvt*tabbed.tab-fg:    14
 URxvt*tabbed.tab-bg:    0
-
-! include font and bg/fg colors
-# include ".config/awesome/.urxvt_font"
