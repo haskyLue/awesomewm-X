@@ -33,18 +33,51 @@ INSTALL Awesome Window Manager
     # su -c 'yum install awesome'
 
 
+
+FULL INSTALL on base Archlinux install (virtualbox)
+-----------------------------------------------
+
+`Archlinux:`
+
+After /arch/setup and reboot:
+Then reboot then update (and reboot again if upgraded kernel)
+
+    # pacman -Syu
+    # pacman-key --init (entropy)
+    # pacman-key --populate archlinux
+
+Setup Repos
+
+    # nano /etc/pacman.conf
+    
+Uncomment multilib if use 64 bit
+
+Add archlinuxfr repo (for grabbing yaourt)
+
+    [archlinuxfr] 
+    Server = http://repo.archlinux.fr/$arch
+
+    # pacman -Syu
+    # pacman -S yaourt fakeroot
+
+Add your user (add 'lp,scanner' to the options if you use a printer,scanner)
+    # useradd -m -g users -G audio,video,wheel,storage,optical,power,games,network,log -s /bin/bash yourusername
+    # passwd yourusername
+
+Allow sudo useage (Uncomment wheel line)
+    # EDITOR=nano visudo
+
+    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions rxvt-unicode git luasocket luafilesystem awesome conky mpd mpc terminus-font spacefm midori
+
+    $ yaourt -S luainotify ttf-envy-code-r
+
+
 INSTALL Awesomewm-X
 -------------------
 
     $ cd ~/.config
     $ git clone https://github.com/idk/awesomewm-X.git
-    $ cp -r awesomewm-X awesome
-    $ mkdir ~/.config/awesome/Xdefaults/$USER
-    $ mv ~/.Xdefaults ~/.config/awesome/Xdefaults/$USER/.Xdefaults
-    $ ln -sfn ~/.config/awesome/Xdefaults/$USER/.Xdefaults ~/.Xdefaults
-    $ ln -sfn ~/.config/awesome/themes/pdq ~/.config/awesome/themes/current
-    $ ln -sfn ~/.config/awesome/icons/AwesomeLight.png ~/.config/awesome/icons/menu_icon.png
-
+    $ sh awesomewm-X/install.sh
 
 CONFIGURATION
 -------------

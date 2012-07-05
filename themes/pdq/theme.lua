@@ -7,7 +7,7 @@ require('awful.util')
 
 theme = {}
 
-config        = awful.util.getdir('config')
+config        = home_path .. '.config/awesome'
 shared        = '/usr/share/awesome'
 if not awful.util.file_readable(shared .. '/icons/awesome16.png') then
     shared    = '/usr/share/local/awesome'
@@ -28,10 +28,37 @@ wallpaper2    = themedir .. '/background.png'
 wallpaper3    = sharedthemes .. '/zenburn/zenburn-background.png'
 wallpaper4    = sharedthemes .. '/default/background.png'
 wpscript      = home_path .. '.wallpaper'
-wpscript2     = themedir .. '/conky.sh'
+wpscript2     = themedir .. '/script.sh'
+
+str1 = ''
+str2 = ''
+str3 = ''
+str4 = ''
+str5 = ''
+str6 = ''
+if script_options.idesk then
+    str1 = ' idesk '
+end
+if script_options.wallpaper then
+    str2 = ' wp '
+end
+if script_options.conky_1 then
+    str3 = ' conky '
+end
+if script_options.conky_2 then
+    str4 = ' eng '
+end
+if script_options.linux then
+    str5 = ' ' .. script_options.linux .. ' '
+end
+if script_options.email then
+    str6 = ' email '
+end
+
+script_run = string.format("%s%s%s%s%s%s", str1, str2, str3, str4, str5, str6);
 
 if awful.util.file_readable(wpscript2) then
-	theme.wallpaper_cmd = { 'sh ' .. wpscript2 }
+    theme.wallpaper_cmd = { 'sh ' .. wpscript2 .. ' ' .. script_run }
 elseif awful.util.file_readable(wallpaper1) then
 	theme.wallpaper_cmd = { 'awsetbg ' .. wallpaper1 }
 elseif awful.util.file_readable(wallpaper2) then
@@ -94,7 +121,7 @@ theme.tasklist_floating_icon = sharedthemes .. '/default/tasklist/floatingw.png'
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
 theme.menu_submenu_icon = sharedthemes .. '/default/submenu.png'
-theme.menu_height = '24'
+theme.menu_height = '16'
 theme.menu_width  = '150'
 
 -- You can add as many variables as
@@ -126,23 +153,18 @@ theme.titlebar_maximized_button_focus_inactive  = sharedthemes .. '/default/titl
 theme.titlebar_maximized_button_normal_active = sharedthemes .. '/default/titlebar/maximized_normal_active.png'
 theme.titlebar_maximized_button_focus_active  = sharedthemes .. '/default/titlebar/maximized_focus_active.png'
 
--- You can use your own command to set your wallpaper
--- theme.wallpaper_cmd = { 'awsetbg /home/pdq/.config/awesome/themes/default/background.png' }
--- theme.wallpaper_cmd = { 'nitrogen --restore' }
--- theme.wallpaper_cmd = { 'nitrogen --restore' }
--- theme.wallpaper_cmd = {'awsetbg -t -f -r ' .. wallpapers}
-theme.layout_fairh = sharedthemes .. '/default/layouts2/fairhw.png'
-theme.layout_fairv = sharedthemes .. '/default/layouts2/fairvw.png'
-theme.layout_floating  = sharedthemes .. '/default/layouts2/floatingw.png'
-theme.layout_magnifier = sharedthemes .. '/default/layouts2/magnifierw.png'
-theme.layout_max = sharedthemes .. '/default/layouts2/maxw.png'
-theme.layout_fullscreen = sharedthemes .. '/default/layouts2/fullscreenw.png'
-theme.layout_tilebottom = sharedthemes .. '/default/layouts2/tilebottomw.png'
-theme.layout_tileleft   = sharedthemes .. '/default/layouts2/tileleftw.png'
-theme.layout_tile = sharedthemes .. '/default/layouts2/tilew.png'
-theme.layout_tiletop = sharedthemes .. '/default/layouts2/tiletopw.png'
-theme.layout_spiral  = sharedthemes .. '/default/layouts2/spiralw.png'
-theme.layout_dwindle = sharedthemes .. '/default/layouts2/dwindlew.png'
+theme.layout_fairh = sharedthemes .. '/default/layouts/fairhw.png'
+theme.layout_fairv = sharedthemes .. '/default/layouts/fairvw.png'
+theme.layout_floating  = sharedthemes .. '/default/layouts/floatingw.png'
+theme.layout_magnifier = sharedthemes .. '/default/layouts/magnifierw.png'
+theme.layout_max = sharedthemes .. '/default/layouts/maxw.png'
+theme.layout_fullscreen = sharedthemes .. '/default/layouts/fullscreenw.png'
+theme.layout_tilebottom = sharedthemes .. '/default/layouts/tilebottomw.png'
+theme.layout_tileleft   = sharedthemes .. '/default/layouts/tileleftw.png'
+theme.layout_tile = sharedthemes .. '/default/layouts/tilew.png'
+theme.layout_tiletop = sharedthemes .. '/default/layouts/tiletopw.png'
+theme.layout_spiral  = sharedthemes .. '/default/layouts/spiralw.png'
+theme.layout_dwindle = sharedthemes .. '/default/layouts/dwindlew.png'
 
 --theme.awesome_icon = home_path .. '.config/awesome/icons/awesome16.png'
 theme.awesome_icon = home_path .. '.config/awesome/icons/menu_icon.png'

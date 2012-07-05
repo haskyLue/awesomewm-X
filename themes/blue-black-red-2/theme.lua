@@ -5,7 +5,7 @@ require('awful.util')
 
 theme = {}
 
-config        = awful.util.getdir('config')
+config        = home_path .. '.config/awesome'
 shared        = '/usr/share/awesome'
 if not awful.util.file_readable(shared .. '/icons/awesome16.png') then
     shared    = '/usr/share/local/awesome'
@@ -26,10 +26,37 @@ wallpaper2    = themedir .. '/background.png'
 wallpaper3    = sharedthemes .. '/zenburn/zenburn-background.png'
 wallpaper4    = sharedthemes .. '/default/background.png'
 wpscript      = home_path .. '.wallpaper'
-wpscript2     = themedir .. '/conky.sh'
+wpscript2     = themedir .. '/script.sh'
+
+str1 = ''
+str2 = ''
+str3 = ''
+str4 = ''
+str5 = ''
+str6 = ''
+if script_options.idesk then
+    str1 = ' idesk '
+end
+if script_options.wallpaper then
+    str2 = ' wp '
+end
+if script_options.conky_1 then
+    str3 = ' conky '
+end
+if script_options.conky_2 then
+    str4 = ' eng '
+end
+if script_options.linux then
+    str5 = ' ' .. script_options.linux .. ' '
+end
+if script_options.email then
+    str6 = ' email '
+end
+
+script_run = string.format("%s%s%s%s%s%s", str1, str2, str3, str4, str5, str6);
 
 if awful.util.file_readable(wpscript2) then
-	theme.wallpaper_cmd = { 'sh ' .. wpscript2 }
+    theme.wallpaper_cmd = { 'sh ' .. wpscript2 .. ' ' .. script_run }
 elseif awful.util.file_readable(wallpaper1) then
 	theme.wallpaper_cmd = { 'awsetbg ' .. wallpaper1 }
 elseif awful.util.file_readable(wallpaper2) then
@@ -48,7 +75,7 @@ end
 --}}}
 theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
 
-theme.font          = 'Sans 8'
+theme.font       = 'Sans 8'
 
 theme.cpurple = '#8972CF'
 theme.cdark = '#1c1c1c'
@@ -152,5 +179,3 @@ theme.icon_theme_size = '32x32'
 --theme.default_client_icon = config .. '/icons/float.gif'
 
 return theme
-
-

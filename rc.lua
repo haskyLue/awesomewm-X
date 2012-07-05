@@ -1,4 +1,6 @@
 -- https://github.com/idk/awesomewm-X pdq
+-- BASIC CONFIGURATION begins on line 70
+
 require('socket') -- luasocket
 local timer = timer
 timer.start = socket.gettime() -- debug
@@ -21,7 +23,7 @@ require('freedesktop.menu')
 require('awesompd/awesompd') -- awesome.naquadah.org/wiki/Awesompd_widget
 
 local req = {
-    awmXversion = '0.0.4', -- codename freakygirl
+    awmXversion = '0.0.3',
     revelation = require('revelation'), -- http://awesome.naquadah.org/wiki/Revelation
     scratch = require('scratch'),       -- http://awesome.naquadah.org/wiki/Revelation
     lognotify = require('lognotify'),	-- https://github.com/Mic92/lognotify
@@ -65,6 +67,17 @@ end
 -- {{{ Variable definitions
 home_path  = os.getenv('HOME') .. '/'
 
+-- START BASIC CONFIGURATION -- (* reload awesome when make any changes below)
+script_options = { 
+               wallpaper = true,    -- theme changes wallpaper
+               idesk = true,       -- use idesk default false
+               conky_1 = true,      -- default true
+               conky_2 = true,      -- default true
+               linux = 'archlinux', -- archlinux/debian/fedora/gentoo/
+               email = false,       -- (edit ~/.config/conky/unread_email.sh)
+            -- example = false,     -- example
+             }
+
 -- Themes define colours, icons, and wallpapers
 local theme_path = home_path  .. '.config/awesome/themes/current/theme.lua' -- DO NOT modify
 beautiful.init(theme_path)
@@ -75,16 +88,16 @@ local usr = {
 
     terminal_cmd  = 'urxvtc -e ',
 
-    editor        = 'scribes', -- nano vim gedit geany scribes etc.
+    editor        = 'nano', -- nano vim gedit geany scribes etc.
 
-    gui_editor    = 'yes', -- terminal or gui based. (true/false)
+    gui_editor    = false, -- terminal or gui based. (true/false)
     
     terminal_font = "URxvt*font: xft:terminus:pixelsize=16:antialias=false\n" ..
                  -- "!URxvt*font: xft:Envy Code R-10\n" ..
                     "URxvt*iconFile: /usr/share/icons/gnome/24x24/apps/terminal.png\n" ..
-                    "URxvt*background: #1C1C1C\n" ..
+                    "URxvt*background: #000000\n" .. -- black
                  -- "URxvt*background: #676767\n" .. -- grey
-                    "URxvt*foreground: #d3d3d3\n" ..
+                    "URxvt*foreground: #d3d3d3\n" .. -- white
                     "URxvt*transparent: false\n" .. 
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
                     "*underlineColor: #de5105\n",
@@ -93,19 +106,19 @@ local usr = {
 
     file_manager = {
         -- 'DISABLED', -- uncomment this out to hide menu entries
-        'dolphin',
+        -- 'dolphin',
         -- 'Thunar',
         'spacefm',
         -- 'pcmanfm,
     },
 
     web_browser = {
-        'DISABLED', -- uncomment this out to hide menu entries
+        -- 'DISABLED', -- uncomment this out to hide menu entries
         -- 'firefox'
-        'firefox-beta-bin',
-        'chromium',
+        -- 'firefox-beta-bin',
+        -- 'chromium',
         -- 'opera',
-        -- 'midori',
+           'midori',
     },
 
     weather_code =  'CYWG', -- 'CYWG' -- ICAO code
@@ -128,12 +141,15 @@ local usr = {
     -- If you do not like this or do not have such a key,
     -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
     -- However, you can use another modifier like Mod1, but it may interact with others.
-    modkey = 'Mod4',
+    modkey = 'Mod4', -- change to Mod1 (Alt)if using Virtualbox
 
     exec = awful.util.spawn,
 }
+-- END BASIC CONFIGURATION --
 
-if usr.gui_editor == 'yes' then
+
+
+if usr.gui_editor then
    editor_cmd = usr.editor
    -- su_editor_cmd = usr.gui_sudo .. ' ' .. usr.editor
 else
@@ -254,9 +270,10 @@ local myawesomemenu = {
    { 'Wallpaper', 'nitrogen', freedesktop.utils.lookup_icon({ icon = 'style' }) },
    { 'Themes', thememenu, freedesktop.utils.lookup_icon({ icon = 'style' }) },
    { 'Menu icon', iconmenu, freedesktop.utils.lookup_icon({ icon = 'style' }) },
-   { 'Edit config', editor_cmd .. ' ' .. awesome.conffile, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
-   { 'Edit theme', editor_cmd .. ' ' .. theme_path, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
-   { 'Debug Awesome', usr.terminal_cmd .. ' tail -f ' .. home_path .. '.cache/awesome/stderr', freedesktop.utils.lookup_icon({ icon = 'help' }) },
+   { 'Edit Current config', editor_cmd .. ' ' .. awesome.conffile, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
+   { 'Edit Current theme', editor_cmd .. ' ' .. theme_path, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
+   { 'Edit Current script', editor_cmd .. ' ' .. home_path .. '.config/awesome/themes/current/script.sh', freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
+   { 'Debug Awesome', usr.terminal_cmd .. 'tail -f ' .. home_path .. '.cache/awesome/stderr', freedesktop.utils.lookup_icon({ icon = 'help' }) },
    -- { 'Preferred Apps' , 'exo-preferred-applications', freedesktop.utils.lookup_icon({ icon = 'help' })},
    { 'Reload', awesome.restart, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'Logout', awesome.quit, freedesktop.utils.lookup_icon({ icon = 'system-log-out' })},
@@ -276,7 +293,18 @@ local servicesmenu = {
    -- { 'rtorrent Off', usr.terminal_cmd .. 'killall rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
 }
 
-table.insert(menu_items, { 'Interface', myawesomemenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
+table.insert(menu_items, { 'Awesome Options', myawesomemenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
+
+-- Add script options pdq 07-05-2012
+if script_options.idesk or script_options.conky_1 or script_options.conky_2 or script_options.email then
+myideskmenu = { 
+    { 'Kill Conky', usr.terminal_cmd .. 'killall conky', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
+    { 'Kill Idesk', usr.terminal_cmd .. 'killall idesk', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
+    { 'Start Idesk', 'idesk', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
+}
+table.insert(menu_items, { 'Desktop Options', myideskmenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
+end
+
 table.insert(menu_items, { 'Services', servicesmenu, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) })
 
 -- Add menu items for web browsers pdq 07-03-2012
@@ -1022,7 +1050,8 @@ run_once('parcellite')
 
 timer.awfulkeys = socket.gettime() -- debug
 timer.awfulkeysdiff = timer.awfulkeys-timer.wiboxes
--- {{{ Script execution time
+-- {{{ Script execution time and information
+
 local function timer_output()
     return "\n::: Session started: ".. os.date() .. " :::\r\n\n" .. 
             "Awesomewm-X: ".. req.awmXversion .."\n" ..
