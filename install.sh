@@ -1,5 +1,7 @@
 #!bin/bash
 
+$ mv ~/.config/conky ~/.config/conky.original
+$ cp -r ~/.config/conky-X ~/.config/conky
 $ mv ~/.config/awesome ~/.config/awesome.original
 $ cp -r ~/.config/awesomewm-X ~/.config/awesome
 $ mkdir ~/.config/awesome/Xdefaults/$USER

@@ -76,6 +76,7 @@ INSTALL Awesomewm-X
 -------------------
 
     $ cd ~/.config
+    $ git clone https://github.com/idk/conky-X.git
     $ git clone https://github.com/idk/awesomewm-X.git
     $ sh awesomewm-X/install.sh
 
