@@ -67,7 +67,10 @@ Add your user (add 'lp,scanner' to the options if you use a printer,scanner)
     # passwd yourusername
 
 Allow sudo useage (Uncomment wheel line)
+
     # EDITOR=nano visudo
+
+Install awesome, xorg, etc:
 
     # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions rxvt-unicode git luasocket luafilesystem awesome conky mpd mpc terminus-font spacefm midori parcellite lxtask htop
 
