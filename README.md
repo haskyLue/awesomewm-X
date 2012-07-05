@@ -57,7 +57,7 @@ Add archlinuxfr repo (for grabbing yaourt)
     Server = http://repo.archlinux.fr/$arch
 
     # pacman -Syu
-    # pacman -S yaourt fakeroot luainotify ttf-envy-code-r
+    # pacman -S yaourt fakeroot
 
 Add your user (add 'lp,scanner' to the options if you use a printer,scanner)
 
@@ -65,10 +65,12 @@ Add your user (add 'lp,scanner' to the options if you use a printer,scanner)
     # passwd yourusername
 
 Allow sudo useage (Uncomment wheel line)
-
     # EDITOR=nano visudo
 
     # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions rxvt-unicode git luasocket luafilesystem awesome conky mpd mpc terminus-font spacefm midori parcellite lxtask htop
+
+    $ yaourt -S luainotify ttf-envy-code-r
+
 
 INSTALL Awesomewm-X
 -------------------
