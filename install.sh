@@ -13,6 +13,7 @@ mkdir ~/.cache
 mkdir ~/.cache/awesome
 touch ~/.cache/awesome/stderr
 touch ~/.cache/awesome/stdout
+mkdir ~/.config/conky/arch/.cache
 
 mv ~/.xinitrc ~/.xinitrc.original
 cp ~/.config/awesomewm-X/skel/.xinitrc ~/.xinitrc
