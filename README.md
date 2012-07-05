@@ -33,7 +33,6 @@ INSTALL Awesome Window Manager
     # su -c 'yum install awesome'
 
 
-
 FULL INSTALL on base Archlinux install (virtualbox)
 -----------------------------------------------
 
@@ -78,6 +77,7 @@ INSTALL Awesomewm-X
     $ cd ~/.config
     $ git clone https://github.com/idk/awesomewm-X.git
     $ sh awesomewm-X/install.sh
+
 
 CONFIGURATION
 -------------
