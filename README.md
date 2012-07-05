@@ -74,7 +74,7 @@ Allow sudo useage (Uncomment wheel line)
 
 Install awesome, xorg, etc:
 
-    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions rxvt-unicode git luasocket luafilesystem awesome conky conky-lua mpd mpc terminus-font spacefm midori parcellite lxtask nitrogen lxappearance htop
+    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions rxvt-unicode git luasocket luafilesystem awesome conky conky-lua mpd mpc terminus-font spacefm midori parcellite lxtask nitrogen lxappearance htop gnome-icon-theme-symbolic
 
     $ yaourt -S luainotify ttf-envy-code-r
 
