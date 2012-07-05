@@ -67,7 +67,7 @@ Add your user (add 'lp,scanner' to the options if you use a printer,scanner)
 Allow sudo useage (Uncomment wheel line)
     # EDITOR=nano visudo
 
-    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions rxvt-unicode git luasocket luafilesystem awesome conky mpd mpc terminus-font spacefm midori
+    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions rxvt-unicode git luasocket luafilesystem awesome conky mpd mpc terminus-font spacefm midori parcellite lxtask htop
 
     $ yaourt -S luainotify ttf-envy-code-r
 
