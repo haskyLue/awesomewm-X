@@ -56,6 +56,8 @@ Add archlinuxfr repo (for grabbing yaourt)
     [archlinuxfr] 
     Server = http://repo.archlinux.fr/$arch
 
+Sync and install aur helper:
+
     # pacman -Syu
     # pacman -S yaourt fakeroot
 
