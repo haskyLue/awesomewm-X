@@ -61,7 +61,7 @@ Add archlinuxfr repo (for grabbing yaourt)
 Sync and install aur helper:
 
     # pacman -Syu
-    # pacman -S yaourt fakeroot
+    # pacman -S yaourt
 
 Add your user (add 'lp,scanner' to the options if you use a printer,scanner)
 
@@ -74,9 +74,9 @@ Allow sudo useage (Uncomment wheel line)
 
 Install awesome, xorg, etc:
 
-    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions rxvt-unicode git luasocket luafilesystem awesome conky conky-lua mpd mpc terminus-font spacefm midori parcellite lxtask nitrogen lxappearance htop gnome-icon-theme-symbolic
+    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions rxvt-unicode git luasocket luafilesystem awesome conky mpd mpc terminus-font spacefm midori parcellite lxtask nitrogen lxappearance htop gnome-icon-theme-symbolic artwiz-fonts
 
-    $ yaourt -S luainotify ttf-envy-code-r
+    $ yaourt -S luainotify ttf-envy-code-r conky-lua
 
 
 INSTALL Awesomewm-X
