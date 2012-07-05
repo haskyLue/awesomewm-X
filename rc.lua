@@ -70,7 +70,7 @@ home_path  = os.getenv('HOME') .. '/'
 -- START BASIC CONFIGURATION -- (* reload awesome when make any changes below)
 script_options = { 
                wallpaper = true,    -- theme changes wallpaper
-               idesk = true,       -- use idesk default false
+               idesk = false,       -- use idesk default false
                conky_1 = true,      -- default true
                conky_2 = true,      -- default true
                linux = 'archlinux', -- archlinux/debian/fedora/gentoo/
@@ -183,14 +183,14 @@ local layouts = {
 -- {{{ Tags
 local tags = {
    names  = { 
-      '1:Transporters', 
-      '2:TheConn', 
-      '3:Astrometrics', 
-      '4:Holodeck1',  
-      '5:Holodeck2', 
-      '6:Engineering', 
-      '7:TheBridge',
-      '8:WarpCore'
+      '1:Web', 
+      '2:IRC', 
+      '3:Logs', 
+      '4:Video',  
+      '5:Video2', 
+      '6:Dev', 
+      '7:---',
+      '8:---'
             },
    layout = {
       layouts[3], -- 1:firefox 10
