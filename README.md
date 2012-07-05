@@ -3,6 +3,8 @@ awesomewm-X
 
 Configuration files for Awesome Window Manager.
 
+https://www.youtube.com/watch?v=Cbl0vinkg2A&hd=1
+
 http://awesome.naquadah.org/wiki/Main_Page
 
 https://github.com/idk/awesomewm-X
