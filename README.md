@@ -60,6 +60,7 @@ Add archlinuxfr repo (for grabbing yaourt)
     # pacman -S yaourt fakeroot
 
 Add your user (add 'lp,scanner' to the options if you use a printer,scanner)
+
     # useradd -m -g users -G audio,video,wheel,storage,optical,power,games,network,log -s /bin/bash yourusername
     # passwd yourusername
 
