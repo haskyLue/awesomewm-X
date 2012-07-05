@@ -84,15 +84,22 @@ INSTALL Awesomewm-X
 CONFIGURATION
 -------------
 
-    $ nano -w ~/.config/awesome/rc.lua
-    $ nano -w ~/.config/awesome/themes/current/theme.lua
+Make sure to add 'dbus' to the DAEMONS array,
+Virtualbox installs likely should also add 'vboxguest' 'vboxsf' 'vboxvideo':
+
+    # nano -w /etc/rc.conf
     
-Or in Awesome menu Interface->Edit Config
-Or in Awesome menu Interface->Edit Theme
+    dbus vboxguest vboxsf vboxvideo
 
 
-USAGE
------
+Done....
+--------
+
+reboot, login as normal user and try running 'startx' in the console to start Awesome.
+
+
+EXPANDED USAGE
+--------------
 
 To run awesome without a login manager, simply add `exec awesome` to the startup script of your choice (e.g. `~/.xinitrc`.)
 
