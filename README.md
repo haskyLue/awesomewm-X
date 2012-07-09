@@ -1,13 +1,13 @@
-conky-X
+awesomewm-X
 ===========
 
-Configuration files for Conky.
+Configuration files for Awesome Window Manager.
 
 https://www.youtube.com/watch?v=Cbl0vinkg2A&hd=1
 
-https://github.com/idk/conky-X
+https://github.com/idk/awesomewm-X
 
-Depends on: git [luasocket][9] and [luainotify][8]
+Depends on: git, [luasocket][9] and [luainotify][8]
 
 Optional:   [mpd][1]
 
@@ -85,6 +85,7 @@ INSTALL Awesomewm-X
 
     $ cd ~/.config
     $ git clone https://github.com/idk/awesomewm-X.git
+    $ git clone https://github.com/idk/conky-X.git
     $ sh awesomewm-X/install.sh
 
 
