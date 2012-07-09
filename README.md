@@ -12,7 +12,7 @@ Depends on: git, [luasocket][9] and [luainotify][8]
 Optional:   [mpd][1]
 
 
-FULL INSTALL Awesome Window Manager
+INSTALL Awesome Window Manager
 ------------------------------
 
 `Ubuntu/Debian:`
@@ -33,7 +33,7 @@ FULL INSTALL Awesome Window Manager
     # su -c 'yum install awesome'
 
 
-INSTALL on base Archlinux install (virtualbox)
+FULL INSTALL on base Archlinux install (virtualbox)
 -----------------------------------------------
 
 `Archlinux:`
