@@ -3,13 +3,11 @@ awesomewm-X
 
 Configuration files for Awesome Window Manager.
 
-https://www.youtube.com/watch?v=Cbl0vinkg2A&hd=1
-
 http://awesome.naquadah.org/wiki/Main_Page
 
 https://github.com/idk/awesomewm-X
 
-Depends on: git [luasocket][9] and [luainotify][8]
+Depends on: git
 
 Optional:   [mpd][1]
 
@@ -35,7 +33,7 @@ INSTALL Awesome Window Manager
     # su -c 'yum install awesome'
 
 
-FULL INSTALL on base Archlinux install (virtualbox)
+INSTALL on base Archlinux install (virtualbox)
 -----------------------------------------------
 
 `Archlinux:`
@@ -58,56 +56,37 @@ Add archlinuxfr repo (for grabbing yaourt)
     [archlinuxfr] 
     Server = http://repo.archlinux.fr/$arch
 
-Sync and install aur helper:
-
     # pacman -Syu
-    # pacman -S yaourt
+    # pacman -S yaourt fakeroot
 
 Add your user (add 'lp,scanner' to the options if you use a printer,scanner)
-
     # useradd -m -g users -G audio,video,wheel,storage,optical,power,games,network,log -s /bin/bash yourusername
     # passwd yourusername
 
 Allow sudo useage (Uncomment wheel line)
-
     # EDITOR=nano visudo
 
-Install awesome, xorg, etc:
+    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions rxvt-unicode git luasocket luafilesystem awesome conky mpd mpc terminus-font spacefm midori
 
-    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions rxvt-unicode git luasocket luafilesystem awesome mpd mpc terminus-font spacefm midori parcellite lxtask nitrogen lxappearance htop gnome-icon-theme-symbolic artwiz-fonts
+    $ yaourt -S luainotify ttf-envy-code-r
 
-    $ yaourt -S luainotify ttf-envy-code-r conky-lua
-
-    # sudo pacman -Rs docbook2x perl-xml-libxml scons toluapp
-    
 INSTALL Awesomewm-X
 -------------------
 
     $ cd ~/.config
-    $ git clone https://github.com/idk/conky-X.git
     $ git clone https://github.com/idk/awesomewm-X.git
-    $ sh awesomewm-X/install.sh
+    $ sh 
 
 
 CONFIGURATION
 -------------
 
-Make sure to add 'dbus' to the DAEMONS array,
-Virtualbox installs likely should also add 'vboxguest' 'vboxsf' 'vboxvideo':
-
-    # nano -w /etc/rc.conf
-    
-    dbus vboxguest vboxsf vboxvideo
+    $ nano -w ~/.config/awesome/rc.lua
+    $ nano -w ~/.config/awesome/themes/default/theme.lua
 
 
-Done....
---------
-
-reboot, login as normal user and try running 'startx' in the console to start Awesome.
-
-
-EXPANDED USAGE
---------------
+USAGE
+-----
 
 To run awesome without a login manager, simply add `exec awesome` to the startup script of your choice (e.g. `~/.xinitrc`.)
 
@@ -151,15 +130,6 @@ TODO
 
 HISTORY
 -------
-
-* 2012-07-04: Version 0.0.4
-
-   - Added Xdefaults config in rc.lua
-   - Major enhancement: debugger and script execution timer
-   - Version enhancement: new menu functions
-   - Version enhancement: theme tweaks
-   - Version enhancement: configuration tweaks
-   - Version enhancement: optimization tweaks
 
 * 2012-07-03: Version 0.0.3
 
@@ -223,5 +193,3 @@ SHARE AND ENJOY!
 [5]: https://wiki.archlinux.org/index.php/Start_X_at_boot
 [6]: http://www.linuxdistrocommunity.com
 [7]: https://github.com/idk/awesomewm-X/issues
-[8]: http://www3.telus.net/taj_khattra/luainotify.html
-[9]: http://w3.impa.br/~diego/software/luasocket

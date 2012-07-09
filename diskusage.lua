@@ -88,11 +88,11 @@ local function display(orange, red, onlyLocal)
         local s = uformat(m["size"])
 
         if m["used_p"] >= red then 
-            lines = lines .. "<span color='#680009'>"
+            lines = lines .. "<span color='#FF0000'>"
         elseif m["used_p"] >= orange then
-            lines = lines .. "<span color='#9E5400'>"
+            lines = lines .. "<span color='#FF9D00'>"
         else
-            lines = lines .. "<span color='#155B15'>"
+            lines = lines .. "<span color='#00AA16'>"
         end
 
         lines = lines

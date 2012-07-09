@@ -1,6 +1,6 @@
 URxvt*font: xft:terminus:pixelsize=16:antialias=false
 URxvt*iconFile: /usr/share/icons/gnome/24x24/apps/terminal.png
-URxvt*background: #1C1C1C
+URxvt*background: #000000
 URxvt*foreground: #d3d3d3
 URxvt*transparent: false
 URxvt*perl-ext-common:	default,clipboard,matcher,

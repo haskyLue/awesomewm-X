@@ -1,7 +1,7 @@
 -- https://github.com/idk/awesomewm-X pdq
 -- BASIC CONFIGURATION begins on line 70
 
-require('socket') -- luasocket
+local socket = require('socket') -- luasocket
 local timer = timer
 timer.start = socket.gettime() -- debug
 
@@ -23,7 +23,7 @@ require('freedesktop.menu')
 require('awesompd/awesompd') -- awesome.naquadah.org/wiki/Awesompd_widget
 
 local req = {
-    awmXversion = '0.0.4',
+    awmXversion = '0.0.5',
     revelation = require('revelation'), -- http://awesome.naquadah.org/wiki/Revelation
     scratch = require('scratch'),       -- http://awesome.naquadah.org/wiki/Revelation
     lognotify = require('lognotify'),	-- https://github.com/Mic92/lognotify
@@ -68,19 +68,48 @@ end
 home_path  = os.getenv('HOME') .. '/'
 
 -- START BASIC CONFIGURATION -- (* reload awesome when make any changes below)
-script_options = { 
-               wallpaper = true,    -- theme changes wallpaper
-               idesk = false,       -- use idesk default false
-               conky_1 = true,      -- default true
-               conky_2 = true,      -- default true
-               linux = 'archlinux', -- archlinux/debian/fedora/gentoo/
-               email = false,       -- (edit ~/.config/conky/unread_email.sh)
-            -- example = false,     -- example
+script_options = {
+               idesk = false,          -- use idesk (default false)
+            -- global = true,         -- comment to use per theme script (default commented) or global script ~/.config/awesome/global_script.sh
+               wallpaper = true,      -- theme changes wallpaper (default true) unless global uncommented then uses ~/.config/awesome/global_wallpaper.jpg
+               conky_1 = true,        -- (default true) ~/.config/conky/.conkyrc
+               conky_2 = true,        -- (default true) ~/.config/conky/conky_grey/conkyrc_grey
+               linux = 'archlinux',   -- archlinux/debian/fedora/gentoo/
+               email = false,          -- (default false) ~/.config/conky/unread_email.sh
              }
+
+ -- DO NOT EDIT - START
+str1 = ''
+str2 = ''
+str3 = ''
+str4 = ''
+str5 = ''
+str6 = ''
+if script_options.idesk then
+    str1 = ' idesk '
+end
+if script_options.wallpaper then
+    str2 = ' wp '
+end
+if script_options.conky_1 then
+    str3 = ' conky '
+end
+if script_options.conky_2 then
+    str4 = ' eng '
+end
+if script_options.linux then
+    str5 = ' ' .. script_options.linux .. ' '
+end
+if script_options.email then
+    str6 = ' email '
+end
+
+script_run = string.format("%s%s%s%s%s%s", str1, str2, str3, str4, str5, str6);
 
 -- Themes define colours, icons, and wallpapers
 local theme_path = home_path  .. '.config/awesome/themes/current/theme.lua' -- DO NOT modify
 beautiful.init(theme_path)
+ -- DO NOT EDIT - END
 
 local usr = {
 
@@ -108,7 +137,7 @@ local usr = {
         -- 'DISABLED', -- uncomment this out to hide menu entries
         -- 'dolphin',
         -- 'Thunar',
-        'spacefm',
+          'spacefm',
         -- 'pcmanfm,
     },
 
@@ -144,6 +173,8 @@ local usr = {
     modkey = 'Mod4', -- change to Mod1 (Alt)if using Virtualbox
 
     exec = awful.util.spawn,
+    sexec  = awful.util.spawn_with_shell,
+
 }
 -- END BASIC CONFIGURATION --
 
@@ -183,21 +214,32 @@ local layouts = {
 -- {{{ Tags
 local tags = {
    names  = { 
-      '1:Web', 
-      '2:IRC', 
-      '3:Logs', 
-      '4:Video',  
-      '5:Video2', 
-      '6:Dev', 
+      -- '1:Transporters', 
+      -- '2:TheConn',
+      -- '3:Astrometrics', 
+      -- '4:Holodeck1',  
+      -- '5:Holodeck2', 
+      -- '6:Engineering', 
+      -- '7:TheBridge',
+      -- '8:WarpCore'
+
+      '1:Web',
+      '2:IRC',
+      '3:Logs',
+      '4:Video',
+      '5:Video2',
+      '6:Dev',
       '7:---',
       '8:---'
             },
+
+
    layout = {
       layouts[3], -- 1:firefox 10
       layouts[3],  -- 2:weechat
       layouts[3],  -- 3:tmux->htop/ncmpcpp/shells
       layouts[3],  -- 4:media playing
-      layouts[3],  -- 5:multitail local/remote
+      layouts[1],  -- 5:multitail local/remote
       layouts[3],  -- 6:IDE/editor/projects
       layouts[1],  -- 7:shells
       layouts[1]   -- 8:shells
@@ -297,9 +339,11 @@ table.insert(menu_items, { 'Awesome Options', myawesomemenu,  freedesktop.utils.
 
 -- Add script options pdq 07-05-2012
 if script_options.idesk or script_options.conky_1 or script_options.conky_2 or script_options.email then
+
 myideskmenu = { 
     { 'Kill Conky', usr.terminal_cmd .. 'killall conky', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
     { 'Kill Idesk', usr.terminal_cmd .. 'killall idesk', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
+    { 'Start Conky', '/bin/bash ' .. home_path .. '.config/awesome/themes/current/script.sh ' .. script_run, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
     { 'Start Idesk', 'idesk', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
 }
 table.insert(menu_items, { 'Desktop Options', myideskmenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
@@ -347,30 +391,19 @@ timer.menudiff = timer.menu-timer.usr
 -- {{{ Widgets
 -- Create a textclock widget
 local datewidget = widget({ type = 'textbox', name = 'datewidget' })
-datewidget.bg = beautiful.bg_bottom
-vicious.register(datewidget, vicious.widgets.date, '<span color="' .. beautiful.fg_bottom .. '">%b %d, %R</span>')
+vicious.register(datewidget, vicious.widgets.date, '%b %d, %R')
 
 -- Calendar tooltip
 req.cal.register(datewidget, req.markup.fg(beautiful.fg_focus, '<b>%s</b>'))
 
 -- Create a systray
 local mysystray = widget({ type = 'systray' })
-mysystray.bg = beautiful.bg_bottom
-
--- Separator Widgets
-local separator = widget({ type = 'textbox' })
-separator.text  = ' '
-
-local separator_bottom = widget({ type = 'textbox' })
-separator_bottom.bg = beautiful.bg_bottom
-separator_bottom.text  = ' '
 
 -- Disk useage widget
 -- http://jasonmaur.com/awesome-wm-widgets-configuration/#disk-usage
 local diskwidget = widget({ type = 'textbox' })
-diskwidget.width = 100
-diskwidget.bg = beautiful.bg_bottom
-diskwidget.text = '<span color="' .. beautiful.fg_bottom ..'">Diskusage</span>'
+diskwidget.text = 'Diskusage'
+awful.widget.layout.margins[diskwidget] = { right = 20 }
 
 -- the first argument is the widget to trigger the diskusage
 -- the second/third is the percentage at which a line gets orange/red
@@ -379,8 +412,8 @@ req.disk.addToWidget(diskwidget, 75, 90, true)
 
 -- Weather widget
 local forecast = widget({ type = 'textbox', name = 'weather' })
-forecast.bg = beautiful.bg_bottom
-forecast.width = 50
+awful.widget.layout.margins[forecast] = { right = 20 }
+
 local weather_t = awful.tooltip({ objects = { forecast },})
 vicious.register(forecast, vicious.widgets.weather, function (widget, args) 
                                                       weather_t:set_text("City: " .. 
@@ -393,12 +426,12 @@ vicious.register(forecast, vicious.widgets.weather, function (widget, args)
                                                       args["{sky}"] .. "\nHumidity: " .. 
                                                       args["{humid}"] .. "%\n" .. "Pressure: " .. 
                                                       args["{press}"] .. " hPa") 
-                                                   return '<span color="' .. beautiful.fg_bottom ..'">' .. args["{tempc}"] .. ' °C</span>' end, 1800, usr.weather_code)
+                                                   return args["{tempc}"] .. ' °C' end, 1800, usr.weather_code)
 
 -- {{{ awesome.naquadah.org/wiki/Awesompd_widget
 local musicwidget = awesompd:create() -- Create awesompd widget
-musicwidget.widget.bg = beautiful.bg_bottom
-musicwidget.fg = beautiful.fg_bottom
+musicwidget.widget.bg = beautiful.bg_normal
+musicwidget.fg = beautiful.fg_normal
 musicwidget.font = beautiful.font -- Set widget font 
 musicwidget.scrolling = true -- If true, the text in the widget will be scrolled
 musicwidget.output_size = 30 -- Set the size of widget in symbols
@@ -481,44 +514,38 @@ end
 
 -- load avg / cpu widget
 local cpuwidget = widget({ type = 'textbox', name = 'cpuwidget' })
-cpuwidget.width = 70
-cpuwidget.bg = beautiful.bg_bottom
-vicious.register(cpuwidget, vicious.widgets.cpu, '<span color="' .. beautiful.fg_bottom .. '">Cores: $1%</span>')
+cpuwidget.width = 75
+vicious.register(cpuwidget, vicious.widgets.cpu, 'Cores: $1%')
 
 -- cpu widget
 local cpugraphwidget = awful.widget.graph()
-cpugraphwidget:set_width(40)
+cpugraphwidget:set_width(20)
 cpugraphwidget:set_background_color(beautiful.bg_graphs)
-cpugraphwidget:set_color(beautiful.fg_normal)
-cpugraphwidget:set_gradient_colors({ 'blue', '#008BFF', '#00E0FF' })
+cpugraphwidget:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget})
 vicious.register(cpugraphwidget, vicious.widgets.cpu, "$1")
 
 local cpugraphwidget1 = awful.widget.graph()
-cpugraphwidget1:set_width(40)
+cpugraphwidget1:set_width(20)
 cpugraphwidget1:set_background_color(beautiful.bg_graphs)
-cpugraphwidget1:set_color(beautiful.fg_normal)
-cpugraphwidget1:set_gradient_colors({ 'pink', '#FF0078', '#FFB3F6' })
+cpugraphwidget1:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget})
 vicious.register(cpugraphwidget1, vicious.widgets.cpu, "$2")
 
 local cpugraphwidget2 = awful.widget.graph()
-cpugraphwidget2:set_width(40)
+cpugraphwidget2:set_width(20)
 cpugraphwidget2:set_background_color(beautiful.bg_graphs)
-cpugraphwidget2:set_color(beautiful.fg_normal)
-cpugraphwidget2:set_gradient_colors({ 'orange', '#FFA941', '#FFCC8E' })
+cpugraphwidget2:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget})
 vicious.register(cpugraphwidget2, vicious.widgets.cpu, "$3")
 
 local cpugraphwidget3 = awful.widget.graph()
-cpugraphwidget3:set_width(40)
+cpugraphwidget3:set_width(20)
 cpugraphwidget3:set_background_color(beautiful.bg_graphs)
-cpugraphwidget3:set_color(beautiful.fg_normal)
-cpugraphwidget3:set_gradient_colors({ 'red', '#960013', '#D0001B' })
+cpugraphwidget3:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget})
 vicious.register(cpugraphwidget3, vicious.widgets.cpu, "$4")
 
 -- net widget
 local netwidget = widget({ type = 'textbox', name = 'netwidget', align = 'left' })
-netwidget.bg = beautiful.bg_bottom
 netwidget.width = 400
-vicious.register(netwidget, vicious.widgets.net, '<span color="' .. beautiful.fg_bottom .. '">Traffic: ↓ ${eth0 down_mb}mb/s ↑ ${eth0 up_kb}kb/s  Total: ↓ ${eth0 rx_gb}GiB ↑ ${eth0 tx_gb}GiB</span>', 5)
+vicious.register(netwidget, vicious.widgets.net, 'Traffic: ↓ ${eth0 down_mb}mb/s ↑ ${eth0 up_kb}kb/s  Total: ↓ ${eth0 rx_gb}GiB ↑ ${eth0 tx_gb}GiB', 5)
 
 -- vicious.widgets.uptime
   -- provides system uptime and load information
@@ -526,20 +553,21 @@ vicious.register(netwidget, vicious.widgets.net, '<span color="' .. beautiful.fg
   --  as uptime in minutes, 4th as load average for past 1 minute, 5th
   --  for 5 minutes and 6th for 15 minutes
 local uptimewidget = widget({ type = "textbox" })
-uptimewidget.bg = beautiful.bg_bottom
-vicious.register(uptimewidget, vicious.widgets.uptime, '<span color="' .. beautiful.fg_bottom .. '">Uptime: $1d $2:$3, $4, $5, $6</span>', 60)
+vicious.register(uptimewidget, vicious.widgets.uptime, 'Uptime: $1d $2:$3, $4, $5, $6', 60)
+awful.widget.layout.margins[uptimewidget] = { left = 10, right = 20 }
 
 -- memory widget
 local memwidget = widget({ type = 'textbox', name = 'memwidget' })
-memwidget.bg = beautiful.bg_bottom
-vicious.register(memwidget, vicious.widgets.mem, '<span color="' .. beautiful.fg_bottom .. '">Memory: $1% $2MB/$3MB</span> ')
+vicious.register(memwidget, vicious.widgets.mem, 'Memory: $1% $2MB/$3MB')
+awful.widget.layout.margins[memwidget] = { left = 20, right = 10 }
 
-local memgraphwidget = awful.widget.graph()
-memgraphwidget:set_width(60)
+local memgraphwidget = awful.widget.progressbar()
+memgraphwidget:set_vertical(true):set_ticks(true)
+memgraphwidget:set_width(20):set_ticks_size(2)
 memgraphwidget:set_background_color(beautiful.bg_graphs)
-memgraphwidget:set_color(beautiful.fg_normal)
-memgraphwidget:set_gradient_colors({ '#218821', '#218821', '#218821' }) 
+memgraphwidget:set_gradient_colors({ beautiful.fg_widget, beautiful.fg_center_widget, beautiful.fg_end_widget})
 vicious.register(memgraphwidget, vicious.widgets.mem, '$1', 5)
+awful.widget.layout.margins[memgraphwidget] = { left = 0, right = 20 }
 
 -- Simple function to move the mouse to the coordinates set above.
 local function moveMouse(x_co, y_co)
@@ -653,50 +681,33 @@ for s = 1, screen.count() do
          layout = awful.widget.layout.horizontal.leftright
       },
       mylayoutbox[s],
-     separator,
       s == 1 and mysystray or nil,
       launchbar,
-       separator,
+      musicwidget.widget,
       mytasklist[s],
       layout = awful.widget.layout.horizontal.rightleft
    }
 
-   my_bottom_wibox[s] = awful.wibox({ position= 'bottom',screen = s, height = '18', border ='0' })
+   my_bottom_wibox[s] = awful.wibox({ bg = beautiful.bg_bottom, fg = beautiful.fg_bottom, position= 'bottom',screen = s, height = '18', border ='0' })
    -- awful.screen.padding(screen[s],{top = 24})
    -- my_bottom_wibox[s].x=0
    -- my_bottom_wibox[s].y=20
    my_bottom_wibox[s].widgets = {
       {
-       separator_bottom,
          uptimewidget,
-         separator_bottom,
-         separator_bottom,
          cpuwidget,
          cpugraphwidget,
          cpugraphwidget1,
          cpugraphwidget2,
          cpugraphwidget3,
-         separator_bottom,
-         separator_bottom,
          memwidget,
          memgraphwidget,
-         separator_bottom,
-         separator_bottom,
          netwidget,
-         diskwidget,
-         separator_bottom,
-         musicwidget.widget,
-         separator_bottom,
-         separator_bottom,
          layout = awful.widget.layout.horizontal.leftright
      },
-         separator_bottom,
          datewidget,
-         separator_bottom,
-         separator_bottom,
          forecast,
-         separator_bottom,
-         separator_bottom,
+         diskwidget,
          layout = awful.widget.layout.horizontal.rightleft
    }
 end
@@ -920,39 +931,25 @@ awful.rules.rules = {
      properties = { tag = tags[1][1] } },
    { rule = { class = 'Chromium' },         -- browser tag
      properties = { tag = tags[1][1] } },
-   { rule = { class = 'Gnome-connection-manager' },
-     properties = { opacity = 0.8 } },
    { rule = {name = 'Xchat'},                -- messages tag
-     properties = {tag = tags[1][2]} },     
-   { rule = {name = 'irssi'},               -- messages tag
-     properties = {tag = tags[1][2]} },
-   { rule = {name = 'ncmpc++ ver. 0.5.8'},  -- messages tag
-     properties = {tag = tags[1][3]} },
-   { rule = {name = 'Spacefm'},             -- messages tag
-     properties = { opacity = 0.8 } },
--- { rule = {class = 'Totem'},              -- nowplaying tag
---   properties = {tag = tags[1][4]} },
-   { rule = {class = 'Mplayer'},           -- nowplaying tag
      properties = {tag = tags[1][7]} },
--- { rule = {class = 'Umplayer'},           -- nowplaying tag
---   properties = {tag = tags[1][7]} },
+   { rule = {class = 'Umplayer'},           -- nowplaying tag
+     properties = {floating = true} },
    { rule = { class = 'Transmission' },     -- torrents tag
      properties = {tag = tags[1][5] } },
 --   callback = function(c) c:tags({tags[1][5], tags[1][4]}) end}, -- multitag
    { rule = {class = 'Geany'},              -- develop tag
      properties = {tag = tags[1][6]} },
+   { rule = {class = 'Sublime'},              -- develop tag
+     properties = {tag = tags[1][6]} },
 -- { rule = { class = 'gimp' },             -- floating windows
 --   properties = { floating = true } },   
-   { rule = {class = 'Openshot'},           -- editvideo tag
-     properties = {tag = tags[1][7]} },
    { rule = {class = 'Kdenlive'},           -- editvideo tag
      properties = {tag = tags[1][7]} },
    { rule = {class = 'Nitrogen'},           -- appearance tag
      properties = {tag = tags[1][8]} },
    { rule = {class = 'Lxappearance'},       -- appearance tag
      properties = {tag = tags[1][8] } },
- --  { rule = {class = 'Glista'},             -- appearance tag
- --    properties = {tag = tags[1][8] } },
    { rule = {class = 'Shutter'},            -- desktop tag
      properties = {floating = true } },
  --  { rule = { class = 'Nitrogen' }, 
@@ -1055,6 +1052,7 @@ timer.awfulkeysdiff = timer.awfulkeys-timer.wiboxes
 local function timer_output()
     return "\n::: Session started: ".. os.date() .. " :::\r\n\n" .. 
             "Awesomewm-X: ".. req.awmXversion .."\n" ..
+            "Script: " .. beautiful.wpscript .. "\n" ..
             "Theme: ".. beautiful.theme_name .."\n" .. 
             "User: " .. os.getenv('USER') .."@" .. awful.util.pread('hostname'):match("[^\n]*") .. "\n" ..
             "Libraries: Loaded in " .. round(timer.libsdiff, 4) .. "\n" ..

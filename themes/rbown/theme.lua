@@ -21,52 +21,14 @@ if not awful.util.file_readable(themes .. themename .. '/theme.lua') then
 end
 themedir      = themes .. themename
 
-wallpaper1    = themedir .. '/background.jpg'
-wallpaper2    = themedir .. '/background.png'
-wallpaper3    = sharedthemes .. '/zenburn/zenburn-background.png'
-wallpaper4    = sharedthemes .. '/default/background.png'
-wpscript      = home_path .. '.wallpaper'
-wpscript2     = themedir .. '/script.sh'
-
-str1 = ''
-str2 = ''
-str3 = ''
-str4 = ''
-str5 = ''
-str6 = ''
-if script_options.idesk then
-    str1 = ' idesk '
-end
-if script_options.wallpaper then
-    str2 = ' wp '
-end
-if script_options.conky_1 then
-    str3 = ' conky '
-end
-if script_options.conky_2 then
-    str4 = ' eng '
-end
-if script_options.linux then
-    str5 = ' ' .. script_options.linux .. ' '
-end
-if script_options.email then
-    str6 = ' email '
-end
-
-script_run = string.format("%s%s%s%s%s%s", str1, str2, str3, str4, str5, str6);
-
-if awful.util.file_readable(wpscript2) then
-    theme.wallpaper_cmd = { 'sh ' .. wpscript2 .. ' ' .. script_run }
-elseif awful.util.file_readable(wallpaper1) then
-	theme.wallpaper_cmd = { 'awsetbg ' .. wallpaper1 }
-elseif awful.util.file_readable(wallpaper2) then
-	theme.wallpaper_cmd = { 'awsetbg ' .. wallpaper2 }
-elseif awful.util.file_readable(wpscript) then
-	theme.wallpaper_cmd = { 'sh ' .. wpscript }
-elseif awful.util.file_readable(wallpaper3) then
-	theme.wallpaper_cmd = { 'awsetbg ' .. wallpaper3 }
+if script_options.global == nil then
+    theme.wpscript     = themedir .. '/script.sh'
 else
-	theme.wallpaper_cmd = { 'awsetbg ' .. wallpaper4 }
+    theme.wpscript     = config .. '/globalscript.sh'
+end
+
+if awful.util.file_readable(theme.wpscript) then
+    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
 end
 
 if awful.util.file_readable(config .. '/vain/init.lua') then
@@ -80,34 +42,34 @@ theme.font      = 'sans 8'
 
 -- {{{ Colors
 theme.fg_normal = '#ffffff'
---theme.fg_focus  = '#ddda9b'
 theme.fg_focus  = '#FEF9E0'
 theme.fg_urgent = '#929392'
---theme.bg_normal = '#434e2c88'
---theme.bg_normal = '#62635eaa'
---theme.bg_normal = '#deded3aa'
 theme.bg_normal = '#585151aa'
---theme.bg_focus  = '#5E5F5A88'
---theme.bg_focus  = '#31342F88'
---theme.bg_focus  = '#B08F7C88'
---theme.bg_focus  = '#B08F7C88'
+
 theme.bg_focus  = '#39343488'
 theme.bg_urgent = '#34353488'
+
+-- {{{ Widgets
+theme.fg_widget        = "#AECF96"
+theme.fg_center_widget = "#88A175"
+theme.fg_end_widget    = "#FF5656"
+theme.fg_off_widget    = "#494B4F"
+theme.fg_netup_widget  = "#7F9F7F"
+theme.fg_netdn_widget  = theme.fg_urgent
+theme.bg_widget        = theme.bg_normal
+theme.border_widget    = theme.bg_normal
 -- }}}
+
 theme.bg_bottom     = '#585151aa' -- bottom panel color
 theme.fg_bottom     = '#ffffff' -- bottom panel text color
 theme.bg_graphs     = '#393434' -- graphs background color
 
 -- {{{ Borders
 theme.border_width  = '1'
---theme.border_width  = '2'
---theme.border_normal = '#34353488'
---theme.border_normal = '#2d4113'
---theme.border_normal = '#586c2d'
+
 theme.border_normal = '#727352'
 theme.border_focus  = '#586c2d'
---theme.border_focus  = '#a2bf36'
---theme.border_focus  = '#6886c1'
+
 theme.border_marked = '#CC9393'
 -- }}}
 

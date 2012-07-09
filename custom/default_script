@@ -1,6 +1,6 @@
 #!/bin/bash
 
-THEMEDIR=$HOME"/.config/awesome/themes/fence"
+THEMEDIR=$HOME"/.config/awesome/themes/default_script"
 
 killall conky
 killall idesk

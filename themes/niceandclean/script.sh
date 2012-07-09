@@ -4,41 +4,40 @@ THEMEDIR=$HOME"/.config/awesome/themes/niceandclean"
 
 killall conky
 killall idesk
+sleep 1
 if grep -q "wp" <<<$@; then
     awsetbg "$THEMEDIR"/background.jpg
+    sleep 1
 fi
 if grep -q "conky" <<<$@; then
-    conky -c "$THEMEDIR"/conky/nice-and-clean/conkyhr &
-    conky -c "$THEMEDIR"/conky/nice-and-clean/conkymin &
-    conky -c "$THEMEDIR"/conky/nice-and-clean/conkydate &
-    conky -c "$THEMEDIR"/conky/nice-and-clean/conkystats &
+    conky -d -c "$HOME"/.config/conky/.conkyrc &
+    sleep 1
+fi
+if grep -q "eng" <<<$@; then
+    conky -d -c "$HOME"/.config/conky/conky_grey/conkyrc_grey &
+    sleep 1
+fi
+if grep -q "email" <<<$@; then
+    conky -d -c "$HOME"/.config/conky/email/messages.ck &
+    sleep 1
+fi
+if grep -q "archlinux" <<<$@; then
+    conky -d -c "$HOME"/.config/conky/distro/archlinux/distro.ck &
+    sleep 1
+fi
+if grep -q "gentoo" <<<$@; then
+    conky -d -c "$HOME"/.config/conky/distro/gentoo/distro.ck &
+    sleep 1
+fi
+if grep -q "debian" <<<$@; then
+    conky -d -c "$HOME"/.config/conky/distro/debian/distro.ck &
+    sleep 1
+fi
+if grep -q "fedora" <<<$@; then
+    conky -d -c "$HOME"/.config/conky/distro/fedora/distro.ck &
+    sleep 1
 fi
 if grep -q "idesk" <<<$@; then
     idesk &
 fi
-#if grep -q "wp" <<<$@; then
-    #awsetbg "$THEMEDIR"/background-large.jpg
-#fi
-#if grep -q "conky" <<<$@; then
-    #conky -c "$THEMEDIR"/conky/nice-and-clean-large/conkyhr &
-    #conky -c "$THEMEDIR"/conky/nice-and-clean-large/conkymin &
-    #conky -c "$THEMEDIR"/conky/nice-and-clean-large/conkydate &
-    #conky -c "$THEMEDIR"/conky/nice-and-clean-large/conkystats &
-#if grep -q "wp" <<<$@; then
-    #awsetbg "$THEMEDIR"/background.jpg
-#fi
-#if grep -q "conky" <<<$@; then
-    #conky -c "$THEMEDIR"/conky/nice-and-clean/conkyhr &
-    #conky -c "$THEMEDIR"/conky/nice-and-clean/conkymin &
-    #conky -c "$THEMEDIR"/conky/nice-and-clean/conkydate &
-    #conky -c "$THEMEDIR"/conky/nice-and-clean/conkystats &
-#fi
-
-#fi
-#if grep -q "conky" <<<$@; then
-    #conky -c "$THEMEDIR"/conky/nice-and-clean-1920/conkyhr &
-    #conky -c "$THEMEDIR"/conky/nice-and-clean-1920/conkymin &
-    #conky -c "$THEMEDIR"/conky/nice-and-clean-1920/conkydate &
-    #conky -c "$THEMEDIR"/conky/nice-and-clean-1920/conkystats &
-#fi
 exit 0

@@ -25,5 +25,6 @@ Done.... try running 'startx' in the console to start Awesome.
 Make sure to add 'dbus' to the DAEMONS array,
 Virtualbox installs likely should also add 'vboxguest' 'vboxsf' 'vboxvideo':
 # nano -w /etc/rc.conf
+
 -- add dbus vboxguest vboxsf vboxvideo to DAEMONS array"
 sleep 60s

@@ -21,52 +21,14 @@ if not awful.util.file_readable(themes .. themename .. '/theme.lua') then
 end
 themedir      = themes .. themename
 
-wallpaper1    = themedir .. '/background.jpg'
-wallpaper2    = themedir .. '/background.png'
-wallpaper3    = sharedthemes .. '/zenburn/zenburn-background.png'
-wallpaper4    = sharedthemes .. '/default/background.png'
-wpscript      = home_path .. '.wallpaper'
-wpscript2     = themedir .. '/script.sh'
-
-str1 = ''
-str2 = ''
-str3 = ''
-str4 = ''
-str5 = ''
-str6 = ''
-if script_options.idesk then
-    str1 = ' idesk '
-end
-if script_options.wallpaper then
-    str2 = ' wp '
-end
-if script_options.conky_1 then
-    str3 = ' conky '
-end
-if script_options.conky_2 then
-    str4 = ' eng '
-end
-if script_options.linux then
-    str5 = ' ' .. script_options.linux .. ' '
-end
-if script_options.email then
-    str6 = ' email '
-end
-
-script_run = string.format("%s%s%s%s%s%s", str1, str2, str3, str4, str5, str6);
-
-if awful.util.file_readable(wpscript2) then
-    theme.wallpaper_cmd = { 'sh ' .. wpscript2 .. ' ' .. script_run }
-elseif awful.util.file_readable(wallpaper1) then
-	theme.wallpaper_cmd = { 'awsetbg ' .. wallpaper1 }
-elseif awful.util.file_readable(wallpaper2) then
-	theme.wallpaper_cmd = { 'awsetbg ' .. wallpaper2 }
-elseif awful.util.file_readable(wpscript) then
-	theme.wallpaper_cmd = { 'sh ' .. wpscript }
-elseif awful.util.file_readable(wallpaper3) then
-	theme.wallpaper_cmd = { 'awsetbg ' .. wallpaper3 }
+if script_options.global == nil then
+    theme.wpscript     = themedir .. '/script.sh'
 else
-	theme.wallpaper_cmd = { 'awsetbg ' .. wallpaper4 }
+    theme.wpscript     = config .. '/globalscript.sh'
+end
+
+if awful.util.file_readable(theme.wpscript) then
+    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
 end
 
 if awful.util.file_readable(config .. '/vain/init.lua') then
@@ -89,22 +51,23 @@ theme.fg_minimize   = '#ffffff'
 
 theme.bg_bottom     = '#22222200' -- bottom panel color
 theme.fg_bottom     = '#aaaaaa' -- bottom panel text color
-theme.bg_graphs     = '#5A5A5A' -- graphs background color
+theme.bg_graphs     = '#0f0f0f' -- graphs background color
 
-theme.bg_bottom     = '#22222200' -- bottom panel color
-theme.fg_bottom     = '#aaaaaa' -- bottom panel text color
-theme.bg_graphs     = '#222222' -- graphs background color
+-- {{{ Widgets
+theme.fg_widget        = "#AECF96"
+theme.fg_center_widget = "#88A175"
+theme.fg_end_widget    = "#FF5656"
+theme.fg_off_widget    = "#494B4F"
+theme.fg_netup_widget  = "#7F9F7F"
+theme.fg_netdn_widget  = theme.fg_urgent
+theme.bg_widget        = theme.bg_normal
+theme.border_widget    = theme.bg_normal
+-- }}}
 
 theme.border_width  = '1'
 theme.border_normal = '#222222'
 theme.border_focus  = '#908884'
 theme.border_marked = '#91231c'
-
-theme.bg_widget        = '#333333'
-theme.fg_widget        = '#908884'
-theme.fg_center_widget = '#636363'
-theme.fg_end_widget    = '#ffffff'
-theme.fg_off_widget    = '#22211f'
 
 theme.taglist_squares_sel = themedir .. '/taglist14/squaref.png'
 theme.taglist_squares_unsel = themedir .. '/taglist14/square.png'
