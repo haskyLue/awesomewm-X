@@ -69,16 +69,15 @@ home_path  = os.getenv('HOME') .. '/'
 
 -- START BASIC CONFIGURATION -- (* reload awesome when make any changes below)
 script_options = {
-               idesk = false,          -- use idesk (default false)
+               idesk = true,          -- use idesk (default false)
             -- global = true,         -- comment to use per theme script (default commented) or global script ~/.config/awesome/global_script.sh
                wallpaper = true,      -- theme changes wallpaper (default true) unless global uncommented then uses ~/.config/awesome/global_wallpaper.jpg
                conky_1 = true,        -- (default true) ~/.config/conky/.conkyrc
                conky_2 = true,        -- (default true) ~/.config/conky/conky_grey/conkyrc_grey
                linux = 'archlinux',   -- archlinux/debian/fedora/gentoo/
-               email = false,          -- (default false) ~/.config/conky/unread_email.sh
+               email = true,          -- (default false) ~/.config/conky/unread_email.sh
              }
 
- -- DO NOT EDIT - START
 str1 = ''
 str2 = ''
 str3 = ''
@@ -109,7 +108,6 @@ script_run = string.format("%s%s%s%s%s%s", str1, str2, str3, str4, str5, str6);
 -- Themes define colours, icons, and wallpapers
 local theme_path = home_path  .. '.config/awesome/themes/current/theme.lua' -- DO NOT modify
 beautiful.init(theme_path)
- -- DO NOT EDIT - END
 
 local usr = {
 
@@ -135,7 +133,7 @@ local usr = {
 
     file_manager = {
         -- 'DISABLED', -- uncomment this out to hide menu entries
-        -- 'dolphin',
+           'dolphin',
         -- 'Thunar',
           'spacefm',
         -- 'pcmanfm,
