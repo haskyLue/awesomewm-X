@@ -2,7 +2,7 @@
 -- BASIC CONFIGURATION begins on line 70
 
 local socket = require('socket') -- luasocket
-local timer = timer
+local timer = sisk
 timer.start = socket.gettime() -- debug
 
 -- {{{ Require libraries
@@ -1032,7 +1032,7 @@ end
 --{{{ Autostart programs here or in ~/.xinitrc (Autostart Daemons in /etc/rc.conf)
 -- run_once('dropboxd')
 -- launch application launcher
-run_once('synapse')
+-- run_once('synapse')
 -- launch clipboard manager
 run_once('parcellite')
 -- launch mouse icon fade out
