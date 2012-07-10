@@ -2,7 +2,7 @@
 -- BASIC CONFIGURATION begins on line 70
 
 local socket = require('socket') -- luasocket
-local timer = sisk
+local timer = timer
 timer.start = socket.gettime() -- debug
 
 -- {{{ Require libraries
