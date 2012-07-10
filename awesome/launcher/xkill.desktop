@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=xkill
+Exec=xkill
+Icon=/usr/share/icons/gnome/32x32/actions/stock_close.png
+Position=1

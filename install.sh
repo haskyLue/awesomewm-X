@@ -27,4 +27,4 @@ Virtualbox installs likely should also add 'vboxguest' 'vboxsf' 'vboxvideo':
 # nano -w /etc/rc.conf
 
 -- add dbus vboxguest vboxsf vboxvideo to DAEMONS array"
-sleep 60s
+exit

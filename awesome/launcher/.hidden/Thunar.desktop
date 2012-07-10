@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Thunar File Manager
+Exec=Thunar
+Icon=/usr/share/icons/hicolor/24x24/apps/Thunar.png
+Position=3
