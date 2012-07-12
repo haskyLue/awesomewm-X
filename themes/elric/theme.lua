@@ -87,7 +87,7 @@ theme.tasklist_floating_icon = themedir .. '/tasklist/floatingw.png'
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
 theme.menu_submenu_icon = themedir .. '/submenu.png'
-theme.menu_height = '15'
+theme.menu_height = '25'
 theme.menu_width  = '100'
 
 -- You can add as many variables as

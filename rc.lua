@@ -1,10 +1,11 @@
--- https://github.com/idk/awesomewm-X pdq
+-- https://github.com/idk/awesomewm-X  https://github.com/idk/pdq
 -- BASIC CONFIGURATION begins on line 70
-
-local socket = require('socket') -- luasocket
-local timer = timer
-timer.start = socket.gettime() -- debug
-
+local debug = false -- true/false (default false)
+if debug then
+    local socket = require('socket') -- luasocket
+    local timer = timer
+    timer.start = socket.gettime() -- debug
+end
 -- {{{ Require libraries
 -- Standard awesome library
 require('awful')
@@ -36,10 +37,10 @@ local req = {
     markup = utils.markup,
 }
 -- }}}
-
-timer.libs = socket.gettime() -- debug
-timer.libsdiff = timer.libs-timer.start
-
+if debug then
+    timer.libs = socket.gettime() -- debug
+    timer.libsdiff = timer.libs-timer.start
+end
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -64,7 +65,6 @@ do
 end
 -- }}}
 
--- {{{ Variable definitions
 home_path  = os.getenv('HOME') .. '/'
 
 -- START BASIC CONFIGURATION -- (* reload awesome when make any changes below)
@@ -78,6 +78,7 @@ script_options = {
                email = false,          -- (default false) ~/.config/conky/unread_email.sh
              }
 
+-- DO NOT EDIT THIS SECTION START --
 str1 = ''
 str2 = ''
 str3 = ''
@@ -108,6 +109,7 @@ script_run = string.format("%s%s%s%s%s%s", str1, str2, str3, str4, str5, str6);
 -- Themes define colours, icons, and wallpapers
 local theme_path = home_path  .. '.config/awesome/themes/current/theme.lua' -- DO NOT modify
 beautiful.init(theme_path)
+-- DO NOT EDIT THIS SECTION END --
 
 local usr = {
 
@@ -115,9 +117,9 @@ local usr = {
 
     terminal_cmd  = 'urxvtc -e ',
 
-    editor        = 'nano', -- nano vim gedit geany scribes etc.
+    editor        = 'subl', -- nano vim gedit geany scribes etc.
 
-    gui_editor    = false, -- terminal or gui based. (true/false)
+    gui_editor    = true, -- terminal or gui based. (true/false)
     
     terminal_font = "URxvt*font: xft:terminus:pixelsize=16:antialias=false\n" ..
                  -- "!URxvt*font: xft:Envy Code R-10\n" ..
@@ -135,17 +137,17 @@ local usr = {
         -- 'DISABLED', -- uncomment this out to hide menu entries
            'dolphin',
         -- 'Thunar',
-          'spacefm',
+           'spacefm',
         -- 'pcmanfm,
     },
 
     web_browser = {
-        -- 'DISABLED', -- uncomment this out to hide menu entries
+           'DISABLED', -- uncomment this out to hide menu entries
         -- 'firefox'
         -- 'firefox-beta-bin',
         -- 'chromium',
         -- 'opera',
-           'midori',
+        --   'midori',
     },
 
     weather_code =  'CYWG', -- 'CYWG' -- ICAO code
@@ -233,12 +235,12 @@ local tags = {
 
 
    layout = {
-      layouts[3], -- 1:firefox 10
+      layouts[3],  -- 1:firefox 10
       layouts[3],  -- 2:weechat
-      layouts[3],  -- 3:tmux->htop/ncmpcpp/shells
+      layouts[3],  -- 3:logs/bots/shells
       layouts[3],  -- 4:media playing
-      layouts[1],  -- 5:multitail local/remote
-      layouts[3],  -- 6:IDE/editor/projects
+      layouts[1],  -- 5:media editing
+      layouts[3],  -- 6:projects
       layouts[1],  -- 7:shells
       layouts[1]   -- 8:shells
             }
@@ -249,10 +251,10 @@ for s = 1, screen.count() do
    tags[s] = awful.tag(tags.names, s, tags.layout)
 end
 -- }}}
-
-timer.usr = socket.gettime() -- debug
-timer.usrdiff = timer.usr-timer.libs
-
+if debug then
+    timer.usr = socket.gettime() -- debug
+    timer.usrdiff = timer.usr-timer.libs
+end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 freedesktop.utils.icon_theme = beautiful.menu_icons
@@ -332,19 +334,17 @@ local servicesmenu = {
    -- { 'rtorrent On', usr.terminal_cmd .. 'tmux new-window rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    -- { 'rtorrent Off', usr.terminal_cmd .. 'killall rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
 }
-
 table.insert(menu_items, { 'Awesome Options', myawesomemenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
 
 -- Add script options pdq 07-05-2012
 if script_options.idesk or script_options.conky_1 or script_options.conky_2 or script_options.email then
-
-myideskmenu = { 
-    { 'Kill Conky', usr.terminal_cmd .. 'killall conky', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
-    { 'Kill Idesk', usr.terminal_cmd .. 'killall idesk', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
-    { 'Start Conky', '/bin/bash ' .. home_path .. '.config/awesome/themes/current/script.sh ' .. script_run, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
-    { 'Start Idesk', 'idesk', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
-}
-table.insert(menu_items, { 'Desktop Options', myideskmenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
+    myideskmenu = { 
+        { 'Kill Conky', usr.terminal_cmd .. 'killall conky', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
+        { 'Kill Idesk', usr.terminal_cmd .. 'killall idesk', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
+        { 'Start Conky', '/bin/bash ' .. home_path .. '.config/awesome/themes/current/script.sh ' .. script_run, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+        { 'Start Idesk', 'idesk', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
+    }
+    table.insert(menu_items, { 'Desktop Options', myideskmenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
 end
 
 table.insert(menu_items, { 'Services', servicesmenu, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) })
@@ -382,10 +382,10 @@ usr_menu_item(usr.file_manager, 'file-manager')
 local mymainmenu = awful.menu.new({ items = menu_items, width = 150 })
 local mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon), menu = mymainmenu })
 -- }}}
-
-timer.menu = socket.gettime() -- debug
-timer.menudiff = timer.menu-timer.usr
-
+if debug then
+    timer.menu = socket.gettime() -- debug
+    timer.menudiff = timer.menu-timer.usr
+end
 -- {{{ Widgets
 -- Create a textclock widget
 local datewidget = widget({ type = 'textbox', name = 'datewidget' })
@@ -591,10 +591,10 @@ ilog = req.lognotify {
 }
 ilog:start()
 -- }}}
-
-timer.widgets = socket.gettime() -- debug
-timer.widgetsdiff = timer.widgets-timer.menu
-
+if debug then
+    timer.widgets = socket.gettime() -- debug
+    timer.widgetsdiff = timer.widgets-timer.menu
+end
 -- Create a wibox for each screen and add it (i only use 1 screen)
 local my_top_wibox = {}
 local my_bottom_wibox ={}
@@ -710,10 +710,10 @@ for s = 1, screen.count() do
    }
 end
 -- }}}
-
-timer.wiboxes = socket.gettime() -- debug
-timer.wiboxesdiff = timer.wiboxes-timer.widgets
-
+if debug then
+    timer.wiboxes = socket.gettime() -- debug
+    timer.wiboxesdiff = timer.wiboxes-timer.widgets
+end
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
    awful.button({ }, 3, function () mymainmenu:toggle() end),
@@ -1045,33 +1045,34 @@ run_once('parcellite')
 -- Use the second argument, if the programm you wanna start differs from the what you want to search.
 -- run_once('redshift', 'redshift -o -l 0:0 -t 6500:5500')
 -- }}}
+if debug then
+    timer.awfulkeys = socket.gettime() -- debug
+    timer.awfulkeysdiff = timer.awfulkeys-timer.wiboxes
+    -- {{{ Script execution time and information
 
-timer.awfulkeys = socket.gettime() -- debug
-timer.awfulkeysdiff = timer.awfulkeys-timer.wiboxes
--- {{{ Script execution time and information
+    local function timer_output()
+        return "\n::: Session started: ".. os.date() .. " :::\r\n\n" .. 
+                "Awesomewm-X: ".. req.awmXversion .."\n" ..
+                "Script: " .. beautiful.wpscript .. "\n" ..
+                "Theme: ".. beautiful.theme_name .."\n" .. 
+                "User: " .. os.getenv('USER') .."@" .. awful.util.pread('hostname'):match("[^\n]*") .. "\n" ..
+                "Libraries: Loaded in " .. round(timer.libsdiff, 4) .. "\n" ..
+                "User: Loaded in " .. round(timer.usrdiff, 4) .. "\n" ..
+                "Menus: Loaded in " .. round(timer.menudiff, 4) .. "\n" ..
+                "Widgets: Loaded in " .. round(timer.widgetsdiff, 4) .. "\n" ..
+                "Wiboxes: Loaded in " .. round(timer.wiboxesdiff, 4) .. "\n" ..
+                "Awfulkeys: Loaded in " .. round(timer.awfulkeysdiff, 4) .. "\n" ..
+                "Execution time: " .. round(socket.gettime() - timer.start, 3) .. " seconds\n"
+    end
 
-local function timer_output()
-    return "\n::: Session started: ".. os.date() .. " :::\r\n\n" .. 
-            "Awesomewm-X: ".. req.awmXversion .."\n" ..
-            "Script: " .. beautiful.wpscript .. "\n" ..
-            "Theme: ".. beautiful.theme_name .."\n" .. 
-            "User: " .. os.getenv('USER') .."@" .. awful.util.pread('hostname'):match("[^\n]*") .. "\n" ..
-            "Libraries: Loaded in " .. round(timer.libsdiff, 4) .. "\n" ..
-            "User: Loaded in " .. round(timer.usrdiff, 4) .. "\n" ..
-            "Menus: Loaded in " .. round(timer.menudiff, 4) .. "\n" ..
-            "Widgets: Loaded in " .. round(timer.widgetsdiff, 4) .. "\n" ..
-            "Wiboxes: Loaded in " .. round(timer.wiboxesdiff, 4) .. "\n" ..
-            "Awfulkeys: Loaded in " .. round(timer.awfulkeysdiff, 4) .. "\n" ..
-            "Execution time: " .. round(socket.gettime() - timer.start, 3) .. " seconds\n"
-end
+    timer.output = timer_output()
 
-timer.output = timer_output()
-
--- Welcome message
-naughty.notify {
-    title = 'Awesome '.. awesome.version,
-    text = timer.output,
-    timeout = 20
-}
-io.stderr:write(timer.output) -- debug
+    -- Welcome message
+    naughty.notify {
+        title = 'Awesome '.. awesome.version,
+        text = timer.output,
+        timeout = 20
+    }
+    io.stderr:write(timer.output) -- debug
+    end
 -- }}}

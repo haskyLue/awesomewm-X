@@ -73,7 +73,7 @@ theme.border_normal = '#338000'
 theme.border_focus  = '#66FF00'
 theme.border_marked = '#66FF00'
 
-theme.menu_height   = '10'
+theme.menu_height   = '20'
 theme.menu_width    = '100'
 
 theme.taglist_squares = 'true'
