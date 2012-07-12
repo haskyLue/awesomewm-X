@@ -75,7 +75,7 @@ script_options = {
                conky_1 = true,        -- (default true) ~/.config/conky/.conkyrc
                conky_2 = true,        -- (default true) ~/.config/conky/conky_grey/conkyrc_grey
                linux = 'archlinux',   -- archlinux/debian/fedora/gentoo/
-               email = true,          -- (default false) ~/.config/conky/unread_email.sh
+               email = false,          -- (default false) ~/.config/conky/unread_email.sh
              }
 
 str1 = ''
