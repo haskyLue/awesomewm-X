@@ -628,7 +628,7 @@ cpugraphwidget3:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_wid
 vicious.register(cpugraphwidget3, vicious.widgets.cpu, "$4")
 
 -- net widget
-function print_net(name, down, up, totaldown, totalup)
+function network_info(name, down, up, totaldown, totalup)
     return modifier.net_text .. '↓ ' .. down .. 'mb/s ↑ ' .. up .. 'kb/s  ' .. modifier.net_text2 .. '↓ ' .. 
         totaldown .. 'GiB ↑ ' .. totalup .. 'GiB'
 end
@@ -639,7 +639,7 @@ vicious.register(netwidget, vicious.widgets.net,
 function (widget, args)
     for _,device in pairs(usr.networks) do
         if tonumber(args["{".. device .." carrier}"]) > 0 then
-            return print_net(device, args["{"..device .." down_mb}"], args["{"..device.." up_kb}"], args["{"..device .." rx_gb}"], args["{"..device.." tx_gb}"])
+            return network_info(device, args["{"..device .." down_mb}"], args["{"..device.." up_kb}"], args["{"..device .." rx_gb}"], args["{"..device.." tx_gb}"])
         end
     end
 end, 3)
