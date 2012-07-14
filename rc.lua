@@ -281,13 +281,14 @@ end
 if usr.screen_width >= 599 and usr.screen_width < 1151 then
     modifier = {
         seperator_min = 5,
-        seperator_max = 5,
-        uptime_text   = 'UP:', 
-        cpu_text      = 'CPU:',
+        seperator_max = 10,
+        uptime_text   = 'UP: ', 
+        cpu_text      = 'CPU: ',
+        cpu_w         = 60,
         cpuw_width    = 15,
-        mem_text      = 'RAM:', 
-        net_text      = 'NET:',
-        net_text2     = 'TT:',
+        mem_text      = 'RAM: ', 
+        net_text      = 'NET: ',
+        net_text2     = 'TT: ',
         du_text       = 'DU',
     }
 elseif usr.screen_width >= 1152 and usr.screen_width < 1440 then
@@ -296,10 +297,11 @@ elseif usr.screen_width >= 1152 and usr.screen_width < 1440 then
         seperator_max = 10,
         uptime_text   = 'UP: ', 
         cpu_text      = 'CPU: ',
+        cpu_w         = 60,
         cpuw_width    = 15,
-        mem_text      = 'RAM:', 
-        net_text      = 'NET:',
-        net_text2     = 'TT:',
+        mem_text      = 'RAM: ', 
+        net_text      = 'NET: ',
+        net_text2     = 'TT: ',
         du_text       = 'DU',
     }
 elseif usr.screen_width >= 1440 and usr.screen_width < 1680 then
@@ -307,6 +309,7 @@ elseif usr.screen_width >= 1440 and usr.screen_width < 1680 then
         seperator_min = 10,
         seperator_max = 20,
         uptime_text   = 'Uptime: ', 
+        cpu_w         = 75,
         cpu_text      = 'Cores: ',
         cpuw_width    = 30,
         mem_text      = 'Memory: ', 
@@ -320,6 +323,7 @@ elseif usr.screen_width >= 1680 then
         seperator_min = 10,
         seperator_max = 20,
         uptime_text   = 'Uptime: ', 
+        cpu_w         = 75,
         cpu_text      = 'Cores: ',
         cpuw_width    = 30,
         mem_text      = 'Memory: ', 
@@ -393,6 +397,7 @@ local myawesomemenu = {
    { 'Edit Current theme', editor_cmd .. ' ' .. theme_path, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
    { 'Edit Current script', editor_cmd .. ' ' .. home_path .. '.config/awesome/themes/current/script.sh', freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
    { 'Debug Awesome', usr.terminal_cmd .. 'tail -f ' .. home_path .. '.cache/awesome/stderr', freedesktop.utils.lookup_icon({ icon = 'help' }) },
+   { 'Test Awesome', '/bin/bash ' .. home_path .. '.config/awesome/bin/awesome_test', freedesktop.utils.lookup_icon({ icon = 'help' }) },
    -- { 'Preferred Apps' , 'exo-preferred-applications', freedesktop.utils.lookup_icon({ icon = 'help' })},
    { 'Reload', awesome.restart, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'Logout', awesome.quit, freedesktop.utils.lookup_icon({ icon = 'system-log-out' })},
@@ -588,7 +593,7 @@ end
 
 -- load avg / cpu widget
 local cpuwidget = widget({ type = 'textbox', name = 'cpuwidget' })
-cpuwidget.width = 75
+cpuwidget.width = modifier.cpu_w
 vicious.register(cpuwidget, vicious.widgets.cpu, modifier.cpu_text .. '$1%')
 
 
