@@ -629,8 +629,9 @@ vicious.register(cpugraphwidget3, vicious.widgets.cpu, "$4")
 
 -- net widget
 function network_info(name, down, up, totaldown, totalup)
-    return modifier.net_text .. '↓ ' .. down .. 'mb/s ↑ ' .. up .. 'kb/s  ' .. modifier.net_text2 .. '↓ ' .. 
-        totaldown .. 'GiB ↑ ' .. totalup .. 'GiB'
+    return modifier.net_text .. '↓ ' .. down .. 'mb/s ↑ ' .. up .. 'kb/s  ' .. 
+           modifier.net_text2 .. '↓ ' .. 
+           totaldown .. 'GiB ↑ ' .. totalup .. 'GiB'
 end
 
 local netwidget = widget({ type = 'textbox', name = 'netwidget', align = 'left' })
@@ -639,7 +640,9 @@ vicious.register(netwidget, vicious.widgets.net,
 function (widget, args)
     for _,device in pairs(usr.networks) do
         if tonumber(args["{".. device .." carrier}"]) > 0 then
-            return network_info(device, args["{"..device .." down_mb}"], args["{"..device.." up_kb}"], args["{"..device .." rx_gb}"], args["{"..device.." tx_gb}"])
+            return network_info(device, args["{"..device .." down_mb}"], 
+                   args["{"..device.." up_kb}"], args["{"..device .." rx_gb}"], 
+                   args["{"..device.." tx_gb}"])
         end
     end
 end, 3)
