@@ -1,6 +1,6 @@
 -- https://github.com/idk/awesomewm-X  https://github.com/idk/pdq
 -- BASIC CONFIGURATION begins on line 70
-local debug = false -- true/false (default false)
+local debug = true -- true/false (default false)
 if debug then
     local socket = require('socket') -- luasocket
     local timer = timer
@@ -111,13 +111,13 @@ local theme_path = home_path  .. '.config/awesome/themes/current/theme.lua' -- D
 beautiful.init(theme_path)
 -- DO NOT EDIT THIS SECTION END --
 
-local usr = {
+usr = {
 
     terminal      = 'urxvtc', -- requires urxvt daemon: 'urxvtd -q -o -f'
 
     terminal_cmd  = 'urxvtc -e ',
 
-    editor        = 'subl', -- nano vim gedit geany scribes etc.
+    editor        = 'subl', -- nano vim gedit geany sublime etc.
 
     gui_editor    = true, -- terminal or gui based. (true/false)
     
@@ -147,10 +147,40 @@ local usr = {
         -- 'firefox-beta-bin',
         -- 'chromium',
         -- 'opera',
-        --   'midori',
+        -- 'midori',
     },
 
+    screen_width = 
+        --  1024 -- 1024 and below
+        --  1152 -- 1025-1152
+        --  1280 -- 1153-1280
+        --  1368 -- 1281-1368
+            1440 -- 1369-1440 (default)
+        --  1680 -- 1441-1680
+        --  1920 -- 1681 and above
+    ,
+    
+    top_wibox    = 18, -- default 15
+    bottom_wibox = 18, -- default 15
+    
+    cpu_cores = 4, -- default 1
+
+    networks = {'eth0', -- Add your devices network interface here and only show the one that works
+                'wlan0'
+    },
+
+    uptimewidget_enable    = true,
+    cpuwidget_enable       = true,
+    memwidget_enable       = true,
+    netwidget_enable       = true,
+    diskusagewidget_enable = true,
+    weatherwidget_enable   = true,
+    datewidget_enable      = true,
+    batterywidget_enable   = true,
+
     weather_code =  'CYWG', -- 'CYWG' -- ICAO code
+
+    date_format = '%a %h %d %l:%M%p', -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
 
     launcher_path = home_path .. '.config/awesome/launcher/', -- no need to change
 
@@ -174,25 +204,7 @@ local usr = {
 
     exec = awful.util.spawn,
     sexec  = awful.util.spawn_with_shell,
-
 }
--- END BASIC CONFIGURATION --
-
-
-
-if usr.gui_editor then
-   editor_cmd = usr.editor
-   -- su_editor_cmd = usr.gui_sudo .. ' ' .. usr.editor
-else
-   editor_cmd = usr.terminal_cmd .. usr.editor
-   -- su_editor_cmd = usr.terminal_cmd .. 'sudo ' .. usr.editor
-end
-
-local sudo_bash = usr.terminal_cmd .. 'sudo bash '
-
-local f = assert(io.open(home_path .. '.config/awesome/.urxvt_font', 'w+'))
-local t = f:write(usr.terminal_font)
-f:close()
     
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts = {
@@ -214,15 +226,6 @@ local layouts = {
 -- {{{ Tags
 local tags = {
    names  = { 
-      -- '1:Transporters', 
-      -- '2:TheConn',
-      -- '3:Astrometrics', 
-      -- '4:Holodeck1',  
-      -- '5:Holodeck2', 
-      -- '6:Engineering', 
-      -- '7:TheBridge',
-      -- '8:WarpCore'
-
       '1:Web',
       '2:IRC',
       '3:Logs',
@@ -232,7 +235,6 @@ local tags = {
       '7:---',
       '8:---'
             },
-
 
    layout = {
       layouts[3],  -- 1:firefox 10
@@ -251,10 +253,85 @@ for s = 1, screen.count() do
    tags[s] = awful.tag(tags.names, s, tags.layout)
 end
 -- }}}
+
+-- END BASIC CONFIGURATION --
+
+
+
+if usr.gui_editor then
+   editor_cmd = usr.editor
+   -- su_editor_cmd = usr.gui_sudo .. ' ' .. usr.editor
+else
+   editor_cmd = usr.terminal_cmd .. usr.editor
+   -- su_editor_cmd = usr.terminal_cmd .. 'sudo ' .. usr.editor
+end
+
+local sudo_bash = usr.terminal_cmd .. 'sudo bash '
+
+local f = assert(io.open(home_path .. '.config/awesome/.urxvt_font', 'w+'))
+local t = f:write(usr.terminal_font)
+f:close()
+
 if debug then
     timer.usr = socket.gettime() -- debug
     timer.usrdiff = timer.usr-timer.libs
 end
+
+--{{{ Screen width widget modifiers by pdq 07-13-2012
+if usr.screen_width >= 599 and usr.screen_width < 1151 then
+    modifier = {
+        seperator_min = 5,
+        seperator_max = 5,
+        uptime_text   = 'UP:', 
+        cpu_text      = 'CPU:',
+        cpuw_width    = 15,
+        mem_text      = 'RAM:', 
+        net_text      = 'NET:',
+        net_text2     = 'TT:',
+        du_text       = 'DU',
+    }
+elseif usr.screen_width >= 1152 and usr.screen_width < 1440 then
+    modifier = {
+        seperator_min = 10,
+        seperator_max = 10,
+        uptime_text   = 'UP: ', 
+        cpu_text      = 'CPU: ',
+        cpuw_width    = 15,
+        mem_text      = 'RAM:', 
+        net_text      = 'NET:',
+        net_text2     = 'TT:',
+        du_text       = 'DU',
+    }
+elseif usr.screen_width >= 1440 and usr.screen_width < 1680 then
+    modifier = {
+        seperator_min = 10,
+        seperator_max = 20,
+        uptime_text   = 'Uptime: ', 
+        cpu_text      = 'Cores: ',
+        cpuw_width    = 30,
+        mem_text      = 'Memory: ', 
+        net_text      = 'Traffic: ',
+        net_text2     = 'Total Traffic: ',
+        du_text       = 'Diskusage',
+    --  extra_widgets = true
+    }
+elseif usr.screen_width >= 1680 then
+    modifier = {
+        seperator_min = 10,
+        seperator_max = 20,
+        uptime_text   = 'Uptime: ', 
+        cpu_text      = 'Cores: ',
+        cpuw_width    = 30,
+        mem_text      = 'Memory: ', 
+        net_text      = 'Traffic: ',
+        net_text2     = 'Total Traffic: ',
+        du_text       = 'Diskusage',
+        extra_widgets = true
+    }
+end
+
+-- }}}
+
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 freedesktop.utils.icon_theme = beautiful.menu_icons
@@ -389,8 +466,7 @@ end
 -- {{{ Widgets
 -- Create a textclock widget
 local datewidget = widget({ type = 'textbox', name = 'datewidget' })
-vicious.register(datewidget, vicious.widgets.date, '%b %d, %R')
-
+vicious.register(datewidget, vicious.widgets.date, usr.date_format, 61)
 -- Calendar tooltip
 req.cal.register(datewidget, req.markup.fg(beautiful.fg_focus, '<b>%s</b>'))
 
@@ -400,8 +476,8 @@ local mysystray = widget({ type = 'systray' })
 -- Disk useage widget
 -- http://jasonmaur.com/awesome-wm-widgets-configuration/#disk-usage
 local diskwidget = widget({ type = 'textbox' })
-diskwidget.text = 'Diskusage'
-awful.widget.layout.margins[diskwidget] = { right = 20 }
+diskwidget.text = modifier.du_text
+awful.widget.layout.margins[diskwidget] = { right = modifier.seperator_max }
 
 -- the first argument is the widget to trigger the diskusage
 -- the second/third is the percentage at which a line gets orange/red
@@ -410,7 +486,7 @@ req.disk.addToWidget(diskwidget, 75, 90, true)
 
 -- Weather widget
 local forecast = widget({ type = 'textbox', name = 'weather' })
-awful.widget.layout.margins[forecast] = { right = 20 }
+awful.widget.layout.margins[forecast] = { right = modifier.seperator_max }
 
 local weather_t = awful.tooltip({ objects = { forecast },})
 vicious.register(forecast, vicious.widgets.weather, function (widget, args) 
@@ -513,37 +589,56 @@ end
 -- load avg / cpu widget
 local cpuwidget = widget({ type = 'textbox', name = 'cpuwidget' })
 cpuwidget.width = 75
-vicious.register(cpuwidget, vicious.widgets.cpu, 'Cores: $1%')
+vicious.register(cpuwidget, vicious.widgets.cpu, modifier.cpu_text .. '$1%')
+
+
+-- function cpu_widgets(cores)
+--     for i=1, cores do
+--   --     end
+-- end
 
 -- cpu widget
 local cpugraphwidget = awful.widget.graph()
-cpugraphwidget:set_width(20)
+cpugraphwidget:set_width(modifier.cpuw_width)
 cpugraphwidget:set_background_color(beautiful.bg_graphs)
 cpugraphwidget:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget})
 vicious.register(cpugraphwidget, vicious.widgets.cpu, "$1")
 
 local cpugraphwidget1 = awful.widget.graph()
-cpugraphwidget1:set_width(20)
+cpugraphwidget1:set_width(modifier.cpuw_width)
 cpugraphwidget1:set_background_color(beautiful.bg_graphs)
 cpugraphwidget1:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget})
 vicious.register(cpugraphwidget1, vicious.widgets.cpu, "$2")
 
 local cpugraphwidget2 = awful.widget.graph()
-cpugraphwidget2:set_width(20)
+cpugraphwidget2:set_width(modifier.cpuw_width)
 cpugraphwidget2:set_background_color(beautiful.bg_graphs)
 cpugraphwidget2:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget})
 vicious.register(cpugraphwidget2, vicious.widgets.cpu, "$3")
 
 local cpugraphwidget3 = awful.widget.graph()
-cpugraphwidget3:set_width(20)
+cpugraphwidget3:set_width(modifier.cpuw_width)
 cpugraphwidget3:set_background_color(beautiful.bg_graphs)
 cpugraphwidget3:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget})
 vicious.register(cpugraphwidget3, vicious.widgets.cpu, "$4")
 
 -- net widget
+function print_net(name, down, up, totaldown, totalup)
+    return modifier.net_text .. '↓ ' .. down .. 'mb/s ↑ ' .. up .. 'kb/s  ' .. modifier.net_text2 .. '↓ ' .. 
+        totaldown .. 'GiB ↑ ' .. totalup .. 'GiB'
+end
+
 local netwidget = widget({ type = 'textbox', name = 'netwidget', align = 'left' })
-netwidget.width = 400
-vicious.register(netwidget, vicious.widgets.net, 'Traffic: ↓ ${eth0 down_mb}mb/s ↑ ${eth0 up_kb}kb/s  Total: ↓ ${eth0 rx_gb}GiB ↑ ${eth0 tx_gb}GiB', 5)
+-- netwidget.width = 400
+vicious.register(netwidget, vicious.widgets.net,
+function (widget, args)
+    for _,device in pairs(usr.networks) do
+        if tonumber(args["{".. device .." carrier}"]) > 0 then
+            return print_net(device, args["{"..device .." down_mb}"], args["{"..device.." up_kb}"], args["{"..device .." rx_gb}"], args["{"..device.." tx_gb}"])
+        end
+    end
+end, 3)
+-- }}}
 
 -- vicious.widgets.uptime
   -- provides system uptime and load information
@@ -551,21 +646,20 @@ vicious.register(netwidget, vicious.widgets.net, 'Traffic: ↓ ${eth0 down_mb}mb
   --  as uptime in minutes, 4th as load average for past 1 minute, 5th
   --  for 5 minutes and 6th for 15 minutes
 local uptimewidget = widget({ type = "textbox" })
-vicious.register(uptimewidget, vicious.widgets.uptime, 'Uptime: $1d $2:$3, $4, $5, $6', 60)
-awful.widget.layout.margins[uptimewidget] = { left = 10, right = 20 }
+vicious.register(uptimewidget, vicious.widgets.uptime, modifier.uptime_text .. '$1d $2:$3, $4, $5, $6', 60)
+awful.widget.layout.margins[uptimewidget] = { left = modifier.seperator_min, right = modifier.seperator_max }
 
 -- memory widget
 local memwidget = widget({ type = 'textbox', name = 'memwidget' })
-vicious.register(memwidget, vicious.widgets.mem, 'Memory: $1% $2MB/$3MB')
-awful.widget.layout.margins[memwidget] = { left = 20, right = 10 }
-
+vicious.register(memwidget, vicious.widgets.mem, modifier.mem_text .. '$1% $2MB/$3MB')
+awful.widget.layout.margins[memwidget] = { left = modifier.seperator_max, right = modifier.seperator_min }
 local memgraphwidget = awful.widget.progressbar()
 memgraphwidget:set_vertical(true):set_ticks(true)
-memgraphwidget:set_width(20):set_ticks_size(2)
+memgraphwidget:set_width(modifier.cpuw_width):set_ticks_size(2)
 memgraphwidget:set_background_color(beautiful.bg_graphs)
 memgraphwidget:set_gradient_colors({ beautiful.fg_widget, beautiful.fg_center_widget, beautiful.fg_end_widget})
 vicious.register(memgraphwidget, vicious.widgets.mem, '$1', 5)
-awful.widget.layout.margins[memgraphwidget] = { left = 0, right = 20 }
+awful.widget.layout.margins[memgraphwidget] = { left = 0, right = modifier.seperator_max }
 
 -- Simple function to move the mouse to the coordinates set above.
 local function moveMouse(x_co, y_co)
@@ -669,7 +763,7 @@ for s = 1, screen.count() do
                                           end, mytasklist.buttons)
                                  
    -- Create the wiboxes
-   my_top_wibox[s] = awful.wibox({ position = 'top', height = '18', screen = s })
+   my_top_wibox[s] = awful.wibox({ position = 'top', height = usr.top_wibox, screen = s })
    -- Add widgets to the wibox - order matters
    my_top_wibox[s].widgets = {
       {
@@ -686,29 +780,31 @@ for s = 1, screen.count() do
       layout = awful.widget.layout.horizontal.rightleft
    }
 
-   my_bottom_wibox[s] = awful.wibox({ bg = beautiful.bg_bottom, fg = beautiful.fg_bottom, position= 'bottom',screen = s, height = '18', border ='0' })
+   my_bottom_wibox[s] = awful.wibox({ bg = beautiful.bg_bottom, fg = beautiful.fg_bottom, position= 'bottom',screen = s, height = usr.bottom_wibox, border ='0' })
    -- awful.screen.padding(screen[s],{top = 24})
    -- my_bottom_wibox[s].x=0
    -- my_bottom_wibox[s].y=20
    my_bottom_wibox[s].widgets = {
       {
-         uptimewidget,
-         cpuwidget,
+         usr.uptimewidget_enable and uptimewidget or nil,
+         usr.cpuwidget_enable and cpuwidget or nil,
          cpugraphwidget,
          cpugraphwidget1,
          cpugraphwidget2,
          cpugraphwidget3,
-         memwidget,
-         memgraphwidget,
-         netwidget,
+         usr.memwidget_enable and memwidget or nil,
+         usr.memwidget_enable and memgraphwidget or nil,
+         usr.netwidget_enable and netwidget or nil,
          layout = awful.widget.layout.horizontal.leftright
      },
-         datewidget,
-         forecast,
-         diskwidget,
+         usr.datewidget_enable and datewidget or nil,
+         usr.weatherwidget_enable and forecast or nil,
+         usr.diskusagewidget_enable and diskwidget or nil,
+      -- usr.batterywidget_enable and batterywidget or nil,
          layout = awful.widget.layout.horizontal.rightleft
    }
 end
+
 -- }}}
 if debug then
     timer.wiboxes = socket.gettime() -- debug
@@ -772,7 +868,7 @@ local globalkeys = awful.util.table.join(
    -- awful.key({ usr.modkey },  'r',     function () mypromptbox[mouse.screen]:run() end),
 
    awful.key({ usr.modkey }, 'p', function () 
-          usr.exec('dmenu_run -i -nb "' .. beautiful.bg_bottom.. '" -fn "-*-times-*-r-*-*-24-*-*-*-*-*-*-*" -sb "' .. beautiful.bg_focus ..'" -sf "' .. beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "Execute:"') end),
+          usr.exec('dmenu_run -i -nb "' .. beautiful.bg_bottom.. '" -sb "' .. beautiful.bg_focus ..'" -sf "' .. beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "Execute:"') end),
 
    awful.key({ usr.modkey }, 'q',
               function ()
@@ -1071,8 +1167,11 @@ if debug then
     naughty.notify {
         title = 'Awesome '.. awesome.version,
         text = timer.output,
+        ontop = true,
         timeout = 20
     }
-    io.stderr:write(timer.output) -- debug
-    end
+    io.stderr:write( timer.output) -- debug
+    io.stderr:flush()
+    io.stderr:close()
+end
 -- }}}
