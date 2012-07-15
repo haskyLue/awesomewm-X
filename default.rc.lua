@@ -1213,8 +1213,10 @@ if debug then
     timer.awfulkeysdiff = timer.awfulkeys-timer.wiboxes
     -- {{{ Script execution time and information
 
+-- sudo ln -s /home/pdq/.config/awesome/default.rc.lua /etc/xdg/awesome/rc.lua
+
     local function timer_output()
-        return "\n::: Session started: ".. os.date() .. " :::\r\n\n" .. 
+        return "ERROR ERROR ERROR\n\n::: Session started: ".. os.date() .. " :::\r\n\n" .. 
                 "Awesomewm-X: ".. req.awmXversion .."\n" ..
                 "Script: " .. beautiful.wpscript .. "\n" ..
                 "Theme: ".. beautiful.theme_name .."\n" .. 
@@ -1235,6 +1237,7 @@ if debug then
         title = 'Awesome '.. awesome.version,
         text = timer.output,
         ontop = true,
+        bg = '#FF0000',
         timeout = 20
     }
     io.stderr:write( timer.output) -- debug
