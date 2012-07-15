@@ -31,7 +31,6 @@ local req = {
     lfs = require('lfs'),
     utils = require('utils'),
     disk = require('diskusage'),
- --   pacupdate = require('pacmanup'),
     -- calendar widget
     cal = utils.cal,
     -- wrapper for pango markup
@@ -65,6 +64,13 @@ do
     end)
 end
 -- }}}
+
+-- grab cpu core count for widgets
+local f = assert(io.popen('grep -c ^processor /proc/cpuinfo', 'r'))
+local c = f:read('*a')
+local cpuinfo = tonumber(c)
+if cpuinfo > 0 then cpuinfo = cpuinfo else cpuinfo = 1 end
+f:close()
 
 home_path  = os.getenv('HOME') .. '/'
 
@@ -134,16 +140,6 @@ usr = {
 
     -- gui_sudo   = 'kdesu', -- sudo command for gui applications (gksudo, kdesu)
 
-    conky_font = "URxvt*font: xft:terminus:pixelsize=16:antialias=false\n" ..
-                 -- "!URxvt*font: xft:Envy Code R-10\n" ..
-                    "URxvt*iconFile: /usr/share/icons/gnome/24x24/apps/terminal.png\n" ..
-                    "URxvt*background: #000000\n" .. -- black
-                 -- "URxvt*background: #676767\n" .. -- grey
-                    "URxvt*foreground: #d3d3d3\n" .. -- white
-                    "URxvt*transparent: false\n" .. 
-                    "URxvt*perl-ext-common: default,clipboard,matcher,\n" ..
-                    "*underlineColor: #de5105\n",
-
     file_manager = {
         -- 'DISABLED', -- uncomment this out to hide menu entries
            'dolphin',
@@ -173,8 +169,6 @@ usr = {
     
     top_wibox    = 18, -- default 15
     bottom_wibox = 18, -- default 15
-    
-    cpu_cores = 4, -- default 1
 
     networks = {'eth0', -- Add your devices network interface here and only show the one that works
                 'wlan0'
@@ -188,6 +182,7 @@ usr = {
     weatherwidget_enable   = true,
     datewidget_enable      = true,
     batterywidget_enable   = true,
+    pacupdatewidget_enable = true, 
 
     weather_code =  'CYWG', -- 'CYWG' -- ICAO code
 
@@ -228,15 +223,15 @@ local layouts = {
    awful.layout.suit.floating,        -- 1
    awful.layout.suit.tile,            -- 2
    awful.layout.suit.tile.left,       -- 3
-   awful.layout.suit.tile.bottom,     -- 4
-   awful.layout.suit.tile.top,        -- 5
-   awful.layout.suit.fair,            -- 6
-   awful.layout.suit.fair.horizontal, -- 7
-   awful.layout.suit.spiral,          -- 8
-   awful.layout.suit.spiral.dwindle,  -- 9
-   awful.layout.suit.max,             -- 10
-   awful.layout.suit.max.fullscreen,  -- 11
-   awful.layout.suit.magnifier        -- 12
+-- awful.layout.suit.tile.bottom,     -- 4
+-- awful.layout.suit.tile.top,        -- 5
+-- awful.layout.suit.fair,            -- 6
+-- awful.layout.suit.fair.horizontal, -- 7
+-- awful.layout.suit.spiral,          -- 8
+-- awful.layout.suit.spiral.dwindle,  -- 9
+-- awful.layout.suit.max,             -- 10
+-- awful.layout.suit.max.fullscreen,  -- 11
+-- awful.layout.suit.magnifier        -- 12
 }
 -- }}}
 
@@ -856,9 +851,9 @@ for s = 1, screen.count() do
          usr.uptimewidget_enable and uptimewidget or nil,
          usr.cpuwidget_enable and cpuwidget or nil,
          cpugraphwidget,
-         cpugraphwidget1,
-         cpugraphwidget2,
-         cpugraphwidget3,
+         cpuinfo > 1 and cpugraphwidget1 or nil,
+         cpuinfo > 2 and cpugraphwidget2 or nil,
+         cpuinfo > 3 and cpugraphwidget3 or nil,
          usr.memwidget_enable and memwidget or nil,
          usr.memwidget_enable and memgraphwidget or nil,
          usr.netwidget_enable and netwidget or nil,
@@ -867,7 +862,7 @@ for s = 1, screen.count() do
          usr.datewidget_enable and datewidget or nil,
          usr.weatherwidget_enable and forecast or nil,
          usr.diskusagewidget_enable and diskwidget or nil,
-         pacupdatewidget,
+         usr.pacupdatewidget_enable and pacupdatewidget or nil,
       -- usr.batterywidget_enable and batterywidget or nil,
          layout = awful.widget.layout.horizontal.rightleft
    }
@@ -1233,7 +1228,7 @@ if debug then
     -- Welcome message
     naughty.notify {
         title = 'Awesome '.. awesome.version,
-        text = timer.output,
+        text = timer.output .. ' ' .. cpuinfo,
         ontop = true,
         timeout = 20
     }
