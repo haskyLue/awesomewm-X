@@ -76,7 +76,7 @@ home_path  = os.getenv('HOME') .. '/'
 
 -- START BASIC CONFIGURATION -- (* reload awesome when make any changes below)
 script_options = {
-               idesk = true,          -- use idesk (default false)
+               idesk = false,          -- use idesk (default false)
             -- global = true,         -- comment to use per theme script (default commented) or global script ~/.config/awesome/global_script.sh
                wallpaper = true,      -- theme changes wallpaper (default true) unless global uncommented then uses ~/.config/awesome/global_wallpaper.jpg
                conky_1 = true,        -- (default true) ~/.config/conky/.conkyrc
@@ -111,7 +111,7 @@ if script_options.email then
     str6 = ' email '
 end
 
-script_run = string.format("%s%s%s%s%s%s", str1, str2, str3, str4, str5, str6);
+script_run = string.format('%s%s%s%s%s%s', str1, str2, str3, str4, str5, str6);
 
 -- Themes define colours, icons, and wallpapers
 local theme_path = home_path  .. '.config/awesome/themes/current/theme.lua' -- DO NOT modify
@@ -182,7 +182,8 @@ usr = {
     weatherwidget_enable   = true,
     datewidget_enable      = true,
     batterywidget_enable   = true,
-    pacupdatewidget_enable = true, 
+    pacmanwidget_enable    = true, 
+    aurwidget_enable       = true,
 
     weather_code =  'CYWG', -- 'CYWG' -- ICAO code
 
@@ -208,7 +209,7 @@ usr = {
     -- However, you can use another modifier like Mod1, but it may interact with others.
     modkey = 'Mod4', -- change to Mod1 (Alt)if using Virtualbox
 
-    mod_keys = {
+    mod_key = {
         up = { 'Up', 'k' },
         down = { 'Down', 'j' },
         back = { 'Left', 'x', 'h' },
@@ -326,7 +327,7 @@ elseif usr.screen_width >= 1440 and usr.screen_width < 1680 then
         cpuw_width    = 30,
         mem_text      = 'Memory: ', 
         net_text      = 'Traffic: ',
-        net_text2     = 'Total Traffic: ',
+        net_text2     = 'Total: ',
         du_text       = 'Diskusage',
     --  extra_widgets = true
     }
@@ -495,18 +496,41 @@ local mysystray = widget({ type = 'systray' })
 local diskwidget = widget({ type = 'textbox' })
 diskwidget.text = modifier.du_text
 awful.widget.layout.margins[diskwidget] = { right = modifier.seperator_max }
+diskwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'multitail -ci white /var/log/kernel.log -cis yellow /var/log/pacman.log -ci red /var/log/boot -cis green /home/pdq/.xplanetFX/logs/xplanetFX.log -ci red /var/log/Xorg.0.log -cis green /var/log/httpd/access_log -ci red -I /var/log/httpd/error_log -cis red -I /var/log/httpd/error_log') end ) ) )
 
 -- the first argument is the widget to trigger the diskusage
 -- the second/third is the percentage at which a line gets orange/red
 -- true = show only local filesystems
 req.disk.addToWidget(diskwidget, 75, 90, true)
 
+-- pacman update widget
+pacmanwidget = widget({ type = 'textbox' })
+awful.widget.layout.margins[pacmanwidget] = { right = modifier.seperator_max }
+pacmanwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'sh ' .. home_path .. 'bin/pacupdater') end ) ) )
+local t = timer( {timeout = 1800} )
+t:add_signal('timeout', function()
+    local f = io.popen('echo Pacman: $(pacman -Qqu | wc -l | tail)', 'r')
+    local s = f:read('*a')
+    f:close()
+    pacmanwidget.text = s
+end)
+t:emit_signal('timeout')
+t:start()
 
--- Pacupdate widget
-local pacupdatewidget = widget({ type = 'textbox' })
-awful.widget.layout.margins[pacupdatewidget] = { right = modifier.seperator_max }
+-- aur update widget
+local aurwidget = widget({ type = 'textbox' })
+awful.widget.layout.margins[aurwidget] = { right = modifier.seperator_max }
+aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'sh ' .. home_path .. 'bin/packerupdater') end ) ) )
+local t = timer({ timeout = 1800 })
+t:add_signal('timeout', function()
+    local f = io.popen('echo AUR: $(cower -fud | wc -l | tail)', 'r')
+    local s = f:read('*a')
+    f:close()
+    aurwidget.text = s
+end)
+t:emit_signal('timeout')
+t:start()
 
-pacupdatewidget.text = 'Updates'
 -- {{{ init environment
 local wakka = {}
 local capi = {
@@ -514,24 +538,26 @@ local capi = {
     screen = screen
 }
 
--- {{{ display
 -- formats the lines for the notify
-local function display()
-    local lines = "<u>Pacman Updates:</u>\n"
-    local f = io.popen("pacman -Qqu", "r")
-    -- local f = io.open("/home/pdq/Development/pdq/main.lst", "r")
-    local s = f:read('*all')
-    if f ~= nil then s ='No updates available' end
+local function display(aur) -- true/false
+    if aur then
+        lines = "<u>AUR Updates:</u>\n"
+        f = io.popen('cower -fud', 'r')
+    else
+        lines = "<u>Pacman Updates:</u>\n"
+        f = io.popen('pacman -Qqu', 'r')
+    end
+    -- s = f:read('*a') and s or 'No updates available'
+    s = f:read('*a')
     local line = lines .. "\n" .. s .. "\n"
     f:close()
     return line
 end
--- }}}
 
-function wakka.addToWidget(mywidget)
+function wakka(mywidget, aur)
     mywidget:add_signal('mouse::enter', function ()
         usage = naughty.notify({
-        text = string.format('<span font_desc="%s">%s</span>', "monospace", display()),
+        text = string.format('<span font_desc="%s">%s</span>', beautiful.font, display(aur)),
         timeout = 0,
         hover_timeout = 0.5,
         screen = capi.mouse.screen
@@ -540,8 +566,9 @@ function wakka.addToWidget(mywidget)
     mywidget:add_signal('mouse::leave', function () naughty.destroy(usage) end)
 end
 
-wakka.addToWidget(pacupdatewidget)
- -- }}}
+wakka(pacmanwidget, false)
+wakka(aurwidget, true)
+-- }}} end pacman / packer widgets
 
 -- Weather widget
 local forecast = widget({ type = 'textbox', name = 'weather' })
@@ -649,14 +676,13 @@ end
 local cpuwidget = widget({ type = 'textbox', name = 'cpuwidget' })
 cpuwidget.width = modifier.cpu_w
 vicious.register(cpuwidget, vicious.widgets.cpu, modifier.cpu_text .. '$1%')
-
+cpuwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. "htop --sort-key PERCENT_CPU") end ) ) )
 
 -- function cpu_widgets(cores)
 --     for i=1, cores do
 --   --     end
 -- end
 
--- cpu widget
 local cpugraphwidget = awful.widget.graph()
 cpugraphwidget:set_width(modifier.cpuw_width)
 cpugraphwidget:set_background_color(beautiful.bg_graphs)
@@ -682,7 +708,7 @@ cpugraphwidget3:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_wid
 vicious.register(cpugraphwidget3, vicious.widgets.cpu, "$4")
 
 -- net widget
-function network_info(name, down, up, totaldown, totalup)
+local function network_info(name, down, up, totaldown, totalup)
     return modifier.net_text .. '↓ ' .. down .. 'mb/s ↑ ' .. up .. 'kb/s  ' .. 
            modifier.net_text2 .. '↓ ' .. 
            totaldown .. 'GiB ↑ ' .. totalup .. 'GiB'
@@ -862,7 +888,8 @@ for s = 1, screen.count() do
          usr.datewidget_enable and datewidget or nil,
          usr.weatherwidget_enable and forecast or nil,
          usr.diskusagewidget_enable and diskwidget or nil,
-         usr.pacupdatewidget_enable and pacupdatewidget or nil,
+         usr.aurwidget_enable and aurwidget or nil,
+         usr.pacmanwidget_enable and pacmanwidget or nil,
       -- usr.batterywidget_enable and batterywidget or nil,
          layout = awful.widget.layout.horizontal.rightleft
    }
@@ -880,22 +907,45 @@ root.buttons(awful.util.table.join(
 ))
 -- }}}
 
+-- function custom_keys(t)
+
+--     for _,mod_key_use in pairs(t) do
+--         if t == usr.mod_key.up  then
+--             tx = 1
+--         else
+--             tx = -1
+--         end
+--         awful.key({ usr.modkey,           }, mod_key_use,
+--         function ()
+--             awful.client.focus.byidx( tx )
+--             if client.focus then client.focus:raise() end
+--         end)
+--     end
+-- end
+
+    
+
 -- {{{ Key bindings
 local globalkeys = awful.util.table.join(
    awful.key({ usr.modkey,           }, 'Left',   awful.tag.viewprev       ),
    awful.key({ usr.modkey,           }, 'Right',  awful.tag.viewnext       ),
    awful.key({ usr.modkey,           }, 'Escape', awful.tag.history.restore),
    awful.key({ usr.modkey,           },  'e', req.revelation),  -- revelation
-   awful.key({ usr.modkey,           }, 'j',
+   
+
+-- custom_keys(usr.mod_key.up),
+-- custom_keys(usr.mod_key.down),
+   awful.key({ usr.modkey, }, 'j',
         function ()
             awful.client.focus.byidx( 1)
             if client.focus then client.focus:raise() end
         end),
-   awful.key({ usr.modkey,           }, 'k',
+   awful.key({ usr.modkey, }, 'k',
         function ()
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
+
    awful.key({ usr.modkey,           }, 'w', function () mymainmenu:show({keygrabber=true}) end),
 
    -- Layout manipulation
@@ -913,7 +963,7 @@ local globalkeys = awful.util.table.join(
         end),
 
    -- Standard program
-   awful.key({ usr.modkey,           }, 'Return', function () usr.exec(usr.terminal) end),
+   awful.key({ usr.modkey,           }, 'Return', function  () usr.exec(usr.terminal) end),
    awful.key({ usr.modkey, 'Control' }, 'r', awesome.restart),
    awful.key({ usr.modkey, 'Shift'   }, 'q', awesome.quit),
    awful.key({ usr.modkey,           }, 'l',     function () awful.tag.incmwfact( 0.05)    end),
@@ -1228,7 +1278,7 @@ if debug then
     -- Welcome message
     naughty.notify {
         title = 'Awesome '.. awesome.version,
-        text = timer.output .. ' ' .. cpuinfo,
+        text = timer.output,
         ontop = true,
         timeout = 20
     }
