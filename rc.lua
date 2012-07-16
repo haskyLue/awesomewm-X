@@ -442,7 +442,7 @@ diskwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exe
 -- true = show only local filesystems
 req.disk.addToWidget(diskwidget, 75, 90, true)
 
--- pacman update widget
+-- pacman update widget based off setkeh Awesome-Widget-Notify
 pacmanwidget = widget({ type = 'textbox' })
 awful.widget.layout.margins[pacmanwidget] = { right = modifier.seperator_max }
 pacmanwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'sh ' .. home_path .. 'bin/pacupdater') end ) ) )
@@ -456,7 +456,7 @@ end)
 t:emit_signal('timeout')
 t:start()
 
--- aur update widget
+-- aur update widget based off setkeh Awesome-Widget-Notify
 local aurwidget = widget({ type = 'textbox' })
 awful.widget.layout.margins[aurwidget] = { right = modifier.seperator_max }
 aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'sh ' .. home_path .. 'bin/packerupdater') end ) ) )
