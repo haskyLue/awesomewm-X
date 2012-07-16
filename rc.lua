@@ -676,7 +676,7 @@ end
 local cpuwidget = widget({ type = 'textbox', name = 'cpuwidget' })
 cpuwidget.width = modifier.cpu_w
 vicious.register(cpuwidget, vicious.widgets.cpu, modifier.cpu_text .. '$1%')
-cpuwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. "htop --sort-key PERCENT_CPU") end ) ) )
+cpuwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'htop --sort-key PERCENT_CPU') end ) ) )
 
 -- function cpu_widgets(cores)
 --     for i=1, cores do
@@ -741,6 +741,7 @@ awful.widget.layout.margins[uptimewidget] = { left = modifier.seperator_min, rig
 local memwidget = widget({ type = 'textbox', name = 'memwidget' })
 vicious.register(memwidget, vicious.widgets.mem, modifier.mem_text .. '$1% $2MB/$3MB')
 awful.widget.layout.margins[memwidget] = { left = modifier.seperator_max, right = modifier.seperator_min }
+memwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'htop --sort-key PERCENT_MEM') end ) ) )
 local memgraphwidget = awful.widget.progressbar()
 memgraphwidget:set_vertical(true):set_ticks(true)
 memgraphwidget:set_width(modifier.cpuw_width):set_ticks_size(2)
