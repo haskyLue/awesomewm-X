@@ -1,21 +1,17 @@
 -- https://github.com/idk/awesomewm-X  https://github.com/idk/pdq
 -- BASIC CONFIGURATION begins on line 70
-local debug = true -- true/false (default false)
+local debug = true -- true/false (default true)
 if debug then
     local socket = require('socket') -- luasocket
     local timer = timer
     timer.start = socket.gettime() -- debug
 end
--- {{{ Require libraries
--- Standard awesome library
+-- Require libraries
 require('awful')
 require('awful.autofocus')
 require('awful.rules')
--- Theme handling library
 require('beautiful')
--- Notification library
 require('naughty')
--- require('wicked') -- deprecated (converted wicked widgets to vicious widgets) Armageddon 06-29-2012
 local vicious = require('vicious') -- http://awesome.naquadah.org/wiki/Vicious
 
 -- Local libraries
@@ -36,12 +32,12 @@ local req = {
     -- wrapper for pango markup
     markup = utils.markup,
 }
--- }}}
+
 if debug then
     timer.libs = socket.gettime() -- debug
     timer.libsdiff = timer.libs-timer.start
 end
--- {{{ Error handling
+
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
@@ -56,60 +52,38 @@ do
       -- Make sure we don't go into an endless error loop
       if in_error then return end
       in_error = true
-
       naughty.notify({ preset = naughty.config.presets.critical,
                        title = 'Oops, an error happened!',
                        text = err })
       in_error = false
     end)
 end
--- }}}
 
 -- grab cpu core count for widgets
-local f = assert(io.popen('grep -c ^processor /proc/cpuinfo', 'r'))
-local c = f:read('*a')
-local cpuinfo = tonumber(c)
-if cpuinfo > 0 then cpuinfo = cpuinfo else cpuinfo = 1 end
+local f = io.popen('grep -c ^processor /proc/cpuinfo', 'r')
+local cpuinfo = tonumber(f:read('*a'))
 f:close()
 
 home_path  = os.getenv('HOME') .. '/'
 
 -- START BASIC CONFIGURATION -- (* reload awesome when make any changes below)
 script_options = {
-               idesk = false,          -- use idesk (default false)
+               idesk = false,         -- use idesk (default false)
             -- global = true,         -- comment to use per theme script (default commented) or global script ~/.config/awesome/global_script.sh
                wallpaper = true,      -- theme changes wallpaper (default true) unless global uncommented then uses ~/.config/awesome/global_wallpaper.jpg
                conky_1 = true,        -- (default true) ~/.config/conky/.conkyrc
                conky_2 = true,        -- (default true) ~/.config/conky/conky_grey/conkyrc_grey
                linux = 'archlinux',   -- archlinux/debian/fedora/gentoo/
-               email = false,          -- (default false) ~/.config/conky/unread_email.sh
+               email = true,          -- (default false) ~/.config/conky/unread_email.sh
              }
 
 -- DO NOT EDIT THIS SECTION START --
-str1 = ''
-str2 = ''
-str3 = ''
-str4 = ''
-str5 = ''
-str6 = ''
-if script_options.idesk then
-    str1 = ' idesk '
-end
-if script_options.wallpaper then
-    str2 = ' wp '
-end
-if script_options.conky_1 then
-    str3 = ' conky '
-end
-if script_options.conky_2 then
-    str4 = ' eng '
-end
-if script_options.linux then
-    str5 = ' ' .. script_options.linux .. ' '
-end
-if script_options.email then
-    str6 = ' email '
-end
+str1 = script_options.idesk and ' idesk ' or ''
+str2 = script_options.wallpaper and ' wp ' or ''
+str3 = script_options.conky_1 and ' conky ' or ''
+str4 =  script_options.conky_2 and ' eng ' or ''
+str5 = script_options.linux  and ' ' .. script_options.linux .. ' ' or ''
+str6 = script_options.email and ' email ' or ''
 
 script_run = string.format('%s%s%s%s%s%s', str1, str2, str3, str4, str5, str6);
 
@@ -281,7 +255,7 @@ end
 
 local sudo_bash = usr.terminal_cmd .. 'sudo bash '
 
-local f = assert(io.open(home_path .. '.config/awesome/.urxvt_font', 'w+'))
+local f = io.open(home_path .. '.config/awesome/.urxvt_font', 'w+')
 local t = f:write(usr.terminal_font)
 f:close()
 
@@ -533,10 +507,7 @@ t:start()
 
 -- {{{ init environment
 local wakka = {}
-local capi = {
-    mouse = mouse,
-    screen = screen
-}
+local capi = { mouse = mouse, screen = screen }
 
 -- formats the lines for the notify
 local function display(aur) -- true/false
@@ -1283,7 +1254,7 @@ if debug then
         ontop = true,
         timeout = 20
     }
-    io.stderr:write( timer.output) -- debug
+    io.stderr:write( timer.output.. ' ' .. str1) -- debug
     io.stderr:flush()
     io.stderr:close()
 end
