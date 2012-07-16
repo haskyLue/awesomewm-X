@@ -82,7 +82,7 @@ script_options = {
 str1 = script_options.idesk and ' idesk ' or ''
 str2 = script_options.wallpaper and ' wp ' or ''
 str3 = script_options.conky_1 and ' conky ' or ''
-str4 =  script_options.conky_2 and ' eng ' or ''
+str4 = script_options.conky_2 and ' eng ' or ''
 str5 = script_options.linux  and ' ' .. script_options.linux .. ' ' or ''
 str6 = script_options.email and ' email ' or ''
 script_run = string.format('%s%s%s%s%s%s', str1, str2, str3, str4, str5, str6);
@@ -216,9 +216,7 @@ for s = 1, screen.count() do
    -- Each screen has its own tag table.
    tags[s] = awful.tag(tags.names, s, tags.layout)
 end
-
 -- END BASIC CONFIGURATION --
-
 
 if usr.gui_editor then
    editor_cmd = usr.editor
@@ -227,7 +225,6 @@ else
    editor_cmd = usr.terminal_cmd .. usr.editor
    -- su_editor_cmd = usr.terminal_cmd .. 'sudo ' .. usr.editor
 end
-
 local sudo_bash = usr.terminal_cmd .. 'sudo bash '
 
 local f = io.open(home_path .. '.config/awesome/.urxvt_font', 'w+')
@@ -296,7 +293,6 @@ elseif usr.screen_width >= 1680 then
     }
 end
 
---  Menu
 -- Create a laucher widget and a main menu
 freedesktop.utils.icon_theme = beautiful.menu_icons
 local menu_items = freedesktop.menu.new()
@@ -308,8 +304,7 @@ local function theme_load(theme)
    awesome.restart()
 end
 local function theme_menu()
-   local cmd = 'ls -1 ' .. home_path .. '.config/awesome/themes/'
-   local f = io.popen(cmd)
+   local f = io.popen('ls -1 ' .. home_path .. '.config/awesome/themes/')
    for l in f:lines() do
 	  local item = { l, function () theme_load(l) end }
 	  table.insert(thememenu, item)
@@ -325,8 +320,7 @@ local function icon_load(icon)
    awesome.restart()
 end
 local function icon_menu()
-   local cmd = 'ls -1 ' .. home_path .. '.config/awesome/icons/'
-   local f = io.popen(cmd)
+   local f = io.popen('ls -1 ' .. home_path .. '.config/awesome/icons/')
    for l in f:lines() do
 	  local item = { l, function () icon_load(l) end }
 	  table.insert(iconmenu, item)
@@ -374,6 +368,7 @@ local servicesmenu = {
    -- { 'rtorrent On', usr.terminal_cmd .. 'tmux new-window rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    -- { 'rtorrent Off', usr.terminal_cmd .. 'killall rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
 }
+
 table.insert(menu_items, { 'Awesome Options', myawesomemenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
 
 -- Add script options pdq 07-05-2012
@@ -391,6 +386,7 @@ table.insert(menu_items, { 'Services', servicesmenu, freedesktop.utils.lookup_ic
 
 -- Add menu items for web browsers pdq 07-03-2012
 usr_menu_item(usr.web_browser, 'web-browser')
+
 table.insert(menu_items, { 'Task Manager', 'lxtask', freedesktop.utils.lookup_icon({icon = 'gnome-monitor.png'}) })
 table.insert(menu_items, { 'Terminal', usr.terminal, freedesktop.utils.lookup_icon({icon = 'terminal'}) })
 
@@ -496,10 +492,10 @@ end
 function wakka(mywidget, aur)
     mywidget:add_signal('mouse::enter', function ()
         usage = naughty.notify({
-        text = string.format('<span font_desc="%s">%s</span>', beautiful.font, display(aur)),
-        timeout = 0,
-        hover_timeout = 0.5,
-        screen = capi.mouse.screen
+            text = string.format('<span font_desc="%s">%s</span>', beautiful.font, display(aur)),
+            timeout = 0,
+            hover_timeout = 0.5,
+            screen = capi.mouse.screen
         })
     end)
     mywidget:add_signal('mouse::leave', function () naughty.destroy(usage) end)
@@ -765,8 +761,7 @@ mytasklist.buttons = awful.util.table.join(
 
 for s = 1, screen.count() do
    -- Create a promptbox for each screen
-   mypromptbox[s] = awful.widget.prompt(
-      { layout = awful.widget.layout.horizontal.leftright  })
+   mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright  })
    -- Create an imagebox widget which will contains an icon indicating which layout we're using.
    -- We need one layoutbox per screen.
    mylayoutbox[s] = awful.widget.layoutbox(s)
@@ -1086,7 +1081,6 @@ awful.rules.rules = {
  --                   callback = function(c) c:geometry({x=0, y=0}) end },
 }
 
--- Signals
 -- Signal function to execute when a new client appears.
 client.add_signal('manage', function (c, startup)
    -- Add a titlebar
