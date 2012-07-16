@@ -400,8 +400,7 @@ if usr.terminal == 'urxvtc' then
 	   usr.exec('urxvtd -q -o -f')
 	end
 	local function xft_menu()
-	   local cmd = 'ls -1 ' .. home_path .. '.config/awesome/Xdefaults/'
-	   local f = io.popen(cmd)
+	   local f = io.popen('ls -1 ' .. home_path .. '.config/awesome/Xdefaults/')
 	   for l in f:lines() do
 		  local item = { l, function () xft_load(l) end }
 		  table.insert(xftmenu, item)
