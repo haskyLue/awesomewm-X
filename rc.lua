@@ -106,6 +106,7 @@ usr = {
                     "URxvt*transparent: false\n" .. 
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
                     "*underlineColor: #de5105\n",
+    aur_helper_cmd = 'cower -fud',
     -- gui_sudo   = 'kdesu', -- sudo command for gui applications (gksudo, kdesu)
     file_manager = {
         -- 'DISABLED', -- uncomment this out to hide menu entries
@@ -461,7 +462,7 @@ awful.widget.layout.margins[aurwidget] = { right = modifier.seperator_max }
 aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'sh ' .. home_path .. 'bin/packerupdater') end ) ) )
 local t = timer({ timeout = 1800 })
 t:add_signal('timeout', function()
-    local f = io.popen('echo AUR: $(cower -fud | wc -l | tail)', 'r')
+    local f = io.popen('echo AUR: $(' .. usr.aur_helper_cmd .. ' | wc -l | tail)', 'r')
     local s = f:read('*a')
     f:close()
     aurwidget.text = s
@@ -476,7 +477,7 @@ local capi = { mouse = mouse, screen = screen }
 local function display(aur) -- true/false
     if aur then
         lines = "<u>AUR Updates:</u>\n"
-        f = io.popen('cower -fud', 'r')
+        f = io.popen(usr.aur_helper_cmd, 'r')
     else
         lines = "<u>Pacman Updates:</u>\n"
         f = io.popen('pacman -Qqu', 'r')
