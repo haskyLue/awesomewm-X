@@ -105,7 +105,11 @@ usr = {
                     "URxvt*transparent: false\n" .. 
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
                     "*underlineColor: #de5105\n",
-    aur_helper_cmd = 'cower -fud',
+    poweroff   = 'sudo /sbin/poweroff',
+    reboot     = 'sudo /sbin/reboot',
+ -- hibernate  = 'sudo /usr/sbin/pm-hibernate',
+ -- suspend    = 'sudo /usr/sbin/pm-suspend',
+    aur_helper = 'cower -fud',
  -- gui_sudo   = 'kdesu', -- sudo command for gui applications (gksudo, kdesu)
     file_manager = {
         -- 'DISABLED', -- uncomment this out to hide menu entries
@@ -131,9 +135,9 @@ usr = {
         --  1680 -- 1441-1680
         --  1920 -- 1681 and above
     ,
-    top_wibox    = 18, -- default 15
-    bottom_wibox = 18, -- default 15
-    networks = { 'eth0', 'wlan0' }, -- Add your devices network interfaces here
+    top_wibox    = 18, -- default 15 (height)
+    bottom_wibox = 18, -- default 15 (height)
+    networks     = { 'eth0', 'wlan0' }, -- Add your devices network interfaces here
     uptimewidget_enable    = true,
     cpuwidget_enable       = true,
     memwidget_enable       = true,
@@ -141,20 +145,21 @@ usr = {
     diskusagewidget_enable = true,
     weatherwidget_enable   = true,
     datewidget_enable      = true,
-    batterywidget_enable   = true,
+    batterywidget_enable   = false,
     pacmanwidget_enable    = true, 
     aurwidget_enable       = true,
-    weather_code =  'CYWG', -- 'CYWG' -- ICAO code
-    date_format = '%a %h %d %l:%M%p', -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
+    debug_clients          = false, -- useful for \client rules setup
+    weather_code  =  'CYWG', -- 'CYWG' -- ICAO code
+    date_format   = '%a %h %d %l:%M%p', -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
     launcher_path = home_path .. '.config/awesome/launcher/', -- no need to change
     -- http://awesome.naquadah.org/wiki/Move_Mouse
     -- set the desired pixel coordinates:
     --  if your screen is 1440x900 the this line sets the bottom right.
-    -- local safeCoords = {x=1440, y=900}
+    -- local safeCoords = { x = 1440, y = 900 }
     -- if your screen is 1440x900 the this line sets the bottom left.
-    safeCoords = { x = 0, y = 900 },
-    --  this line sets top middle(ish).
-    -- local safeCoords = {x=720, y=0}
+    -- safeCoords = { x = 0, y = 900 },
+    -- safeCoords = { x = 720, y = 0 }
+    safeCoords = { x = 0, y = 0 }, -- top left
     -- Flag to tell Awesome whether to do this at startup.
     moveMouseOnStartup = true,
     -- Default modkey.
@@ -162,9 +167,9 @@ usr = {
     -- If you do not like this or do not have such a key,
     -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
     -- However, you can use another modifier like Mod1, but it may interact with others.
-    modkey = 'Mod4', -- change to Mod1 (Alt)if using Virtualbox
-    mod_key = {
-        up = { 'Up', 'k' },
+    modkey   = 'Mod4', -- change to Mod1 (Alt)if using Virtualbox
+    mod_key  = {
+        up   = { 'Up', 'k' },
         down = { 'Down', 'j' },
         back = { 'Left', 'x', 'h' },
     },
@@ -192,18 +197,18 @@ local layouts = {
 local tags = {
 --  names  = { '1:Web', '2:Chat', '3:Logs', '4:Video', 
 --             '5:Video2', '6:Dev', '7:---', '8:---' },
-    names = { '☠', '⌥', '✇', '⌤', '⍜', '⚡', '✣', '⌨' },
+    names = { '☠', '⌥', '✇', '⌤', '⍜', '⌨', '⚡', '✣' },
 --  names = { '☭', '⌥', '✇', '⌤', '☼', '⌘', '⍜', '☠' },
 --  names = { '♨', '⌨', '⚡', '✉', '❁', '☃', '☄', '⚢' },
 --  names = { '➊', '➋', '➌', '➍', '➎', '➏', '➐', '➑' },
 
     layout = {
       layouts[3],  -- 1:firefox 10
-      layouts[3],  -- 2:weechat
+      layouts[3],  -- 2:weechat/pidgin
       layouts[3],  -- 3:logs/bots/shells
       layouts[3],  -- 4:media playing
       layouts[1],  -- 5:media editing
-      layouts[3],  -- 6:projects
+      layouts[3],  -- 6:projects/development
       layouts[1],  -- 7:shells
       layouts[1]   -- 8:shells
             }
@@ -350,8 +355,8 @@ local myawesomemenu = {
    -- { 'Preferred Apps' , 'exo-preferred-applications', freedesktop.utils.lookup_icon({ icon = 'help' })},
    { 'Reload', awesome.restart, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'Logout', awesome.quit, freedesktop.utils.lookup_icon({ icon = 'system-log-out' })},
-   { 'Shutdown' , 'sudo /sbin/poweroff', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' })},
-   { 'Reboot' , 'sudo /sbin/reboot', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' })}
+   { 'Shutdown' , usr.poweroff, freedesktop.utils.lookup_icon({ icon = 'system-shutdown' })},
+   { 'Reboot' , usr.reboot, freedesktop.utils.lookup_icon({ icon = 'system-shutdown' })}
 }
 
 local servicesmenu = {
@@ -445,6 +450,7 @@ req.disk.addToWidget(diskwidget, 75, 90, true)
 -- pacman update widget based off setkeh Awesome-Widget-Notify
 pacmanwidget = widget({ type = 'textbox' })
 awful.widget.layout.margins[pacmanwidget] = { right = modifier.seperator_max }
+-- button to run pacman update
 pacmanwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'sh ' .. home_path .. 'bin/pacupdater') end ) ) )
 local t = timer( {timeout = 1800} )
 t:add_signal('timeout', function()
@@ -459,10 +465,11 @@ t:start()
 -- aur update widget based off setkeh Awesome-Widget-Notify
 local aurwidget = widget({ type = 'textbox' })
 awful.widget.layout.margins[aurwidget] = { right = modifier.seperator_max }
+-- button to run packer update
 aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'sh ' .. home_path .. 'bin/packerupdater') end ) ) )
 local t = timer({ timeout = 1800 })
 t:add_signal('timeout', function()
-    local f = io.popen('echo AUR: $(' .. usr.aur_helper_cmd .. ' | wc -l | tail)', 'r')
+    local f = io.popen('echo AUR: $(' .. usr.aur_helper .. ' | wc -l | tail)', 'r')
     local s = f:read('*a')
     f:close()
     aurwidget.text = s
@@ -477,7 +484,7 @@ local capi = { mouse = mouse, screen = screen }
 local function display(aur) -- true/false
     if aur then
         lines = "<u>AUR Updates:</u>\n"
-        f = io.popen(usr.aur_helper_cmd, 'r')
+        f = io.popen(usr.aur_helper, 'r')
     else
         lines = "<u>Pacman Updates:</u>\n"
         f = io.popen('pacman -Qqu', 'r')
@@ -606,6 +613,7 @@ end
 local cpuwidget = widget({ type = 'textbox', name = 'cpuwidget' })
 cpuwidget.width = modifier.cpu_w
 vicious.register(cpuwidget, vicious.widgets.cpu, modifier.cpu_text .. '$1%')
+-- button to launch htop
 cpuwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'htop --sort-key PERCENT_CPU') end ) ) )
 
 -- function cpu_widgets(cores)
@@ -665,12 +673,14 @@ end, 3)
 local uptimewidget = widget({ type = "textbox" })
 vicious.register(uptimewidget, vicious.widgets.uptime, modifier.uptime_text .. '$1d $2:$3, $4, $5, $6', 60)
 awful.widget.layout.margins[uptimewidget] = { left = modifier.seperator_min, right = modifier.seperator_max }
+-- button to restart awesome
+uptimewidget:buttons(awful.util.table.join(awful.button({}, 1, function () awesome.restart() end ) ) )
 
 -- memory widget
 local memwidget = widget({ type = 'textbox', name = 'memwidget' })
 vicious.register(memwidget, vicious.widgets.mem, modifier.mem_text .. '$1% $2MB/$3MB')
 awful.widget.layout.margins[memwidget] = { left = modifier.seperator_max, right = modifier.seperator_min }
-memwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'htop --sort-key PERCENT_MEM') end ) ) )
+memwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec( usr.terminal_cmd .. 'htop --sort-key PERCENT_MEM') end ) ) )
 local memgraphwidget = awful.widget.progressbar()
 memgraphwidget:set_vertical(true):set_ticks(true)
 memgraphwidget:set_width(modifier.cpuw_width):set_ticks_size(2)
@@ -1063,23 +1073,15 @@ awful.rules.rules = {
      properties = { tag = tags[1][1] } },
    { rule = {name = 'Xchat'},                -- messages tag
      properties = {tag = tags[1][7]} },
-   { rule = {class = 'Umplayer'},           -- nowplaying tag
-     properties = {floating = true} },
-   { rule = { class = 'Transmission' },     -- torrents tag
-     properties = {tag = tags[1][5] } },
 --   callback = function(c) c:tags({tags[1][5], tags[1][4]}) end}, -- multitag
-   { rule = {class = 'Geany'},              -- develop tag
+   { rule = {class = 'Sublime'},
      properties = {tag = tags[1][6]} },
-   { rule = {class = 'Sublime'},              -- develop tag
-     properties = {tag = tags[1][6]} },
-   { rule = {class = 'Kdenlive'},           -- editvideo tag
-     properties = {tag = tags[1][7]} },
-   { rule = {class = 'Nitrogen'},           -- appearance tag
-     properties = {tag = tags[1][8]} },
-   { rule = {class = 'Lxappearance'},       -- appearance tag
-     properties = {tag = tags[1][8] } },
-   { rule = {class = 'Shutter'},            -- desktop tag
+   { rule = {class = 'Kdenlive'},
+     properties = {tag = tags[1][5]} },
+   { rule = {class = 'Shutter'},
      properties = {floating = true } },
+   { rule = { class = 'Plugin-container' }, -- fullscreen youtube videos
+     properties = { floating = true } },
  --  { rule = { class = 'Nitrogen' }, 
  --   properties = { tag = tags[1][7], 
  --                   floating = true, 
@@ -1166,6 +1168,20 @@ run_once('parcellite')
 -- run_once('xcompmgr')
 -- Use the second argument, if the programm you wanna start differs from the what you want to search.
 -- run_once('redshift', 'redshift -o -l 0:0 -t 6500:5500')
+
+-- grab window/client class
+if usr.debug_clients then
+    t = timer { timeout = 3 }
+    t:add_signal('timeout',
+            function () for i,c in ipairs(client.get(mouse.screen)) do
+                            if c:tags()[mouse.screen] == awful.tag.selected(mouse.screen) then
+                                    naughty.notify({title = c.class, text = c.role})
+                                    naughty.notify({title = c.class, text = c.instance})
+                                    end
+                        end
+            end)
+    t:start()
+end
 
 if debug then
     timer.awfulkeys = socket.gettime() -- debug
