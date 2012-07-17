@@ -101,13 +101,12 @@ usr = {
                  -- "!URxvt*font: xft:Envy Code R-10\n" ..
                     "URxvt*iconFile: /usr/share/icons/gnome/24x24/apps/terminal.png\n" ..
                     "URxvt*background: #000000\n" .. -- black
-                 -- "URxvt*background: #676767\n" .. -- grey
                     "URxvt*foreground: #d3d3d3\n" .. -- white
                     "URxvt*transparent: false\n" .. 
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
                     "*underlineColor: #de5105\n",
     aur_helper_cmd = 'cower -fud',
-    -- gui_sudo   = 'kdesu', -- sudo command for gui applications (gksudo, kdesu)
+ -- gui_sudo   = 'kdesu', -- sudo command for gui applications (gksudo, kdesu)
     file_manager = {
         -- 'DISABLED', -- uncomment this out to hide menu entries
            'dolphin',
@@ -134,7 +133,7 @@ usr = {
     ,
     top_wibox    = 18, -- default 15
     bottom_wibox = 18, -- default 15
-    networks = { 'eth0', 'wlan0' }, -- Add your devices network interface here and only show the one that works
+    networks = { 'eth0', 'wlan0' }, -- Add your devices network interfaces here
     uptimewidget_enable    = true,
     cpuwidget_enable       = true,
     memwidget_enable       = true,
@@ -153,7 +152,7 @@ usr = {
     --  if your screen is 1440x900 the this line sets the bottom right.
     -- local safeCoords = {x=1440, y=900}
     -- if your screen is 1440x900 the this line sets the bottom left.
-    safeCoords = {x=0, y=900},
+    safeCoords = { x = 0, y = 900 },
     --  this line sets top middle(ish).
     -- local safeCoords = {x=720, y=0}
     -- Flag to tell Awesome whether to do this at startup.
@@ -170,7 +169,7 @@ usr = {
         back = { 'Left', 'x', 'h' },
     },
     exec = awful.util.spawn,
-    sexec  = awful.util.spawn_with_shell,
+ -- sexec  = awful.util.spawn_with_shell,
 }
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
@@ -191,17 +190,14 @@ local layouts = {
 
 -- Tags
 local tags = {
-   names  = { 
-      '1:Web',
-      '2:IRC',
-      '3:Logs',
-      '4:Video',
-      '5:Video2',
-      '6:Dev',
-      '7:---',
-      '8:---'
-            },
-   layout = {
+--  names  = { '1:Web', '2:Chat', '3:Logs', '4:Video', 
+--             '5:Video2', '6:Dev', '7:---', '8:---' },
+    names = { '☠', '⌥', '✇', '⌤', '⍜', '⚡', '✣', '⌨' },
+--  names = { '☭', '⌥', '✇', '⌤', '☼', '⌘', '⍜', '☠' },
+--  names = { '♨', '⌨', '⚡', '✉', '❁', '☃', '☄', '⚢' },
+--  names = { '➊', '➋', '➌', '➍', '➎', '➏', '➐', '➑' },
+
+    layout = {
       layouts[3],  -- 1:firefox 10
       layouts[3],  -- 2:weechat
       layouts[3],  -- 3:logs/bots/shells
@@ -221,13 +217,14 @@ end
 
 if usr.gui_editor then
    editor_cmd = usr.editor
-   -- su_editor_cmd = usr.gui_sudo .. ' ' .. usr.editor
+-- su_editor_cmd = usr.gui_sudo .. ' ' .. usr.editor
 else
    editor_cmd = usr.terminal_cmd .. usr.editor
-   -- su_editor_cmd = usr.terminal_cmd .. 'sudo ' .. usr.editor
+-- su_editor_cmd = usr.terminal_cmd .. 'sudo ' .. usr.editor
 end
 local sudo_bash = usr.terminal_cmd .. 'sudo bash '
 
+-- write terminal font options to .Xdefaults
 local f = io.open(home_path .. '.config/awesome/.urxvt_font', 'w+')
 local t = f:write(usr.terminal_font)
 f:close()
@@ -298,7 +295,7 @@ end
 freedesktop.utils.icon_theme = beautiful.menu_icons
 local menu_items = freedesktop.menu.new()
 
--- themes menu pdq 07-02-2012
+-- themes menu
 local thememenu = {}
 local function theme_load(theme)
    usr.exec('ln -sfn ' .. home_path .. '.config/awesome/themes/' .. theme .. ' ' .. home_path .. '.config/awesome/themes/current')
@@ -343,8 +340,6 @@ end
 
 local myawesomemenu = { 
    { 'Awesome Help', 'xdg-open http://awesome.naquadah.org/doc/manpages/awesome.1.html', freedesktop.utils.lookup_icon({ icon = 'help' }) },
-   { 'Appearance', 'lxappearance', freedesktop.utils.lookup_icon({ icon = 'style' }) },
-   { 'Wallpaper', 'nitrogen', freedesktop.utils.lookup_icon({ icon = 'style' }) },
    { 'Themes', thememenu, freedesktop.utils.lookup_icon({ icon = 'style' }) },
    { 'Menu icon', iconmenu, freedesktop.utils.lookup_icon({ icon = 'style' }) },
    { 'Edit Current config', editor_cmd .. ' ' .. awesome.conffile, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
@@ -374,7 +369,9 @@ table.insert(menu_items, { 'Awesome Options', myawesomemenu,  freedesktop.utils.
 
 -- Add script options pdq 07-05-2012
 if script_options.idesk or script_options.conky_1 or script_options.conky_2 or script_options.email then
-    myideskmenu = { 
+    myideskmenu = {
+        { 'Appearance', 'lxappearance', freedesktop.utils.lookup_icon({ icon = 'style' }) },
+        { 'Wallpaper', 'nitrogen', freedesktop.utils.lookup_icon({ icon = 'style' }) },
         { 'Kill Conky', usr.terminal_cmd .. 'killall conky', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
         { 'Kill Idesk', usr.terminal_cmd .. 'killall idesk', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
         { 'Start Conky', '/bin/bash ' .. home_path .. '.config/awesome/themes/current/script.sh ' .. script_run, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
@@ -428,6 +425,9 @@ local datewidget = widget({ type = 'textbox', name = 'datewidget' })
 vicious.register(datewidget, vicious.widgets.date, usr.date_format, 61)
 -- Calendar tooltip
 req.cal.register(datewidget, req.markup.fg(beautiful.fg_focus, '<b>%s</b>'))
+-- Register buttons
+datewidget:buttons(awful.util.table.join(
+  awful.button({ }, 1, function () exec('pylendar.py') end)))
 
 -- Create a systray
 local mysystray = widget({ type = 'systray' })
@@ -855,7 +855,7 @@ local globalkeys = awful.util.table.join(
    awful.key({ usr.modkey,           }, 'Left',   awful.tag.viewprev       ),
    awful.key({ usr.modkey,           }, 'Right',  awful.tag.viewnext       ),
    awful.key({ usr.modkey,           }, 'Escape', awful.tag.history.restore),
-   awful.key({ usr.modkey,           },  'e', req.revelation),  -- revelation
+   awful.key({ usr.modkey,           },  'e',     req.revelation),  -- revelation
 -- custom_keys(usr.mod_key.up),
 -- custom_keys(usr.mod_key.down),
    awful.key({ usr.modkey, }, 'j',
@@ -900,16 +900,15 @@ local globalkeys = awful.util.table.join(
    -- awful.key({ usr.modkey },  'r',     function () mypromptbox[mouse.screen]:run() end),
    awful.key({ usr.modkey }, 'p', function () 
           usr.exec('dmenu_run -i -nb "' .. beautiful.bg_normal.. '" -sb "' .. beautiful.bg_focus ..'" -sf "' .. beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "Execute:"') end),
-   awful.key({ usr.modkey }, 'q',
-              function ()
-                  awful.prompt.run({ prompt = 'Run Lua code: ' },
-                  mypromptbox[mouse.screen].widget,
-                  awful.util.eval, nil,
-                  awful.util.getdir('cache') .. '/history_eval')
-              end),
+   -- awful.key({ usr.modkey }, 'q',
+   --            function ()
+   --                awful.prompt.run({ prompt = 'Run Lua code: ' },
+   --                mypromptbox[mouse.screen].widget,
+   --                awful.util.eval, nil,
+   --                awful.util.getdir('cache') .. '/history_eval')
+   --            end),
    -- http://awesome.naquadah.org/wiki/Move_Mouse
    awful.key({ usr.modkey , 'Control' }, 'm', function() moveMouse(usr.safeCoords.x, usr.safeCoords.y) end),
-   
    awful.key({ usr.modkey }, 't', -- toggle bottom panel
               function ()
                   my_top_wibox[mouse.screen].visible = not my_top_wibox[mouse.screen].visible
@@ -918,12 +917,10 @@ local globalkeys = awful.util.table.join(
               function ()
                   my_bottom_wibox[mouse.screen].visible = not my_bottom_wibox[mouse.screen].visible
               end),
-              
    -- req.scratch.drop(prog, vert, horiz, width, height, sticky, screen)
    -- awful.key({ usr.modkey }, 'F11', function () req.scratch.drop('gmrun') end),
-   awful.key({ usr.modkey }, 'F12', function () req.scratch.drop(usr.terminal, 'bottom', 'left', 0.50, 0.50) end),
-   
-   -- http://awesome.naquadah.org/wiki/SSH:_prompt
+awful.key({ usr.modkey }, 'F12', function () req.scratch.drop(usr.terminal, 'bottom', 'left', 0.50, 0.50) end),
+      -- http://awesome.naquadah.org/wiki/SSH:_prompt
    awful.key({ usr.modkey, }, 'F2', function ()
      awful.prompt.run({ prompt = 'ssh: ' },
      mypromptbox[mouse.screen].widget,
@@ -963,7 +960,6 @@ local globalkeys = awful.util.table.join(
      awful.util.getdir('cache') .. '/ssh_history')
 end)
 )
-
 -- mpd
 musicwidget:append_global_keys()
    root.keys(globalkeys)
@@ -987,8 +983,20 @@ local clientkeys = awful.util.table.join(
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
-        end)
-)
+        end),
+   -- stick/unstick application to all tags
+   awful.key({ usr.modkey }, 's', function (c) c.sticky = not c.sticky end),
+   -- toggle title bar for application
+   awful.key({ usr.modkey, "Control" }, "t", function (c)
+        if   c.titlebar then awful.titlebar.remove(c)
+        else awful.titlebar.add(c, { modkey = usr.modkey }) end
+    end),
+    -- toggle tag title bar
+    awful.key({ usr.modkey, "Control" }, "f", function (c) if awful.client.floating.get(c)
+        then awful.client.floating.delete(c);    awful.titlebar.remove(c)
+        else awful.client.floating.set(c, true); awful.titlebar.add(c) end
+    end)
+   )
 
 -- Compute the maximum number of digit we need, limited to 9
 local keynumber = 0
@@ -1083,8 +1091,12 @@ awful.rules.rules = {
 
 -- Signal function to execute when a new client appears.
 client.add_signal('manage', function (c, startup)
-   -- Add a titlebar
-   -- awful.titlebar.add(c, { usr.modkey = usr.modkey })
+-- Add titlebar to floaters, but remove those from rule callback
+-- if awful.client.floating.get(c)
+-- or awful.layout.get(c.screen) == awful.layout.suit.floating then
+--     if   c.titlebar then awful.titlebar.remove(c)
+--     else awful.titlebar.add(c, {modkey = usr.modkey}) end
+-- end
    -- Enable sloppy focus
    c:add_signal('mouse::enter', function(c)
       if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
