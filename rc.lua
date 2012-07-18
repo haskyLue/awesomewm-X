@@ -430,10 +430,12 @@ end
 local datewidget = widget({ type = 'textbox', name = 'datewidget' })
 vicious.register(datewidget, vicious.widgets.date, usr.date_format, 61)
 -- Calendar tooltip
-req.cal.register(datewidget, req.markup.fg(beautiful.fg_focus, '<b>%s</b>'))
--- Register buttons
-datewidget:buttons(awful.util.table.join(
-  awful.button({ }, 1, function () exec('pylendar.py') end)))
+--req.cal.register(datewidget, req.markup.fg(beautiful.fg_focus, '<b>%s</b>'))
+
+local orglendar = require('orglendar')
+orglendar.files = { home_path .. '.config/awesome/custom/work.org', -- Specify here all files you want to be parsed, separated by comma
+                    home_path .. '.config/awesome/custom/home.org' }
+orglendar.register(datewidget)
 
 -- Create a systray
 local mysystray = widget({ type = 'systray' })
