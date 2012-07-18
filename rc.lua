@@ -127,6 +127,7 @@ usr = {
         -- 'midori',
     },
     primary_browser = 'firefox',
+                   -- 'luakit',
     screen_width = 
         --  1024 -- 1024 and below
         --  1152 -- 1025-1152
