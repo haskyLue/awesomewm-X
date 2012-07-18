@@ -878,8 +878,7 @@ local globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-   awful.key({ usr.modkey,           }, 'w', function () mymainmenu:show({keygrabber=true}) end),
-
+   -- awful.key({ usr.modkey,           }, 'w', function () mymainmenu:show({keygrabber=true}) end),
    -- Layout manipulation
    awful.key({ usr.modkey, 'Shift'   }, 'j', function () awful.client.swap.byidx(  1)    end),
    awful.key({ usr.modkey, 'Shift'   }, 'k', function () awful.client.swap.byidx( -1)    end),
@@ -908,6 +907,15 @@ local globalkeys = awful.util.table.join(
    awful.key({ usr.modkey, 'Shift'   }, 'space', function () awful.layout.inc(layouts, -1) end),
    awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore),
    -- awful.key({ usr.modkey },  'r',     function () mypromptbox[mouse.screen]:run() end),
+   -- yubnub
+   awful.key({ usr.modkey }, 'w' , function ()
+        awful.prompt.run({ prompt = 'Web search: ' }, mypromptbox[mouse.screen].widget,
+            function (command)
+                awful.util.spawn("firefox 'http://yubnub.org/parser/parse?command=" .. command .. "'", false)
+                -- Switch to the web tag, where Firefox is, in this case tag 3
+                if tags[mouse.screen][1] then awful.tag.viewonly(tags[mouse.screen][1]) end
+            end)
+    end),
    awful.key({ usr.modkey }, 'p', function () 
           usr.exec('dmenu_run -i -nb "' .. beautiful.bg_normal.. '" -sb "' .. beautiful.bg_focus ..'" -sf "' .. beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "Execute:"') end),
    -- awful.key({ usr.modkey }, 'q',
