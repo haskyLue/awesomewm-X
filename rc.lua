@@ -911,20 +911,15 @@ local globalkeys = awful.util.table.join(
    awful.key({ usr.modkey }, 'w' , function ()
         awful.prompt.run({ prompt = 'Web search: ' }, mypromptbox[mouse.screen].widget,
             function (command)
-                awful.util.spawn(usr.primary_browser .. " 'http://yubnub.org/parser/parse?command=" .. command .. "'", false)
+                awful.util.spawn(usr.primary_browser .. 
+                    " 'http://yubnub.org/parser/parse?command=" .. command .. "'", false)
                 -- Switch to the web tag, where Firefox is, in this case tag 3
                 if tags[mouse.screen][1] then awful.tag.viewonly(tags[mouse.screen][1]) end
             end)
     end),
    awful.key({ usr.modkey }, 'p', function () 
-          usr.exec('dmenu_run -i -nb "' .. beautiful.bg_normal.. '" -sb "' .. beautiful.bg_focus ..'" -sf "' .. beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "Execute:"') end),
-   -- awful.key({ usr.modkey }, 'q',
-   --            function ()
-   --                awful.prompt.run({ prompt = 'Run Lua code: ' },
-   --                mypromptbox[mouse.screen].widget,
-   --                awful.util.eval, nil,
-   --                awful.util.getdir('cache') .. '/history_eval')
-   --            end),
+        usr.exec('dmenu_run -i -nb "' .. beautiful.bg_normal.. '" -sb "' .. beautiful.bg_focus ..'" -sf "' .. 
+            beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "Execute:"') end),
    -- http://awesome.naquadah.org/wiki/Move_Mouse
    awful.key({ usr.modkey , 'Control' }, 'm', function() moveMouse(usr.safeCoords.x, usr.safeCoords.y) end),
    awful.key({ usr.modkey }, 't', -- toggle bottom panel
