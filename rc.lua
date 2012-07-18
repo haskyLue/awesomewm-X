@@ -125,9 +125,10 @@ usr = {
         -- 'chromium',
         -- 'opera',
         -- 'midori',
+        -- 'luakit',
     },
-    primary_browser = 'firefox',
-                   -- 'luakit',
+    primary_browser = -- 'firefox',
+                         'luakit',
     screen_width = 
         --  1024 -- 1024 and below
         --  1152 -- 1025-1152
@@ -205,7 +206,7 @@ local tags = {
 --  names = { '➊', '➋', '➌', '➍', '➎', '➏', '➐', '➑' },
 
     layout = {
-      layouts[3],  -- 1:firefox 10
+      layouts[4],  -- 1:firefox 10
       layouts[3],  -- 2:weechat/pidgin
       layouts[3],  -- 3:logs/bots/shells
       layouts[3],  -- 4:media playing
@@ -1077,6 +1078,8 @@ awful.rules.rules = {
      properties = { tag = tags[1][1] } },
    { rule = { class = 'Chromium' },         -- browser tag
      properties = { tag = tags[1][1] } },
+   { rule = { class = 'luakit' },          -- browser tag
+     properties = { tag = tags[1][1] } },
    { rule = {name = 'Xchat'},                -- messages tag
      properties = {tag = tags[1][7]} },
 --   callback = function(c) c:tags({tags[1][5], tags[1][4]}) end}, -- multitag
@@ -1116,7 +1119,7 @@ client.add_signal('manage', function (c, startup)
    if not startup then
       -- Set the windows at the slave,
       -- i.e. put it at the end of others instead of setting it master.
-      -- awful.client.setslave(c)
+      awful.client.setslave(c)
       -- Put windows in a smart way, only if they does not set an initial position.
       if not c.size_hints.user_position and not c.size_hints.program_position then
          awful.placement.no_overlap(c)
