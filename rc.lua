@@ -126,6 +126,7 @@ usr = {
         -- 'opera',
         -- 'midori',
     },
+    primary_browser = 'firefox',
     screen_width = 
         --  1024 -- 1024 and below
         --  1152 -- 1025-1152
@@ -906,12 +907,11 @@ local globalkeys = awful.util.table.join(
    awful.key({ usr.modkey,           }, 'space', function () awful.layout.inc(layouts,  1) end),
    awful.key({ usr.modkey, 'Shift'   }, 'space', function () awful.layout.inc(layouts, -1) end),
    awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore),
-   -- awful.key({ usr.modkey },  'r',     function () mypromptbox[mouse.screen]:run() end),
-   -- yubnub
+   -- yubnub try, 'ls dictionary'
    awful.key({ usr.modkey }, 'w' , function ()
         awful.prompt.run({ prompt = 'Web search: ' }, mypromptbox[mouse.screen].widget,
             function (command)
-                awful.util.spawn("firefox 'http://yubnub.org/parser/parse?command=" .. command .. "'", false)
+                awful.util.spawn(usr.primary_browser .. " 'http://yubnub.org/parser/parse?command=" .. command .. "'", false)
                 -- Switch to the web tag, where Firefox is, in this case tag 3
                 if tags[mouse.screen][1] then awful.tag.viewonly(tags[mouse.screen][1]) end
             end)
