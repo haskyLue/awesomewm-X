@@ -1,40 +1,45 @@
 -- matrix, awesome3 theme, by ShdB --
 
 --{{{ Main
-require('awful.util')
+if home_path ~= nil then
+	require('awful.util')
+end
 
 theme = {}
 
-config        = home_path .. '.config/awesome'
-shared        = '/usr/share/awesome'
-if not awful.util.file_readable(shared .. '/icons/awesome16.png') then
-    shared    = '/usr/share/local/awesome'
-end
-sharedicons   = shared .. '/icons'
-sharedthemes  = shared .. '/themes'
-themes        = config .. '/themes'
-name = 'matrix'
-themename     = '/' .. name
-theme.theme_name = name
-if not awful.util.file_readable(themes .. themename .. '/theme.lua') then
-	themes = sharedthemes
-end
-themedir      = themes .. themename
+if home_path ~= nil then
+	config        = home_path .. '.config/awesome'
+	shared        = '/usr/share/awesome'
+	if not awful.util.file_readable(shared .. '/icons/awesome16.png') then
+	    shared    = '/usr/share/local/awesome'
+	end
+	sharedicons   = shared .. '/icons'
+	sharedthemes  = shared .. '/themes'
+	themes        = config .. '/themes'
+	name = 'matrix'
+	themename     = '/' .. name
+	theme.theme_name = name
+	if not awful.util.file_readable(themes .. themename .. '/theme.lua') then
+		themes = sharedthemes
+	end
+	themedir      = themes .. themename
 
-if script_options.global == nil then
-    theme.wpscript     = themedir .. '/script.sh'
-else
-    theme.wpscript     = config .. '/globalscript.sh'
+	if script_options.global == nil then
+	    theme.wpscript     = themedir .. '/script.sh'
+	else
+	    theme.wpscript     = config .. '/globalscript.sh'
+	end
+
+	if awful.util.file_readable(theme.wpscript) then
+	    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
+	end
+
+	if awful.util.file_readable(config .. '/vain/init.lua') then
+	    theme.useless_gap_width  = '3'
+	end
+	--}}}
 end
 
-if awful.util.file_readable(theme.wpscript) then
-    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
-end
-
-if awful.util.file_readable(config .. '/vain/init.lua') then
-    theme.useless_gap_width  = '3'
-end
---}}}
 theme.menu_icons    = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
 theme.font          = 'snap'
 
@@ -77,27 +82,28 @@ theme.menu_height   = '20'
 theme.menu_width    = '100'
 
 theme.taglist_squares = 'true'
-theme.awesome_icon = home_path .. '.config/awesome/icons/menu_icon.png'
+if home_path ~= nil then
+	theme.awesome_icon = home_path .. '.config/awesome/icons/menu_icon.png'
 
--- theme.battery = themes .. '/icons/him/battery.png'
--- theme.volume = themes .. '/icons/him/volume.png'
--- theme.muted = themes .. '/icons/him/muted.png'
--- theme.cpu = themes .. '/icons/him/cpu.png'
--- theme.temp = themes .. '/icons/him/temp.png'
--- theme.mail = themes .. '/icons/him/mail.png'
--- theme.mem = themes .. '/icons/him/mem.png'
--- theme.wireless = themes .. '/icons/him/wireless.png'
--- theme.network = themes .. '/icons/him/network.png'
--- theme.mpd_play = themes .. '/icons/him/mpd_play.png'
--- theme.mpd_pause = themes .. '/icons/him/mpd_pause.png'
--- theme.mpd_stop = themes .. '/icons/him/mpd_stop.png'
+	-- theme.battery = themes .. '/icons/him/battery.png'
+	-- theme.volume = themes .. '/icons/him/volume.png'
+	-- theme.muted = themes .. '/icons/him/muted.png'
+	-- theme.cpu = themes .. '/icons/him/cpu.png'
+	-- theme.temp = themes .. '/icons/him/temp.png'
+	-- theme.mail = themes .. '/icons/him/mail.png'
+	-- theme.mem = themes .. '/icons/him/mem.png'
+	-- theme.wireless = themes .. '/icons/him/wireless.png'
+	-- theme.network = themes .. '/icons/him/network.png'
+	-- theme.mpd_play = themes .. '/icons/him/mpd_play.png'
+	-- theme.mpd_pause = themes .. '/icons/him/mpd_pause.png'
+	-- theme.mpd_stop = themes .. '/icons/him/mpd_stop.png'
 
-theme.layout_fairh = themedir .. '/layouts/fairh.png'
-theme.layout_fairv = themedir .. '/layouts/fairv.png'
-theme.layout_floating = themedir .. '/layouts/floating.png'
-theme.layout_max = themedir .. '/layouts/max.png'
-theme.layout_spiral = themedir .. '../default/layouts/spiralw.png'
-theme.layout_tilebottom = themedir .. '/layouts/tilebottom.png'
-theme.layout_tile = themedir .. '/layouts/tile.png'
-
+	theme.layout_fairh = themedir .. '/layouts/fairh.png'
+	theme.layout_fairv = themedir .. '/layouts/fairv.png'
+	theme.layout_floating = themedir .. '/layouts/floating.png'
+	theme.layout_max = themedir .. '/layouts/max.png'
+	theme.layout_spiral = themedir .. '../default/layouts/spiralw.png'
+	theme.layout_tilebottom = themedir .. '/layouts/tilebottom.png'
+	theme.layout_tile = themedir .. '/layouts/tile.png'
+end
 return theme
