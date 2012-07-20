@@ -911,11 +911,22 @@ local globalkeys = awful.util.table.join(
    awful.key({ usr.modkey,           }, 'space', function () awful.layout.inc(layouts,  1) end),
    awful.key({ usr.modkey, 'Shift'   }, 'space', function () awful.layout.inc(layouts, -1) end),
    awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore),
+   awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore),
+
+   -- awful.key({ usr.modkey, }, "F2", function () usr.exec("sh -c 'luakit --class=luaproxy --name=luaproxy -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end),
+
+   -- awful.key({ usr.modkey, }, "F8", function () usr.exec("sh -c 'luakit -U --class=luakit --name=luakit -c " .. home_path .. ".config/luakit/rc.lua  > /dev/null 2>&1'") end),
+
+   awful.key({ usr.modkey, }, "F2", function () usr.exec("sh -c 'luakit --class=luaproxy --name=luaproxy -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end),
+
+   awful.key({ usr.modkey, }, "F8", function () usr.exec("sh -c 'luakit -U --class=luakit --name=luakit -c " .. home_path .. ".config/luakit/rc.lua  > /dev/null 2>&1'") end),
+
+   awful.key({ usr.modkey, 'Control' }, 'w', function () usr.exec(usr.primary_browser) end),
    -- yubnub try, 'ls dictionary'
    awful.key({ usr.modkey }, 'w' , function ()
         awful.prompt.run({ prompt = 'Web search: ' }, mypromptbox[mouse.screen].widget,
             function (command)
-                awful.util.spawn(usr.primary_browser .. 
+                usr.exec(usr.primary_browser .. 
                     " 'http://yubnub.org/parser/parse?command=" .. command .. "'", false)
                 -- Switch to the web tag, where Firefox is, in this case tag 3
                 if tags[mouse.screen][1] then awful.tag.viewonly(tags[mouse.screen][1]) end
@@ -938,7 +949,7 @@ local globalkeys = awful.util.table.join(
    -- awful.key({ usr.modkey }, 'F11', function () req.scratch.drop('gmrun') end),
 awful.key({ usr.modkey }, 'F12', function () req.scratch.drop(usr.terminal, 'bottom', 'left', 0.50, 0.50) end),
       -- http://awesome.naquadah.org/wiki/SSH:_prompt
-   awful.key({ usr.modkey, }, 'F2', function ()
+   awful.key({ usr.modkey, }, 'F3', function ()
      awful.prompt.run({ prompt = 'ssh: ' },
      mypromptbox[mouse.screen].widget,
      function(h)
