@@ -675,7 +675,7 @@ end, 3)
   -- returns 1st value as uptime in days, 2nd as uptime in hours, 3rd
   --  as uptime in minutes, 4th as load average for past 1 minute, 5th
   --  for 5 minutes and 6th for 15 minutes
-local uptimewidget = widget({ type = "textbox" })
+local uptimewidget = widget({ type = 'textbox' })
 vicious.register(uptimewidget, vicious.widgets.uptime, modifier.uptime_text .. '$1d $2:$3, $4, $5, $6', 60)
 awful.widget.layout.margins[uptimewidget] = { left = modifier.seperator_min, right = modifier.seperator_max }
 -- button to restart awesome
@@ -913,13 +913,17 @@ local globalkeys = awful.util.table.join(
    awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore),
    awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore),
 
-   -- awful.key({ usr.modkey, }, "F2", function () usr.exec("sh -c 'luakit --class=luaproxy --name=luaproxy -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end),
+   awful.key({ usr.modkey, }, ']', function () usr.exec("sh -c 'luakit -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end),
 
-   -- awful.key({ usr.modkey, }, "F8", function () usr.exec("sh -c 'luakit -U --class=luakit --name=luakit -c " .. home_path .. ".config/luakit/rc.lua  > /dev/null 2>&1'") end),
+   awful.key({ usr.modkey, }, '[', function () usr.exec("sh -c 'luakit -U -c " .. home_path .. ".config/luakit/rc.lua  > /dev/null 2>&1'") end),
 
-   awful.key({ usr.modkey, }, "F2", function () usr.exec("sh -c 'luakit --class=luaproxy --name=luaproxy -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end),
+   awful.key({ usr.modkey, }, '\\', function () usr.exec('spacefm --panel=1') end),
 
-   awful.key({ usr.modkey, }, "F8", function () usr.exec("sh -c 'luakit -U --class=luakit --name=luakit -c " .. home_path .. ".config/luakit/rc.lua  > /dev/null 2>&1'") end),
+   awful.key({ usr.modkey, 'Control' }, '\\', function () usr.exec('spacefm') end),
+
+   awful.key({ usr.modkey, }, '\'', function () usr.exec('subl') end),
+
+   awful.key({ usr.modkey, }, '/', function () usr.exec('xchat') end),
 
    awful.key({ usr.modkey, 'Control' }, 'w', function () usr.exec(usr.primary_browser) end),
    -- yubnub try, 'ls dictionary'
