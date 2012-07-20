@@ -913,6 +913,8 @@ local globalkeys = awful.util.table.join(
    awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore),
    awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore),
 
+   awful.key({ usr.modkey, }, '`', function () usr.exec('sh '.. home_path .. 'bin/screenshot') end),
+
    awful.key({ usr.modkey, }, ']', function () usr.exec("sh -c 'luakit -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end),
 
    awful.key({ usr.modkey, }, '[', function () usr.exec("sh -c 'luakit -U -c " .. home_path .. ".config/luakit/rc.lua  > /dev/null 2>&1'") end),
@@ -1189,7 +1191,7 @@ end
 -- launch clipboard manager
 run_once('parcellite')
 -- launch the composite manager
--- run_once('xcompmgr')
+run_once('cairo-compmgr')
 -- Use the second argument, if the programm you wanna start differs from the what you want to search.
 -- run_once('redshift', 'redshift -o -l 0:0 -t 6500:5500')
 
