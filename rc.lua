@@ -74,7 +74,7 @@ script_options = {
                wallpaper = true,      -- theme changes wallpaper (default true) unless global uncommented then uses ~/.config/awesome/global_wallpaper.jpg
                conky_1 = true,        -- (default true) ~/.config/conky/.conkyrc
                conky_2 = true,        -- (default true) ~/.config/conky/conky_grey/conkyrc_grey
-               linux = 'archlinux',   -- archlinux/debian/fedora/gentoo/
+               linux = '',   -- archlinux/debian/fedora/gentoo/
                email = true,          -- (default false) ~/.config/conky/unread_email.sh
              }
 
