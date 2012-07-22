@@ -1,44 +1,63 @@
 -- zenburn-custom, awesome3 theme, by Adrian C. (anrxc)
 
 --{{{ Main
-require('awful.util')
+if home_path ~= nil then
+	require('awful.util')
+end
 
 theme = {}
+theme.font         = 'Terminus 8'
+theme.taglist_font = 'Terminus 8'
+theme.border_width = '1'
 
-config        = home_path .. '.config/awesome'
-shared        = '/usr/share/awesome'
-if not awful.util.file_readable(shared .. '/icons/awesome16.png') then
-    shared    = '/usr/share/local/awesome'
-end
-sharedicons   = shared .. '/icons'
-sharedthemes  = shared .. '/themes'
-themes        = config .. '/themes'
-name     = 'zenburn-custom'
-themename     = '/' .. name
-theme.theme_name = name
-if not awful.util.file_readable(themes .. themename .. '/theme.lua') then
-       themes = sharedthemes
-end
-themedir      = themes .. themename
+if home_path ~= nil then
+	config = home_path .. '.config/awesome'
+	shared = '/usr/share/awesome'
 
-if script_options.global == nil then
-    theme.wpscript     = themedir .. '/script.sh'
-else
-    theme.wpscript     = config .. '/globalscript.sh'
-end
+	if not awful.util.file_readable(shared .. '/icons/awesome16.png') then
+	    shared = '/usr/share/local/awesome'
+	end
 
-if awful.util.file_readable(theme.wpscript) then
-    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
-end
+	sharedicons      = shared .. '/icons'
+	sharedthemes     = shared .. '/themes'
+	themes           = config .. '/themes'
+	name             = 'zenburn-custom'
+	themename        = '/' .. name
+	theme.theme_name = name
 
-if awful.util.file_readable(config .. '/vain/init.lua') then
-    theme.useless_gap_width  = '3'
+	if not awful.util.file_readable(themes .. themename .. '/theme.lua') then
+		themes = sharedthemes
+	end
+	themedir = themes .. themename
+
+	if script_options.global == nil then
+	    theme.wpscript     = themedir .. '/script.sh'
+	else
+	    theme.wpscript     = config .. '/globalscript.sh'
+	end
+
+	if awful.util.file_readable(theme.wpscript) then
+	    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
+	end
+
+	if awful.util.file_readable(config .. '/vain/init.lua') then
+	    theme.useless_gap_width  = '3'
+	end
+
+	if script_options.font ~= nil then
+		theme.font = script_options.font
+	end
+
+	if script_options.taglist_font ~= nil then
+		theme.taglist_font = script_options.taglist_font
+	end
+
+	theme.border_width = script_options.border_width
 end
 --}}}
 
 -- {{{ Styles
 theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
-theme.font      = 'Profont 8'
 
 -- {{{ Colors
 theme.fg_normal = '#DCDCCC'
@@ -65,7 +84,6 @@ theme.fg_bottom     = '#DCDCCC' -- bottom panel text color
 theme.bg_graphs     = '#1E2320' -- graphs background color
 
 -- {{{ Borders
-theme.border_width  = '1'
 theme.border_normal = '#3F3F3F'
 theme.border_focus  = '#6F6F6F'
 theme.border_marked = '#CC9393'
@@ -90,92 +108,61 @@ theme.border_widget    = '#3F3F3F'
 
 -- {{{ Mouse finder
 theme.mouse_finder_color = '#CC9393'
--- theme.mouse_finder_[timeout|animate_timeout|radius|factor]
--- }}}
 
--- {{{ Tooltips
--- theme.tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
--- }}}
+if home_path ~= nil then
+	-- {{{ Icons
+	-- {{{ Taglist icons
+	theme.taglist_squares_sel   = themedir .. '/taglist/squarefz.png'
+	theme.taglist_squares_unsel = themedir .. '/taglist/squareza.png'
+	--theme.taglist_squares_resize = 'false'
+	-- }}}
 
--- {{{ Taglist and Tasklist
--- theme.[taglist|tasklist]_[bg|fg]_[focus|urgent]
--- }}}
+	-- {{{ Misc icons
+	theme.awesome_icon = home_path .. '.config/awesome/icons/menu_icon.png'
+	--theme.awesome_icon           = themedir .. '/awesome.png'
+	--theme.menu_submenu_icon      = sharedthemes .. '/default/submenu.png'
+	--theme.tasklist_floating_icon = sharedthemes .. '/default/tasklist/floatingw.png'
+	-- }}}
 
--- {{{ Menu
--- theme.menu_[bg|fg]_[normal|focus]
--- theme.menu_[height|width|border_color|border_width]
--- }}}
--- }}}
+	-- {{{ Layout icons
+	theme.layout_tile       = themedir .. '/layouts/tile.png'
+	theme.layout_tileleft   = themedir .. '/layouts/tileleft.png'
+	theme.layout_tilebottom = themedir .. '/layouts/tilebottom.png'
+	theme.layout_tiletop    = themedir .. '/layouts/tiletop.png'
+	theme.layout_fairv      = themedir .. '/layouts/fairv.png'
+	theme.layout_fairh      = themedir .. '/layouts/fairh.png'
+	theme.layout_spiral     = themedir .. '/layouts/spiral.png'
+	theme.layout_dwindle    = themedir .. '/layouts/dwindle.png'
+	theme.layout_max        = themedir .. '/layouts/max.png'
+	theme.layout_fullscreen = themedir .. '/layouts/fullscreen.png'
+	theme.layout_magnifier  = themedir .. '/layouts/magnifier.png'
+	theme.layout_floating   = themedir .. '/layouts/floating.png'
+	-- }}}
 
+	-- {{{ Titlebar icons
+	theme.titlebar_close_button_focus  = themedir .. '/titlebar/close_focus.png'
+	theme.titlebar_close_button_normal = themedir .. '/titlebar/close_normal.png'
 
--- {{{ Icons
---
--- {{{ Taglist icons
-theme.taglist_squares_sel   = themedir .. '/taglist/squarefz.png'
-theme.taglist_squares_unsel = themedir .. '/taglist/squareza.png'
---theme.taglist_squares_resize = 'false'
--- }}}
+	theme.titlebar_ontop_button_focus_active    = themedir .. '/titlebar/ontop_focus_active.png'
+	theme.titlebar_ontop_button_normal_active   = themedir .. '/titlebar/ontop_normal_active.png'
+	theme.titlebar_ontop_button_focus_inactive  = themedir .. '/titlebar/ontop_focus_inactive.png'
+	theme.titlebar_ontop_button_normal_inactive = themedir .. '/titlebar/ontop_normal_inactive.png'
 
--- {{{ Misc icons
-theme.awesome_icon = home_path .. '.config/awesome/icons/menu_icon.png'
---theme.awesome_icon           = themedir .. '/awesome.png'
---theme.menu_submenu_icon      = sharedthemes .. '/default/submenu.png'
---theme.tasklist_floating_icon = sharedthemes .. '/default/tasklist/floatingw.png'
--- }}}
+	theme.titlebar_sticky_button_focus_active    = themedir .. '/titlebar/sticky_focus_active.png'
+	theme.titlebar_sticky_button_normal_active   = themedir .. '/titlebar/sticky_normal_active.png'
+	theme.titlebar_sticky_button_focus_inactive  = themedir .. '/titlebar/sticky_focus_inactive.png'
+	theme.titlebar_sticky_button_normal_inactive = themedir .. '/titlebar/sticky_normal_inactive.png'
 
--- {{{ Layout icons
-theme.layout_tile       = themedir .. '/layouts/tile.png'
-theme.layout_tileleft   = themedir .. '/layouts/tileleft.png'
-theme.layout_tilebottom = themedir .. '/layouts/tilebottom.png'
-theme.layout_tiletop    = themedir .. '/layouts/tiletop.png'
-theme.layout_fairv      = themedir .. '/layouts/fairv.png'
-theme.layout_fairh      = themedir .. '/layouts/fairh.png'
-theme.layout_spiral     = themedir .. '/layouts/spiral.png'
-theme.layout_dwindle    = themedir .. '/layouts/dwindle.png'
-theme.layout_max        = themedir .. '/layouts/max.png'
-theme.layout_fullscreen = themedir .. '/layouts/fullscreen.png'
-theme.layout_magnifier  = themedir .. '/layouts/magnifier.png'
-theme.layout_floating   = themedir .. '/layouts/floating.png'
--- }}}
+	theme.titlebar_floating_button_focus_active    = themedir .. '/titlebar/floating_focus_active.png'
+	theme.titlebar_floating_button_normal_active   = themedir .. '/titlebar/floating_normal_active.png'
+	theme.titlebar_floating_button_focus_inactive  = themedir .. '/titlebar/floating_focus_inactive.png'
+	theme.titlebar_floating_button_normal_inactive = themedir .. '/titlebar/floating_normal_inactive.png'
 
--- {{{ Widget icons
--- theme.widget_cpu    = themes .. '/icons/gigamo/cpu.png'
--- theme.widget_bat    = themes .. '/icons/gigamo/bat.png'
--- theme.widget_mem    = themes .. '/icons/gigamo/mem.png'
--- theme.widget_fs     = themes .. '/icons/gigamo/disk.png'
--- theme.widget_net    = themes .. '/icons/gigamo/down.png'
--- theme.widget_netup  = themes .. '/icons/gigamo/up.png'
--- theme.widget_mail   = themes .. '/icons/gigamo/mail.png'
--- theme.widget_vol    = themes .. '/icons/gigamo/vol.png'
--- theme.widget_org    = themes .. '/icons/gigamo/cal.png'
--- theme.widget_date   = themes .. '/icons/gigamo/time.png'
--- theme.widget_crypto = themes .. '/icons/gigamo/crypto.png'
--- }}}
-
--- {{{ Titlebar icons
-theme.titlebar_close_button_focus  = themedir .. '/titlebar/close_focus.png'
-theme.titlebar_close_button_normal = themedir .. '/titlebar/close_normal.png'
-
-theme.titlebar_ontop_button_focus_active    = themedir .. '/titlebar/ontop_focus_active.png'
-theme.titlebar_ontop_button_normal_active   = themedir .. '/titlebar/ontop_normal_active.png'
-theme.titlebar_ontop_button_focus_inactive  = themedir .. '/titlebar/ontop_focus_inactive.png'
-theme.titlebar_ontop_button_normal_inactive = themedir .. '/titlebar/ontop_normal_inactive.png'
-
-theme.titlebar_sticky_button_focus_active    = themedir .. '/titlebar/sticky_focus_active.png'
-theme.titlebar_sticky_button_normal_active   = themedir .. '/titlebar/sticky_normal_active.png'
-theme.titlebar_sticky_button_focus_inactive  = themedir .. '/titlebar/sticky_focus_inactive.png'
-theme.titlebar_sticky_button_normal_inactive = themedir .. '/titlebar/sticky_normal_inactive.png'
-
-theme.titlebar_floating_button_focus_active    = themedir .. '/titlebar/floating_focus_active.png'
-theme.titlebar_floating_button_normal_active   = themedir .. '/titlebar/floating_normal_active.png'
-theme.titlebar_floating_button_focus_inactive  = themedir .. '/titlebar/floating_focus_inactive.png'
-theme.titlebar_floating_button_normal_inactive = themedir .. '/titlebar/floating_normal_inactive.png'
-
-theme.titlebar_maximized_button_focus_active    = themedir .. '/titlebar/maximized_focus_active.png'
-theme.titlebar_maximized_button_normal_active   = themedir .. '/titlebar/maximized_normal_active.png'
-theme.titlebar_maximized_button_focus_inactive  = themedir .. '/titlebar/maximized_focus_inactive.png'
-theme.titlebar_maximized_button_normal_inactive = themedir .. '/titlebar/maximized_normal_inactive.png'
--- }}}
--- }}}
-
+	theme.titlebar_maximized_button_focus_active    = themedir .. '/titlebar/maximized_focus_active.png'
+	theme.titlebar_maximized_button_normal_active   = themedir .. '/titlebar/maximized_normal_active.png'
+	theme.titlebar_maximized_button_focus_inactive  = themedir .. '/titlebar/maximized_focus_inactive.png'
+	theme.titlebar_maximized_button_normal_inactive = themedir .. '/titlebar/maximized_normal_inactive.png'
+	-- }}}
+	-- }}}
+end
 return theme

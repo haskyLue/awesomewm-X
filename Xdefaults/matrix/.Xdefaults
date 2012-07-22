@@ -53,4 +53,4 @@ URxvt*tabbed.tab-fg:    14
 URxvt*tabbed.tab-bg:    0
 
 ! include font and bg/fg colors
-# include ".config/awesome/.urxvt_font"
+include ".config/awesome/.urxvt_font"

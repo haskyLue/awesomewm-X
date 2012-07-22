@@ -42,6 +42,7 @@ end
 
 theme.menu_icons    = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
 theme.font          = 'snap'
+theme.taglist_font = "snap 12"
 
 theme.bg_normal     = '#171717'
 theme.bg_focus      = '#171717'

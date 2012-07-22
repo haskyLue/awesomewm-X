@@ -71,11 +71,14 @@ home_path  = os.getenv('HOME') .. '/'
 script_options = {
                idesk = false,         -- use idesk (default false)
             -- global = true,         -- comment to use per theme script (default commented) or global script ~/.config/awesome/global_script.sh
-               wallpaper = true,      -- theme changes wallpaper (default true) unless global uncommented then uses ~/.config/awesome/global_wallpaper.jpg
+               -- wallpaper = true,      -- theme changes wallpaper (default true) unless global uncommented then uses ~/.config/awesome/global_wallpaper.jpg
                conky_1 = true,        -- (default true) ~/.config/conky/.conkyrc
                conky_2 = true,        -- (default true) ~/.config/conky/conky_grey/conkyrc_grey
-               linux = '',   -- archlinux/debian/fedora/gentoo/
+               linux = 'archlinux',   -- archlinux/debian/fedora/gentoo/
                email = true,          -- (default false) ~/.config/conky/unread_email.sh
+               font = 'Terminus 8',          -- comment to use themes settings
+               taglist_font = 'Terminus 12', -- comment to use themes settings
+               border_width = 0,
              }
 
 -- DO NOT EDIT THIS SECTION START --
@@ -185,13 +188,7 @@ local layouts = {
    awful.layout.suit.floating,        -- 1
    awful.layout.suit.tile,            -- 2
    awful.layout.suit.tile.left,       -- 3
--- awful.layout.suit.tile.bottom,     -- 4
--- awful.layout.suit.tile.top,        -- 5
--- awful.layout.suit.fair,            -- 6
--- awful.layout.suit.fair.horizontal, -- 7
--- awful.layout.suit.spiral,          -- 8
--- awful.layout.suit.spiral.dwindle,  -- 9
-   awful.layout.suit.max,             -- 10
+   awful.layout.suit.max,             -- 4
 -- awful.layout.suit.max.fullscreen,  -- 11
 -- awful.layout.suit.magnifier        -- 12
 }
@@ -927,6 +924,8 @@ local globalkeys = awful.util.table.join(
 
    awful.key({ usr.modkey, }, '/', function () usr.exec('xchat') end),
 
+-- awful.key({ usr.modkey, }, '.', function () usr.exec(home_path .. "Development/luakit/luakit -U luakit://help") end),
+
    awful.key({ usr.modkey, 'Control' }, 'w', function () usr.exec(usr.primary_browser) end),
    -- yubnub try, 'ls dictionary'
    awful.key({ usr.modkey }, 'w' , function ()
@@ -1090,7 +1089,7 @@ awful.rules.rules = {
                     size_hints_honor = false,
                     buttons = clientbuttons } },
    { rule = {class = 'URxvt'}, 
-     properties = { opacity = 0.8 } },
+     properties = { opacity = 0.6 } },
    { rule = { class = 'Firefox' },          -- browser tag
      properties = { tag = tags[1][1] } },
    { rule = { class = 'Chromium' },         -- browser tag
@@ -1104,8 +1103,6 @@ awful.rules.rules = {
      properties = {tag = tags[1][6]} },
    { rule = {class = 'Kdenlive'},
      properties = {tag = tags[1][5]} },
-   { rule = {class = 'Shutter'},
-     properties = {floating = true } },
    { rule = { class = 'Plugin-container' }, -- fullscreen youtube videos
      properties = { floating = true } },
  --  { rule = { class = 'Nitrogen' }, 
@@ -1186,7 +1183,7 @@ local function run_once(process, cmd)
    end
    return usr.exec(cmd or process)
 end
-
+-- dmenu parcellite cairo-compmgr mpd mpc scrot rxvt-unicode-patched
 -- Autostart programs here or in ~/.xinitrc (Autostart Daemons in /etc/rc.conf)
 -- launch clipboard manager
 run_once('parcellite')
