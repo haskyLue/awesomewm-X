@@ -12,31 +12,36 @@ Depends on: git, [luasocket][9], mpd, mpc, bash-completion, cclive, dmenu, htop,
 Optional:   [idesk][1]
 
 
-Step 1: INSTALL Awesome Window Manager and misc packages
+Step 1: MINIMAL and/or OPTIONAL packages
+-----------------------------------------------
+
+`Archlinux:`
+
+Install Minimal required packages (ie: after fresh install):
+
+    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa
+
+
+Install Optional recommended packages:
+
+    # pacman -S git spacefm
+
+    $ packer -S luakit sublime-text
+
+
+Step 2: INSTALL Awesome Window Manager and misc packages
 ------------------------------
 
 `Archlinux:`
 
     # pacman -S awesome luasocket luafilesystem mpd mpc gnome-icon-theme bash-completion cclive dmenu htop multitail profont scrot artwiz-fonts terminus-font xclip
     
-    # packer -S cairo-compmgr-git conky-lua luainotify montecarlo-font rxvt-unicode-patched ttf-envy-code-r
+    $ packer -S cairo-compmgr-git conky-lua luainotify montecarlo-font rxvt-unicode-patched ttf-envy-code-r
 
 
 `Cleanup`
 
-    # sudo pacman -Rs docbook2x perl-xml-libxml scons toluapp
-
-
-Step 2: MINIMAL and/or OPTIONAL packages
------------------------------------------------
-
-`Archlinux:`
-
-Install xorg, etc:
-
-    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions git spacefm
-
-    $ packer -S luakit sublime-text
+    # pacman -Rs docbook2x perl-xml-libxml scons toluapp
 
 
 Step 3: INSTALL Awesomewm-X
@@ -50,7 +55,12 @@ Step 3: INSTALL Awesomewm-X
 USAGE
 -----
 
-reboot, login as normal user and try running 'startx' in the console to start Awesome.
+`With no login manager`
+
+Reboot, login as normal user and try running 'startx' in the console to start Awesome. 
+
+Your existing ~/.xinitrc will be backed up to ~/.xinitrc.original
+ if you run into any problems.
 
 EXPANDED USAGE
 --------------
