@@ -65,10 +65,6 @@ Your existing ~/.xinitrc will be backed up to ~/.xinitrc.original
 EXPANDED USAGE
 --------------
 
-To run awesome without a login manager, simply add `exec awesome` to the startup script of your choice (e.g. `~/.xinitrc`.)
-
-If you have problems with some devices (like mounting usbkeys, reading dvds) be sure to read documentation about `HAL` and `PolicyKit`. When you do not use a login manager, nothing is automated. In some cases, using `exec ck-launch-session awesome` can solve your problems. For this to work, you must have the [consolekit][2] package installed, otherwise `ck-launch-session` will be an unrecognised command.
-
 To start awesome from a login manager, see [this article][3].
 
 [SLIM][4] is a popular lightweight login manager and comes highly recommended. You should do like this:
