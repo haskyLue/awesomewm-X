@@ -7,100 +7,45 @@ https://www.youtube.com/watch?v=Cbl0vinkg2A&hd=1
 
 https://github.com/idk/awesomewm-X
 
-Depends on: git, [luasocket][9] and [luainotify][8]
+Depends on: git, [luasocket][9], mpd, mpc, bash-completion, cclive, dmenu, htop, multitail, profont, scrot, artwiz-fonts, terminus-font, xclip, cairo-compmgr-git, conky-lua, montecarlo-font, rxvt-unicode-patched, ttf-envy-code-r and [luainotify][8]
 
-Optional:   [mpd][1]
+Optional:   [idesk][1]
 
 
-INSTALL Awesome Window Manager
+Step 1: INSTALL Awesome Window Manager and misc packages
 ------------------------------
-
-`Ubuntu/Debian:`
-
-    # apt-get install awesome
 
 `Archlinux:`
 
-    # pacman -S awesome
-
-`Gentoo:`
-
-    # emerge -av awesome
-
-`Fedora:`
-
-    # su -c 'wget -nd -P /etc/yum.repos.d http://repos.fedorapeople.org/repos/thm/awesome/fedora-awesome.repo'
-    # su -c 'yum install awesome'
+    # pacman -S awesome luasocket luafilesystem mpd mpc gnome-icon-theme bash-completion cclive dmenu htop multitail profont scrot artwiz-fonts terminus-font xclip
+    
+    # packer -S cairo-compmgr-git conky-lua luainotify montecarlo-font rxvt-unicode-patched ttf-envy-code-r
 
 
-FULL INSTALL on base Archlinux install (virtualbox)
+`Cleanup`
+
+    # sudo pacman -Rs docbook2x perl-xml-libxml scons toluapp
+
+
+Step 2: MINIMAL and/or OPTIONAL packages
 -----------------------------------------------
 
 `Archlinux:`
 
-After /arch/setup and reboot:
-Then reboot then update (and reboot again if upgraded kernel)
+Install xorg, etc:
 
-    # pacman -Syu
-    # pacman-key --init
+    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions git spacefm
 
-Do entropy (mash on keyboard keys till finished)
+    $ packer -S luakit sublime-text
 
-    # pacman-key --populate archlinux
 
-Setup Repos
-
-    # nano /etc/pacman.conf
-    
-Uncomment multilib if use 64 bit
-
-Add archlinuxfr repo (for grabbing yaourt)
-
-    [archlinuxfr] 
-    Server = http://repo.archlinux.fr/$arch
-
-    # pacman -Syu
-    # pacman -S yaourt
-
-Add your user (add 'lp,scanner' to the options if you use a printer,scanner)
-
-    # useradd -m -g users -G audio,video,wheel,storage,optical,power,games,network,log -s /bin/bash yourusername
-    
-    # passwd yourusername
-
-Allow sudo useage (Uncomment wheel line)
-
-    # EDITOR=nano visudo
-
-Install awesome, xorg, etc:
-
-    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa virtualbox-archlinux-additions rxvt-unicode git luasocket luafilesystem awesome conky mpd mpc terminus-font spacefm midori
-
-    $ yaourt -S luainotify ttf-envy-code-r conky-lua
-
-    # sudo pacman -Rs docbook2x perl-xml-libxml scons toluapp
-
-INSTALL Awesomewm-X
+Step 3: INSTALL Awesomewm-X
 -------------------
 
     $ cd ~/.config
     $ git clone https://github.com/idk/awesomewm-X.git
     $ git clone https://github.com/idk/conky-X.git
     $ sh awesomewm-X/install.sh
-
-
-CONFIGURATION
--------------
-
-Make sure to add 'dbus' to the DAEMONS array,
-
-Virtualbox installs likely should also add 'vboxguest' 'vboxsf' 'vboxvideo':
-
-    # nano -w /etc/rc.conf
-
-    dbus vboxguest vboxsf vboxvideo
-
-Done....
 
 USAGE
 -----
@@ -153,7 +98,7 @@ TODO
 HISTORY
 -------
 
-* 2012-07-04: Version 0.0.4
+* 2012-07-04: Version 0.0.5
 
   - Added Xdefaults config in rc.lua
   - Major enhancement: debugger and script execution timer
@@ -226,3 +171,4 @@ SHARE AND ENJOY!
 [7]: https://github.com/idk/awesomewm-X/issues
 [8]: http://www3.telus.net/taj_khattra/luainotify.html
 [9]: http://w3.impa.br/~diego/software/luasocket
+[10]: https://wiki.archlinux.org/index.php/idesk
