@@ -182,7 +182,7 @@ function awesompd:create()
    self.__index = self
    instance.current_server = 1
    instance.widget = widget({ type = "textbox" })
-   instance.widget.bg = "#000000"
+ --  instance.widget.bg = "#000000"
    instance.notification = nil
    instance.scroll_pos = 1
    instance.text = ""

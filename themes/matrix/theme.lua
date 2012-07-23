@@ -6,6 +6,9 @@ if home_path ~= nil then
 end
 
 theme = {}
+theme.font         = 'Terminus 8'
+theme.taglist_font = 'Terminus 12'
+theme.border_width = '1'
 
 if home_path ~= nil then
 	config        = home_path .. '.config/awesome'
@@ -37,6 +40,16 @@ if home_path ~= nil then
 	if awful.util.file_readable(config .. '/vain/init.lua') then
 	    theme.useless_gap_width  = '3'
 	end
+
+	if script_options.font ~= nil then
+		theme.font = script_options.font
+	end
+
+	if script_options.taglist_font ~= nil then
+		theme.taglist_font = script_options.taglist_font
+	end
+
+	theme.border_width = script_options.border_width
 	--}}}
 end
 

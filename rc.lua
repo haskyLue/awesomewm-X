@@ -76,7 +76,7 @@ script_options = {
                conky_2 = true,        -- (default true) ~/.config/conky/conky_grey/conkyrc_grey
                linux = 'archlinux',   -- archlinux/debian/fedora/gentoo/
                email = true,          -- (default false) ~/.config/conky/unread_email.sh
-               font = 'Terminus 8',          -- comment to use themes settings
+           --  font = 'Terminus 8',          -- comment to use themes settings
                taglist_font = 'Terminus 12', -- comment to use themes settings
                border_width = 0,
              }

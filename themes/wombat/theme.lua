@@ -1,52 +1,74 @@
 -- wombat (matching the vim colorscheme), awesome3 theme, by zhuravlik
 
 --{{{ Main
-require('awful.util')
+if home_path ~= nil then
+	require('awful.util')
+end
 
 theme = {}
+theme.font         = 'Sans 8'
+theme.taglist_font = 'Sans 12'
+theme.border_width = '1'
+theme.bg_normal = '#1c1d1c'
+theme.bg_focus  = '#0c0d0c'
+theme.bg_urgent = '#343534'
 
-config        = home_path .. '.config/awesome'
-shared        = '/usr/share/awesome'
-if not awful.util.file_readable(shared .. '/icons/awesome16.png') then
-    shared    = '/usr/share/local/awesome'
-end
-sharedicons   = shared .. '/icons'
-sharedthemes  = shared .. '/themes'
-themes        = config .. '/themes'
-name     = 'wombat'
-themename     = '/' .. name
-theme.theme_name = name
-if not awful.util.file_readable(themes .. themename .. '/theme.lua') then
-       themes = sharedthemes
-end
-themedir      = themes .. themename
+if home_path ~= nil then
+	config        = home_path .. '.config/awesome'
+	shared        = '/usr/share/awesome'
+	if not awful.util.file_readable(shared .. '/icons/awesome16.png') then
+	    shared    = '/usr/share/local/awesome'
+	end
+	sharedicons   = shared .. '/icons'
+	sharedthemes  = shared .. '/themes'
+	themes        = config .. '/themes'
+	name     = 'wombat'
+	themename     = '/' .. name
+	theme.theme_name = name
 
-if script_options.global == nil then
-    theme.wpscript     = themedir .. '/script.sh'
-else
-    theme.wpscript     = config .. '/globalscript.sh'
-end
+	if not awful.util.file_readable(themes .. themename .. '/theme.lua') then
+	       themes = sharedthemes
+	end
+	themedir      = themes .. themename
 
-if awful.util.file_readable(theme.wpscript) then
-    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
-end
+	if script_options.global == nil then
+	    theme.wpscript     = themedir .. '/script.sh'
+	else
+	    theme.wpscript     = config .. '/globalscript.sh'
+	end
 
-if awful.util.file_readable(config .. '/vain/init.lua') then
-    theme.useless_gap_width  = '3'
-end
+	if awful.util.file_readable(theme.wpscript) then
+	    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
+	end
+
+	if awful.util.file_readable(config .. '/vain/init.lua') then
+	    theme.useless_gap_width  = '3'
+	end
+
+	if script_options.font ~= nil then
+		theme.font = script_options.font
+	end
+
+	if script_options.taglist_font ~= nil then
+		theme.taglist_font = script_options.taglist_font
+	end
+
+	theme.border_width = script_options.border_width
+
+	theme.bg_normal = '#1c1d1c88'
+	theme.bg_focus  = '#0c0d0c88'
+	theme.bg_urgent = '#34353488'
 --}}}
+end
 
 -- {{{ Styles
 theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
-theme.font      = 'sans 8'
 
 -- {{{ Colors
 theme.fg_normal = '#cccccc'
 theme.fg_focus  = '#8d8a4b'
 theme.fg_urgent = '#929392'
-theme.bg_normal = '#1c1d1c88'
-theme.bg_focus  = '#0c0d0c88'
-theme.bg_urgent = '#34353488'
+
 -- }}}
 
 -- {{{ Widgets
@@ -61,13 +83,12 @@ theme.border_widget    = theme.bg_normal
 -- }}}
 
 -- {{{ Misc
-theme.bg_bottom     = '#1c1d1c88' -- bottom panel color
+theme.bg_bottom     = theme.bg_normal -- bottom panel color
 theme.fg_bottom     = '#cccccc' -- bottom panel text color
 theme.bg_graphs     = '#0f0f0f' -- graphs background color
 --- }}}
 
 -- {{{ Borders
-theme.border_width  = '1'
 --theme.border_width  = '2'
 --theme.border_normal = '#34353488'
 --theme.border_normal = '#2d4113'
@@ -120,57 +141,58 @@ theme.menu_width  = '130'
 
 -- {{{ Icons
 -- {{{ Taglist
-theme.taglist_squares_sel   = sharedthemes .. '/zenburn/taglist/squarefz.png'
-theme.taglist_squares_unsel = sharedthemes .. '/zenburn/taglist/squarez.png'
---theme.taglist_squares_resize = 'false'
--- }}}
+if home_path ~= nil then
+	theme.taglist_squares_sel   = sharedthemes .. '/zenburn/taglist/squarefz.png'
+	theme.taglist_squares_unsel = sharedthemes .. '/zenburn/taglist/squarez.png'
+	--theme.taglist_squares_resize = 'false'
+	-- }}}
 
--- {{{ Misc
-theme.awesome_icon = home_path .. '.config/awesome/icons/menu_icon.png'
--- theme.awesome_icon           = themedir .. '/awesome-icon.png'
-theme.menu_submenu_icon      = sharedthemes .. '/default/submenu.png'
-theme.tasklist_floating_icon = sharedthemes .. '/default/tasklist/floatingw.png'
--- }}}
+	-- {{{ Misc
+	theme.awesome_icon = home_path .. '.config/awesome/icons/menu_icon.png'
+	-- theme.awesome_icon           = themedir .. '/awesome-icon.png'
+	theme.menu_submenu_icon      = sharedthemes .. '/default/submenu.png'
+	theme.tasklist_floating_icon = sharedthemes .. '/default/tasklist/floatingw.png'
+	-- }}}
 
--- {{{ Layout
-theme.layout_tile       = themedir .. '/layouts/tile.png'
-theme.layout_tileleft   = themedir .. '/layouts/tileleft.png'
-theme.layout_tilebottom = themedir .. '/layouts/tilebottom.png'
-theme.layout_tiletop    = themedir .. '/layouts/tiletop.png'
-theme.layout_fairv      = themedir .. '/layouts/fairv.png'
-theme.layout_fairh      = themedir .. '/layouts/fairh.png'
-theme.layout_spiral     = themedir .. '/layouts/spiral.png'
-theme.layout_dwindle    = themedir .. '/layouts/dwindle.png'
-theme.layout_max        = themedir .. '/layouts/max.png'
-theme.layout_fullscreen = themedir .. '/layouts/fullscreen.png'
-theme.layout_magnifier  = themedir .. '/layouts/magnifier.png'
-theme.layout_floating   = themedir .. '/layouts/floating.png'
--- }}}
+	-- {{{ Layout
+	theme.layout_tile       = themedir .. '/layouts/tile.png'
+	theme.layout_tileleft   = themedir .. '/layouts/tileleft.png'
+	theme.layout_tilebottom = themedir .. '/layouts/tilebottom.png'
+	theme.layout_tiletop    = themedir .. '/layouts/tiletop.png'
+	theme.layout_fairv      = themedir .. '/layouts/fairv.png'
+	theme.layout_fairh      = themedir .. '/layouts/fairh.png'
+	theme.layout_spiral     = themedir .. '/layouts/spiral.png'
+	theme.layout_dwindle    = themedir .. '/layouts/dwindle.png'
+	theme.layout_max        = themedir .. '/layouts/max.png'
+	theme.layout_fullscreen = themedir .. '/layouts/fullscreen.png'
+	theme.layout_magnifier  = themedir .. '/layouts/magnifier.png'
+	theme.layout_floating   = themedir .. '/layouts/floating.png'
+	-- }}}
 
--- {{{ Titlebar
-theme.titlebar_close_button_focus  = sharedthemes .. '/zenburn/titlebar/close_focus.png'
-theme.titlebar_close_button_normal = sharedthemes .. '/zenburn/titlebar/close_normal.png'
+	-- {{{ Titlebar
+	theme.titlebar_close_button_focus  = sharedthemes .. '/zenburn/titlebar/close_focus.png'
+	theme.titlebar_close_button_normal = sharedthemes .. '/zenburn/titlebar/close_normal.png'
 
-theme.titlebar_ontop_button_focus_active  = sharedthemes .. '/zenburn/titlebar/ontop_focus_active.png'
-theme.titlebar_ontop_button_normal_active = sharedthemes .. '/zenburn/titlebar/ontop_normal_active.png'
-theme.titlebar_ontop_button_focus_inactive  = sharedthemes .. '/zenburn/titlebar/ontop_focus_inactive.png'
-theme.titlebar_ontop_button_normal_inactive = sharedthemes .. '/zenburn/titlebar/ontop_normal_inactive.png'
+	theme.titlebar_ontop_button_focus_active  = sharedthemes .. '/zenburn/titlebar/ontop_focus_active.png'
+	theme.titlebar_ontop_button_normal_active = sharedthemes .. '/zenburn/titlebar/ontop_normal_active.png'
+	theme.titlebar_ontop_button_focus_inactive  = sharedthemes .. '/zenburn/titlebar/ontop_focus_inactive.png'
+	theme.titlebar_ontop_button_normal_inactive = sharedthemes .. '/zenburn/titlebar/ontop_normal_inactive.png'
 
-theme.titlebar_sticky_button_focus_active  = sharedthemes .. '/zenburn/titlebar/sticky_focus_active.png'
-theme.titlebar_sticky_button_normal_active = sharedthemes .. '/zenburn/titlebar/sticky_normal_active.png'
-theme.titlebar_sticky_button_focus_inactive  = sharedthemes .. '/zenburn/titlebar/sticky_focus_inactive.png'
-theme.titlebar_sticky_button_normal_inactive = sharedthemes .. '/zenburn/titlebar/sticky_normal_inactive.png'
+	theme.titlebar_sticky_button_focus_active  = sharedthemes .. '/zenburn/titlebar/sticky_focus_active.png'
+	theme.titlebar_sticky_button_normal_active = sharedthemes .. '/zenburn/titlebar/sticky_normal_active.png'
+	theme.titlebar_sticky_button_focus_inactive  = sharedthemes .. '/zenburn/titlebar/sticky_focus_inactive.png'
+	theme.titlebar_sticky_button_normal_inactive = sharedthemes .. '/zenburn/titlebar/sticky_normal_inactive.png'
 
-theme.titlebar_floating_button_focus_active  = sharedthemes .. '/zenburn/titlebar/floating_focus_active.png'
-theme.titlebar_floating_button_normal_active = sharedthemes .. '/zenburn/titlebar/floating_normal_active.png'
-theme.titlebar_floating_button_focus_inactive  = sharedthemes .. '/zenburn/titlebar/floating_focus_inactive.png'
-theme.titlebar_floating_button_normal_inactive = sharedthemes .. '/zenburn/titlebar/floating_normal_inactive.png'
+	theme.titlebar_floating_button_focus_active  = sharedthemes .. '/zenburn/titlebar/floating_focus_active.png'
+	theme.titlebar_floating_button_normal_active = sharedthemes .. '/zenburn/titlebar/floating_normal_active.png'
+	theme.titlebar_floating_button_focus_inactive  = sharedthemes .. '/zenburn/titlebar/floating_focus_inactive.png'
+	theme.titlebar_floating_button_normal_inactive = sharedthemes .. '/zenburn/titlebar/floating_normal_inactive.png'
 
-theme.titlebar_maximized_button_focus_active  = sharedthemes .. '/zenburn/titlebar/maximized_focus_active.png'
-theme.titlebar_maximized_button_normal_active = sharedthemes .. '/zenburn/titlebar/maximized_normal_active.png'
-theme.titlebar_maximized_button_focus_inactive  = sharedthemes .. '/zenburn/titlebar/maximized_focus_inactive.png'
-theme.titlebar_maximized_button_normal_inactive = sharedthemes .. '/zenburn/titlebar/maximized_normal_inactive.png'
--- }}}
--- }}}
+	theme.titlebar_maximized_button_focus_active  = sharedthemes .. '/zenburn/titlebar/maximized_focus_active.png'
+	theme.titlebar_maximized_button_normal_active = sharedthemes .. '/zenburn/titlebar/maximized_normal_active.png'
+	theme.titlebar_maximized_button_focus_inactive  = sharedthemes .. '/zenburn/titlebar/maximized_focus_inactive.png'
+	theme.titlebar_maximized_button_normal_inactive = sharedthemes .. '/zenburn/titlebar/maximized_normal_inactive.png'
+	-- }}}
+end
 
 return theme

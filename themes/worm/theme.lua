@@ -1,44 +1,60 @@
 -- worm, awesome3 theme, inspired by Adobe Kuler
 
 --{{{ Main
-require('awful.util')
+if home_path ~= nil then
+	require('awful.util')
+end
 
 theme = {}
+theme.font         = 'Profont 8'
+theme.taglist_font = 'Profont 12'
+theme.border_width = '1'
 
-config        = home_path .. '.config/awesome'
-shared        = '/usr/share/awesome'
-if not awful.util.file_readable(shared .. '/icons/awesome16.png') then
-    shared    = '/usr/share/local/awesome'
-end
-sharedicons   = shared .. '/icons'
-sharedthemes  = shared .. '/themes'
-themes        = config .. '/themes'
-name    = 'worm'
-themename     = '/' .. name
-theme.theme_name = name
-if not awful.util.file_readable(themes .. themename .. '/theme.lua') then
-       themes = sharedthemes
-end
-themedir      = themes .. themename
+if home_path ~= nil then
+	config        = home_path .. '.config/awesome'
+	shared        = '/usr/share/awesome'
+	if not awful.util.file_readable(shared .. '/icons/awesome16.png') then
+	    shared    = '/usr/share/local/awesome'
+	end
+	sharedicons   = shared .. '/icons'
+	sharedthemes  = shared .. '/themes'
+	themes        = config .. '/themes'
+	name    = 'worm'
+	themename     = '/' .. name
+	theme.theme_name = name
+	if not awful.util.file_readable(themes .. themename .. '/theme.lua') then
+	       themes = sharedthemes
+	end
+	themedir      = themes .. themename
 
-if script_options.global == nil then
-    theme.wpscript     = themedir .. '/script.sh'
-else
-    theme.wpscript     = config .. '/globalscript.sh'
-end
+	if script_options.global == nil then
+	    theme.wpscript     = themedir .. '/script.sh'
+	else
+	    theme.wpscript     = config .. '/globalscript.sh'
+	end
 
-if awful.util.file_readable(theme.wpscript) then
-    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
-end
+	if awful.util.file_readable(theme.wpscript) then
+	    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
+	end
 
-if awful.util.file_readable(config .. '/vain/init.lua') then
-    theme.useless_gap_width  = '3'
-end
+	if awful.util.file_readable(config .. '/vain/init.lua') then
+	    theme.useless_gap_width  = '3'
+	end
+
+	if script_options.font ~= nil then
+		theme.font = script_options.font
+	end
+
+	if script_options.taglist_font ~= nil then
+		theme.taglist_font = script_options.taglist_font
+	end
+
+	theme.border_width = script_options.border_width
 --}}}
+end
 
 -- {{{ Styles
 theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
-theme.font          = 'Profont 8'
 
 -- {{{ Colors
 theme.fg_normal     = '#54534B'
@@ -67,7 +83,6 @@ theme.fg_bottom     = '#54534B' -- bottom panel text color
 theme.bg_graphs     = '#4D574D' -- graphs background color
 
 -- {{{ Borders
-theme.border_width  = '1'
 theme.border_normal = '#7D8C7C'
 theme.border_focus  = '#BCBDA5'
 theme.border_marked = '#562630'
@@ -80,21 +95,22 @@ theme.titlebar_bg_normal = '#BCBDA5' --'#7D8C7C'
 -- }}}
 
 -- {{{ Icons / Misc.
---
-theme.layout_fairh = themes .. '/wabbit/layouts/fairhw.png'
-theme.layout_fairv = themes .. '/wabbit/layouts/fairvw.png'
-theme.layout_floating  = themes .. '/wabbit/layouts/floatingw.png'
-theme.layout_magnifier = themes .. '/wabbit/layouts/magnifierw.png'
-theme.layout_max = themes .. '/wabbit/layouts/maxw.png'
-theme.layout_fullscreen = themes .. '/wabbit/layouts/fullscreenw.png'
-theme.layout_tilebottom = themes .. '/wabbit/layouts/tilebottomw.png'
-theme.layout_tileleft   = themes .. '/wabbit/layouts/tileleftw.png'
-theme.layout_tile = themes .. '/wabbit/layouts/tilew.png'
-theme.layout_tiletop = themes .. '/wabbit/layouts/tiletopw.png'
-theme.layout_spiral  = themes .. '/wabbit/layouts/spiralw.png'
-theme.layout_dwindle = themes .. '/wabbit/layouts/dwindlew.png'
+if home_path ~= nil then
+	theme.layout_fairh = themes .. '/wabbit/layouts/fairhw.png'
+	theme.layout_fairv = themes .. '/wabbit/layouts/fairvw.png'
+	theme.layout_floating  = themes .. '/wabbit/layouts/floatingw.png'
+	theme.layout_magnifier = themes .. '/wabbit/layouts/magnifierw.png'
+	theme.layout_max = themes .. '/wabbit/layouts/maxw.png'
+	theme.layout_fullscreen = themes .. '/wabbit/layouts/fullscreenw.png'
+	theme.layout_tilebottom = themes .. '/wabbit/layouts/tilebottomw.png'
+	theme.layout_tileleft   = themes .. '/wabbit/layouts/tileleftw.png'
+	theme.layout_tile = themes .. '/wabbit/layouts/tilew.png'
+	theme.layout_tiletop = themes .. '/wabbit/layouts/tiletopw.png'
+	theme.layout_spiral  = themes .. '/wabbit/layouts/spiralw.png'
+	theme.layout_dwindle = themes .. '/wabbit/layouts/dwindlew.png'
 
-theme.awesome_icon = home_path .. '.config/awesome/icons/menu_icon.png'
+	theme.awesome_icon = home_path .. '.config/awesome/icons/menu_icon.png'
+end
 -- theme.awesome_icon = themes .. '/wabbit/logo20_orange.png'
 -- }}}
 

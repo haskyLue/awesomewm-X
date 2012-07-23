@@ -6,6 +6,10 @@ if home_path ~= nil then
 end
 
 theme = {}
+theme.font         = 'Terminus 8'
+theme.taglist_font = 'Terminus 12'
+theme.border_width = '1'
+
 if home_path ~= nil then
 	config        = home_path .. '.config/awesome'
 	shared        = '/usr/share/awesome'
@@ -36,13 +40,22 @@ if home_path ~= nil then
 	if awful.util.file_readable(config .. '/vain/init.lua') then
 	    theme.useless_gap_width  = '3'
 	end
+
+	if script_options.font ~= nil then
+		theme.font = script_options.font
+	end
+
+	if script_options.taglist_font ~= nil then
+		theme.taglist_font = script_options.taglist_font
+	end
+
+	theme.border_width = script_options.border_width
+
 	--}}}
 end
 
 -- {{{ Styles
 theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
-theme.font      = 'Terminus 8'
-theme.taglist_font = "Terminus 12"
 -- {{{ Colors
 theme.fg_normal = '#DCDCCC'
 theme.fg_focus  = '#FFFFFF'
@@ -69,7 +82,6 @@ theme.bg_graphs     = '#1A0E00' -- graphs background color
 -- }}}
 
 -- {{{ Borders
-theme.border_width  = 1
 theme.border_focus  = '#EE6363'
 theme.border_normal = theme.bg_normal 
 theme.border_marked = '#622323'
@@ -86,31 +98,12 @@ theme.mouse_finder_color = theme.fg_urgent
 -- theme.mouse_finder_[timeout|animate_timeout|radius|factor]
 -- }}}
 
--- {{{ Tooltips
--- theme.tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
--- }}}
-
--- {{{ Taglist and Tasklist
--- theme.[taglist|tasklist]_[bg|fg]_[focus|urgent]
--- }}}
-
--- {{{ Menu
--- theme.menu_[bg|fg]_[normal|focus]
--- theme.menu_[height|width|border_color|border_width]
--- }}}
--- }}}
 if home_path ~= nil then
 	-- {{{ Icons
 	-- {{{ Taglist icons
 	theme.taglist_squares_sel   = themedir .. '/taglist/squarefz.png'
 	theme.taglist_squares_unsel = themedir .. '/taglist/squareza.png'
 	--theme.taglist_squares_resize = 'false'
-	-- }}}
-
-	-- {{{ Misc icons
-	--theme.awesome_icon           = themedir .. '/awesome.png'
-	--theme.menu_submenu_icon      = '/usr/share/awesome/themes/default/submenu.png'
-	--theme.tasklist_floating_icon = '/usr/share/awesome/themes/default/tasklist/floatingw.png'
 	-- }}}
 
 	-- {{{ Layout icons
@@ -126,22 +119,6 @@ if home_path ~= nil then
 	theme.layout_fullscreen = themedir .. '/layouts/fullscreen.png'
 	theme.layout_magnifier  = themedir .. '/layouts/magnifier.png'
 	theme.layout_floating   = themedir .. '/layouts/floating.png'
-	-- }}}
-
-	-- {{{ Widget icons
-	theme.widget_cpu    = themes .. '/icons/zenburn/cpu.png'
-	theme.widget_bat    = themes .. '/icons/zenburn/bat.png'
-	theme.widget_mem    = themes .. '/icons/zenburn/mem.png'
-	theme.widget_fs     = themes .. '/icons/zenburn/disk.png'
-	theme.widget_net    = themes .. '/icons/zenburn/down.png'
-	theme.widget_netup  = themes .. '/icons/zenburn/up.png'
-	theme.widget_wifi   = themes .. '/icons/zenburn/wifi.png'
-	theme.widget_mail   = themes .. '/icons/zenburn/mail.png'
-	theme.widget_vol    = themes .. '/icons/zenburn/vol.png'
-	theme.widget_org    = themes .. '/icons/zenburn/cal.png'
-	theme.widget_date   = themes .. '/icons/zenburn/time.png'
-	theme.widget_crypto = themes .. '/icons/zenburn/crypto.png'
-	theme.widget_sep    = themes .. '/icons/zenburn/separator.png'
 	-- }}}
 
 	-- {{{ Titlebar icons
