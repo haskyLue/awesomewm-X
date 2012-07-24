@@ -105,7 +105,7 @@ usr = {
                     "URxvt*iconFile: /usr/share/icons/gnome/24x24/apps/terminal.png\n" ..
                     "URxvt*background: #000000\n" .. -- black
                     "URxvt*foreground: #d3d3d3\n" .. -- white
-                    "URxvt*transparent: false\n" .. 
+                    "URxvt*transparent: true\n" .. 
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
                     "*underlineColor: #de5105\n",
     poweroff   = 'sudo /sbin/poweroff',
@@ -1088,8 +1088,8 @@ awful.rules.rules = {
                     keys = clientkeys,
                     size_hints_honor = false,
                     buttons = clientbuttons } },
-   { rule = {class = 'URxvt'}, 
-     properties = { opacity = 0.6 } },
+  -- { rule = {class = 'URxvt'}, 
+ --    properties = { opacity = 0.6 } },
    { rule = { class = 'Firefox' },          -- browser tag
      properties = { tag = tags[1][1] } },
    { rule = { class = 'Chromium' },         -- browser tag
