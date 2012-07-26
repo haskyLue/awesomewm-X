@@ -183,6 +183,12 @@ usr = {
  -- sexec  = awful.util.spawn_with_shell,
 }
 
+
+function awesome_reload()
+   awesome.restart()
+   awful.util.spawn(home_path .. '.config/awesome/bin/awesome_test')
+end
+
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts = {
    awful.layout.suit.floating,        -- 1
@@ -353,7 +359,7 @@ local myawesomemenu = {
    { 'Debug Awesome', usr.terminal_cmd .. 'tail -f ' .. home_path .. '.cache/awesome/stderr', freedesktop.utils.lookup_icon({ icon = 'help' }) },
    { 'Test Awesome', '/bin/bash ' .. home_path .. '.config/awesome/bin/awesome_test', freedesktop.utils.lookup_icon({ icon = 'help' }) },
    -- { 'Preferred Apps' , 'exo-preferred-applications', freedesktop.utils.lookup_icon({ icon = 'help' })},
-   { 'Reload', awesome.restart, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+   { 'Reload', awesome_reload, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'Logout', awesome.quit, freedesktop.utils.lookup_icon({ icon = 'system-log-out' })},
    { 'Shutdown' , usr.poweroff, freedesktop.utils.lookup_icon({ icon = 'system-shutdown' })},
    { 'Reboot' , usr.reboot, freedesktop.utils.lookup_icon({ icon = 'system-shutdown' })}
@@ -952,7 +958,8 @@ local globalkeys = awful.util.table.join(
               end),
    -- req.scratch.drop(prog, vert, horiz, width, height, sticky, screen)
    -- awful.key({ usr.modkey }, 'F11', function () req.scratch.drop('gmrun') end),
-awful.key({ usr.modkey }, 'F12', function () req.scratch.drop(usr.terminal, 'bottom', 'left', 0.50, 0.50) end),
+awful.key({spa
+ }, 'F12', function () req.scratch.drop(usr.terminal, 'bottom', 'left', 0.50, 0.50) end),
       -- http://awesome.naquadah.org/wiki/SSH:_prompt
    awful.key({ usr.modkey, }, 'F3', function ()
      awful.prompt.run({ prompt = 'ssh: ' },
@@ -1090,11 +1097,11 @@ awful.rules.rules = {
                     buttons = clientbuttons } },
   -- { rule = {class = 'URxvt'}, 
  --    properties = { opacity = 0.6 } },
-   { rule = { class = 'Firefox' },          -- browser tag
-     properties = { tag = tags[1][1] } },
-   { rule = { class = 'Chromium' },         -- browser tag
-     properties = { tag = tags[1][1] } },
    { rule = { class = 'luakit' },          -- browser tag
+     properties = { tag = tags[1][1] } },
+ --  { rule = { class = 'luakit', name = string.find(c:name, "^%[proxy%]") },
+ --    properties = { tag = tags[1][2] } },
+   { rule = { class = 'Chromium' },         -- browser tag
      properties = { tag = tags[1][1] } },
    { rule = {name = 'Xchat'},                -- messages tag
      properties = {tag = tags[1][7]} },
