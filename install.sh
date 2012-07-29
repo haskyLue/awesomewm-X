@@ -4,11 +4,15 @@ mv ~/.config/conky ~/.config/conky.original
 cp -r ~/.config/conky-X ~/.config/conky
 mv ~/.config/awesome ~/.config/awesome.original
 cp -r ~/.config/awesomewm-X ~/.config/awesome
+mv ~/.config/luakit ~/.config/luakit.original
+cp -r ~/.config/luakit-X ~/.config/luakit
 mkdir ~/.config/awesome/Xdefaults/$USER
 mv ~/.Xdefaults ~/.config/awesome/Xdefaults/$USER/.Xdefaults
 ln -sfn ~/.config/awesome/Xdefaults/default/.Xdefaults ~/.Xdefaults
 ln -sfn ~/.config/awesome/themes/pdq ~/.config/awesome/themes/current
 ln -sfn ~/.config/awesome/icons/AwesomeLight.png ~/.config/awesome/icons/menu_icon.png
+ln -sfn ~/.config/awesome/themes/current/theme.lua ~/.config/luakit/awesometheme.lua
+  
 mkdir ~/.cache
 mkdir ~/.cache/awesome
 touch ~/.cache/awesome/stderr
