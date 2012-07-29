@@ -22,7 +22,7 @@ Install Minimal required packages (ie: after fresh install):
     # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa
 
 
-Install Optional recommended packages:
+Install recommended packages:
 
     # pacman -S git spacefm
 
@@ -44,12 +44,10 @@ Step 2: INSTALL Awesome Window Manager and misc packages
     # pacman -Rs docbook2x perl-xml-libxml scons toluapp
 
 
-Step 3: INSTALL Awesomewm-X
+Step 3: INSTALL Awesomewm-X (comes with luakit-X and conky-X)
 -------------------
 
-    $ cd ~/.config
-    $ git clone https://github.com/idk/awesomewm-X.git
-    $ git clone https://github.com/idk/conky-X.git
+    $ wget https://raw.github.com/idk/awesomewm-X/master/install.sh
     $ sh awesomewm-X/install.sh
 
 USAGE
