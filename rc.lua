@@ -209,14 +209,14 @@ local tags = {
 --  names = { '➊', '➋', '➌', '➍', '➎', '➏', '➐', '➑' },
 
     layout = {
-      layouts[4],  -- 1:firefox 10
-      layouts[3],  -- 2:weechat/pidgin
-      layouts[3],  -- 3:logs/bots/shells
-      layouts[3],  -- 4:media playing
-      layouts[1],  -- 5:media editing
-      layouts[3],  -- 6:projects/development
-      layouts[1],  -- 7:shells
-      layouts[1]   -- 8:shells
+      layouts[4],  -- 1:firefox (max size)
+      layouts[3],  -- 2:weechat/xchat/pidgin (tiled)
+      layouts[3],  -- 3:logs/bots/shells (tiled)
+      layouts[3],  -- 4:media playing (tiled)
+      layouts[1],  -- 5:media editing (floating)
+      layouts[3],  -- 6:projects/development (tiled)
+      layouts[1],  -- 7:shells (floating)
+      layouts[1]   -- 8:shells (floating)
             }
         }
 
@@ -357,7 +357,7 @@ local myawesomemenu = {
    { 'Edit Current theme', editor_cmd .. ' ' .. theme_path, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
    { 'Edit Current script', editor_cmd .. ' ' .. home_path .. '.config/awesome/themes/current/script.sh', freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
    { 'Debug Awesome', usr.terminal_cmd .. 'tail -f ' .. home_path .. '.cache/awesome/stderr', freedesktop.utils.lookup_icon({ icon = 'help' }) },
-   { 'Test Awesome', '/bin/bash ' .. home_path .. '.config/awesome/bin/awesome_test', freedesktop.utils.lookup_icon({ icon = 'help' }) },
+   { 'Test Awesome', '/bin/bash /home/pdq/.config/awesome/bin/awesome_test' },
    -- { 'Preferred Apps' , 'exo-preferred-applications', freedesktop.utils.lookup_icon({ icon = 'help' })},
    { 'Reload', awesome_reload, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'Logout', awesome.quit, freedesktop.utils.lookup_icon({ icon = 'system-log-out' })},
@@ -1099,6 +1099,8 @@ awful.rules.rules = {
  --    properties = { opacity = 0.6 } },
    { rule = { class = 'luakit' },          -- browser tag
      properties = { tag = tags[1][1] } },
+  -- { rule = { name = 'htop' },          -- browser tag
+  --   properties = { tag = tags[1][8] } },
  --  { rule = { class = 'luakit', name = string.find(c:name, "^%[proxy%]") },
  --    properties = { tag = tags[1][2] } },
    { rule = { class = 'Chromium' },         -- browser tag
@@ -1190,7 +1192,7 @@ local function run_once(process, cmd)
    end
    return usr.exec(cmd or process)
 end
--- dmenu parcellite cairo-compmgr mpd mpc scrot rxvt-unicode-patched
+-- awesome dmenu parcellite cairo-compmgr mpd mpc scrot rxvt-unicode-patched
 -- Autostart programs here or in ~/.xinitrc (Autostart Daemons in /etc/rc.conf)
 -- launch clipboard manager
 run_once('parcellite')
