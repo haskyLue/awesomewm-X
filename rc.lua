@@ -22,12 +22,13 @@ require('awesompd/awesompd') -- awesome.naquadah.org/wiki/Awesompd_widget
 
 local req = {
     awmXversion = '0.0.5',
-    revelation = require('revelation'), -- http://awesome.naquadah.org/wiki/Revelation
-    scratch = require('scratch'),       -- http://awesome.naquadah.org/wiki/Revelation
+ -- revelation = require('revelation'), -- http://awesome.naquadah.org/wiki/Revelation
+    scratch = require('scratch'),
     lognotify = require('lognotify'),	-- https://github.com/Mic92/lognotify
     lfs = require('lfs'),
     utils = require('utils'),
     disk = require('diskusage'),
+    keydoc = require('keydoc'),
     -- calendar widget
     cal = utils.cal,
     -- wrapper for pango markup
@@ -66,7 +67,6 @@ local cpuinfo = tonumber(f:read('*a'))
 f:close()
 
 home_path  = os.getenv('HOME') .. '/'
-
 -- START BASIC CONFIGURATION -- (* reload awesome when make any changes below)
 script_options = {
                idesk = false,         -- use idesk (default false)
@@ -115,14 +115,14 @@ usr = {
     aur_helper = 'cower -fud',
  -- gui_sudo   = 'kdesu', -- sudo command for gui applications (gksudo, kdesu)
     file_manager = {
-        -- 'DISABLED', -- uncomment this out to hide menu entries
+        -- 'DISABLED', -- uncomment this to hide menu entries
            'dolphin',
         -- 'Thunar',
            'spacefm',
         -- 'pcmanfm,
     },
     web_browser = {
-           'DISABLED', -- uncomment this out to hide menu entries
+           'DISABLED', -- uncomment this to hide menu entries
         -- 'firefox'
         -- 'firefox-beta-bin',
         -- 'chromium',
@@ -174,20 +174,14 @@ usr = {
     -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
     -- However, you can use another modifier like Mod1, but it may interact with others.
     modkey   = 'Mod4', -- change to Mod1 (Alt)if using Virtualbox
-    mod_key  = {
-        up   = { 'Up', 'k' },
-        down = { 'Down', 'j' },
-        back = { 'Left', 'x', 'h' },
-    },
+--  mod_key  = {
+--      up   = { 'Up', 'k' },
+--      down = { 'Down', 'j' },
+--      back = { 'Left', 'x', 'h' },
+--  },
     exec = awful.util.spawn,
  -- sexec  = awful.util.spawn_with_shell,
 }
-
-
-function awesome_reload()
-   awesome.restart()
-   awful.util.spawn(home_path .. '.config/awesome/bin/awesome_test')
-end
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts = {
@@ -359,7 +353,7 @@ local myawesomemenu = {
    { 'Debug Awesome', usr.terminal_cmd .. 'tail -f ' .. home_path .. '.cache/awesome/stderr', freedesktop.utils.lookup_icon({ icon = 'help' }) },
    { 'Test Awesome', '/bin/bash /home/pdq/.config/awesome/bin/awesome_test' },
    -- { 'Preferred Apps' , 'exo-preferred-applications', freedesktop.utils.lookup_icon({ icon = 'help' })},
-   { 'Reload', awesome_reload, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+   { 'Reload', awesome.restart, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'Logout', awesome.quit, freedesktop.utils.lookup_icon({ icon = 'system-log-out' })},
    { 'Shutdown' , usr.poweroff, freedesktop.utils.lookup_icon({ icon = 'system-shutdown' })},
    { 'Reboot' , usr.reboot, freedesktop.utils.lookup_icon({ icon = 'system-shutdown' })}
@@ -870,69 +864,77 @@ root.buttons(awful.util.table.join(
 
 -- Key bindings
 local globalkeys = awful.util.table.join(
-   awful.key({ usr.modkey,           }, 'Left',   awful.tag.viewprev       ),
-   awful.key({ usr.modkey,           }, 'Right',  awful.tag.viewnext       ),
-   awful.key({ usr.modkey,           }, 'Escape', awful.tag.history.restore),
-   awful.key({ usr.modkey,           },  'e',     req.revelation),  -- revelation
+  
+   req.keydoc.group('Layout manipulation'),
+
+   awful.key({ usr.modkey,           }, 'Left',   awful.tag.viewprev, 'View previous tag'),
+   awful.key({ usr.modkey,           }, 'Right',  awful.tag.viewnext, 'View next tag'),
+   awful.key({ usr.modkey,           }, 'Escape', awful.tag.history.restore, 'Focus previously selected tag set'),
+--   awful.key({ usr.modkey,           },  'e',     req.revelation),  -- revelation
 -- custom_keys(usr.mod_key.up),
 -- custom_keys(usr.mod_key.down),
+
+  req.keydoc.group('Client manipulation'),
+
    awful.key({ usr.modkey, }, 'j',
         function ()
             awful.client.focus.byidx( 1)
             if client.focus then client.focus:raise() end
-        end),
+        end, "Swap with next window"),
    awful.key({ usr.modkey, }, 'k',
         function ()
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
-        end),
+        end, "Swap with previous window"),
    -- awful.key({ usr.modkey,           }, 'w', function () mymainmenu:show({keygrabber=true}) end),
    -- Layout manipulation
-   awful.key({ usr.modkey, 'Shift'   }, 'j', function () awful.client.swap.byidx(  1)    end),
-   awful.key({ usr.modkey, 'Shift'   }, 'k', function () awful.client.swap.byidx( -1)    end),
-   awful.key({ usr.modkey, 'Control' }, 'j', function () awful.screen.focus_relative( 1) end),
-   awful.key({ usr.modkey, 'Control' }, 'k', function () awful.screen.focus_relative(-1) end),
-   awful.key({ usr.modkey,           }, 'u', awful.client.urgent.jumpto),
+   awful.key({ usr.modkey, 'Shift'   }, 'j', function () awful.client.swap.byidx(  1)    end, 'Rotate clients around in a tag next'),
+   awful.key({ usr.modkey, 'Shift'   }, 'k', function () awful.client.swap.byidx( -1)    end, 'Rotate clients around in a tag. previous'),
+   awful.key({ usr.modkey, 'Control' }, 'j', function () awful.screen.focus_relative( 1) end, 'Focus next screen'),
+   awful.key({ usr.modkey, 'Control' }, 'k', function () awful.screen.focus_relative(-1) end, 'Focus previous screen'),
+   awful.key({ usr.modkey,           }, 'u', awful.client.urgent.jumpto, 'Focus first urgent client'),
    awful.key({ usr.modkey,           }, 'Tab',
         function ()
             awful.client.focus.history.previous()
             if client.focus then
                 client.focus:raise()
             end
-        end),
+        end , 'Tab through client history'),
 
    -- Standard program
-   awful.key({ usr.modkey,           }, 'Return', function  () usr.exec(usr.terminal) end),
-   awful.key({ usr.modkey, 'Control' }, 'r', awesome.restart),
-   awful.key({ usr.modkey, 'Shift'   }, 'q', awesome.quit),
-   awful.key({ usr.modkey,           }, 'l',     function () awful.tag.incmwfact( 0.05)    end),
-   awful.key({ usr.modkey,           }, 'h',     function () awful.tag.incmwfact(-0.05)    end),
+   awful.key({ usr.modkey,           }, 'Return', function  () usr.exec(usr.terminal) end, 'Launch terminal'),
+   awful.key({ usr.modkey, 'Control' }, 'r', awesome.restart, 'Reload awesome'),
+   awful.key({ usr.modkey, 'Shift'   }, 'q', awesome.quit, 'Quit awesome'),
+   awful.key({ usr.modkey,           }, 'l',     function () awful.tag.incmwfact( 0.05)    end, 'Increase current client width'),
+   awful.key({ usr.modkey,           }, 'h',     function () awful.tag.incmwfact(-0.05)    end, 'Decrease current client width'),
    awful.key({ usr.modkey, 'Shift'   }, 'h',     function () awful.tag.incnmaster( 1)      end),
    awful.key({ usr.modkey, 'Shift'   }, 'l',     function () awful.tag.incnmaster(-1)      end),
    awful.key({ usr.modkey, 'Control' }, 'h',     function () awful.tag.incncol( 1)         end),
    awful.key({ usr.modkey, 'Control' }, 'l',     function () awful.tag.incncol(-1)         end),
-   awful.key({ usr.modkey,           }, 'space', function () awful.layout.inc(layouts,  1) end),
-   awful.key({ usr.modkey, 'Shift'   }, 'space', function () awful.layout.inc(layouts, -1) end),
-   awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore),
-   awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore),
+   awful.key({ usr.modkey,           }, 'space', function () awful.layout.inc(layouts,  1) end, 'Next layout'),
+   awful.key({ usr.modkey, 'Shift'   }, 'space', function () awful.layout.inc(layouts, -1) end, 'Previous layout'),
+   awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore, 'Un-minimize client'),
+  
+   req.keydoc.group('Custom'),
+   
+   awful.key({ }, 'F1', req.keydoc.display),
 
-   awful.key({ usr.modkey, }, '`', function () usr.exec('sh '.. home_path .. 'bin/screenshot') end),
+   awful.key({ usr.modkey, }, '`', function () usr.exec('sh '.. home_path .. 'bin/screenshot') end, 'Take screenshot and copy URL'),
 
-   awful.key({ usr.modkey, }, ']', function () usr.exec("sh -c 'luakit -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end),
+   awful.key({ usr.modkey, }, ']', function () usr.exec("sh -c 'luakit -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end, 'Launch web browser [proxy]'),
 
-   awful.key({ usr.modkey, }, '[', function () usr.exec("sh -c 'luakit -U -c " .. home_path .. ".config/luakit/rc.lua  > /dev/null 2>&1'") end),
+   awful.key({ usr.modkey, }, '[', function () usr.exec("sh -c 'luakit -U -c " .. home_path .. ".config/luakit/rc.lua  > /dev/null 2>&1'") end, 'Launch web browser'),
 
-   awful.key({ usr.modkey, }, '\\', function () usr.exec('spacefm --panel=1') end),
+   awful.key({ usr.modkey, }, '\\', function () usr.exec('spacefm --panel=1') end, 'Launch file manager'),
 
-   awful.key({ usr.modkey, 'Control' }, '\\', function () usr.exec('spacefm') end),
+--   awful.key({ usr.modkey, 'Control' }, '\\', function () usr.exec('spacefm') end, 'Launch file manager [new instance]'),
 
-   awful.key({ usr.modkey, }, '\'', function () usr.exec('subl') end),
+   awful.key({ usr.modkey, }, '\'', function () usr.exec('subl') end, 'Launch text editor'),
 
-   awful.key({ usr.modkey, }, '/', function () usr.exec('xchat') end),
+   awful.key({ usr.modkey, }, '/', function () usr.exec('xchat') end, 'Launch IRC client'),
 
 -- awful.key({ usr.modkey, }, '.', function () usr.exec(home_path .. "Development/luakit/luakit -U luakit://help") end),
-
-   awful.key({ usr.modkey, 'Control' }, 'w', function () usr.exec(usr.primary_browser) end),
+--   awful.key({ usr.modkey, 'Control' }, 'w', function () usr.exec(usr.primary_browser) end, 'Launch primary web browser'),
    -- yubnub try, 'ls dictionary'
    awful.key({ usr.modkey }, 'w' , function ()
         awful.prompt.run({ prompt = 'Web search: ' }, mypromptbox[mouse.screen].widget,
@@ -942,24 +944,24 @@ local globalkeys = awful.util.table.join(
                 -- Switch to the web tag, where Firefox is, in this case tag 3
                 if tags[mouse.screen][1] then awful.tag.viewonly(tags[mouse.screen][1]) end
             end)
-    end),
+    end, 'Launch yubnub'),
    awful.key({ usr.modkey }, 'p', function () 
-        usr.exec('dmenu_run -i -nb "' .. beautiful.bg_normal.. '" -sb "' .. beautiful.bg_focus ..'" -sf "' .. 
-            beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "Execute:"') end),
+        usr.exec('dmenu_run -i -nb "' .. beautiful.bg_graphs.. '" -sb "' .. beautiful.bg_graphs ..'" -sf "' .. 
+            beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "Execute:"') end, 'Launch dmenu'),
    -- http://awesome.naquadah.org/wiki/Move_Mouse
-   awful.key({ usr.modkey , 'Control' }, 'm', function() moveMouse(usr.safeCoords.x, usr.safeCoords.y) end),
+   awful.key({ usr.modkey , 'Control' }, 'm', function() moveMouse(usr.safeCoords.x, usr.safeCoords.y) end, 'Hide mouse cursor'),
    awful.key({ usr.modkey }, 't', -- toggle bottom panel
               function ()
                   my_top_wibox[mouse.screen].visible = not my_top_wibox[mouse.screen].visible
-              end),
+              end, 'Toggle top wibox'),
    awful.key({ usr.modkey }, 'b', -- toggle bottom panel
               function ()
                   my_bottom_wibox[mouse.screen].visible = not my_bottom_wibox[mouse.screen].visible
-              end),
+              end, 'Toggle bottom wibox'),
    -- req.scratch.drop(prog, vert, horiz, width, height, sticky, screen)
    -- awful.key({ usr.modkey }, 'F11', function () req.scratch.drop('gmrun') end),
-awful.key({spa
- }, 'F12', function () req.scratch.drop(usr.terminal, 'bottom', 'left', 0.50, 0.50) end),
+awful.key({
+ }, 'F12', function () req.scratch.drop(usr.terminal, 'bottom', 'left', 0.50, 0.50) end, 'Toggle terminal'),
       -- http://awesome.naquadah.org/wiki/SSH:_prompt
    awful.key({ usr.modkey, }, 'F3', function ()
      awful.prompt.run({ prompt = 'ssh: ' },
@@ -998,44 +1000,44 @@ awful.key({spa
              return matches[ncomp], cur_pos
      end,
      awful.util.getdir('cache') .. '/ssh_history')
-end)
+end, 'SSH history')
 )
 -- mpd
 musicwidget:append_global_keys()
    root.keys(globalkeys)
 
-local clientkeys = awful.util.table.join(
-   awful.key({ usr.modkey,           }, 'f',      function (c) c.fullscreen = not c.fullscreen  end),
-   awful.key({ usr.modkey, 'Shift'   }, 'c',      function (c) c:kill()                         end),
-   awful.key({ usr.modkey,           }, 'c',      function (c) c:kill()                         end),
-   awful.key({ usr.modkey, 'Control' }, 'space',  awful.client.floating.toggle                     ),
-   awful.key({ usr.modkey, 'Control' }, 'Return', function (c) c:swap(awful.client.getmaster()) end),
-   awful.key({ usr.modkey,           }, 'o',      awful.client.movetoscreen                        ),
-   awful.key({ usr.modkey, 'Shift'   }, 'r',      function (c) c:redraw()                       end),
-   awful.key({ usr.modkey, 'Shift'   }, 't',      function (c) c.ontop = not c.ontop            end),
+local clientkeys = awful.util.table.join(  req.keydoc.group('Client keys'),
+
+   awful.key({ usr.modkey,           }, 'f',      function (c) c.fullscreen = not c.fullscreen  end, 'Fullscreen'),
+   awful.key({ usr.modkey,           }, 'c',      function (c) c:kill()                         end, 'Close'),
+   awful.key({ usr.modkey, 'Control' }, 'space',  awful.client.floating.toggle                     , 'Toggle floating'),
+   awful.key({ usr.modkey, 'Control' }, 'Return', function (c) c:swap(awful.client.getmaster()) end, 'Swap'),
+   awful.key({ usr.modkey,           }, 'o',      awful.client.movetoscreen                        , 'Move to screen'),
+   awful.key({ usr.modkey, 'Shift'   }, 'r',      function (c) c:redraw()                       end, 'Redraw'),
+   awful.key({ usr.modkey, 'Shift'   }, 't',      function (c) c.ontop = not c.ontop            end, 'On top'),
    awful.key({ usr.modkey,           }, 'n',
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
             c.minimized = true
-        end),
+        end, 'Minimize'),
    awful.key({ usr.modkey,           }, 'm',
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
-        end),
+        end, 'Maximize'),
    -- stick/unstick application to all tags
-   awful.key({ usr.modkey }, 's', function (c) c.sticky = not c.sticky end),
+   awful.key({ usr.modkey }, 's', function (c) c.sticky = not c.sticky end, 'Sticky'),
    -- toggle title bar for application
    awful.key({ usr.modkey, "Control" }, "t", function (c)
         if   c.titlebar then awful.titlebar.remove(c)
         else awful.titlebar.add(c, { modkey = usr.modkey }) end
-    end),
+    end, 'Titlebar'),
     -- toggle tag title bar
     awful.key({ usr.modkey, "Control" }, "f", function (c) if awful.client.floating.get(c)
         then awful.client.floating.delete(c);    awful.titlebar.remove(c)
         else awful.client.floating.set(c, true); awful.titlebar.add(c) end
-    end)
+    end, 'Tag titlebar')
    )
 
 -- Compute the maximum number of digit we need, limited to 9
@@ -1048,7 +1050,10 @@ end
 -- Be careful: we use keycodes to make it works on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
 for i = 1, keynumber do
-   globalkeys = awful.util.table.join(globalkeys,
+   globalkeys = awful.util.table.join(
+
+req.keydoc.group('Global keys'),
+    globalkeys,
       awful.key({ usr.modkey }, '#' .. i + 9,
                   function ()
                         local screen = mouse.screen
