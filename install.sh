@@ -22,8 +22,7 @@ ln -sfn ~/.config/awesome/themes/pdq ~/.config/awesome/themes/current
 ln -sfn ~/.config/awesome/icons/AwesomeLight.png ~/.config/awesome/icons/menu_icon.png
 ln -sfn ~/.config/awesome/themes/current/theme.lua ~/.config/luakit/awesometheme.lua
   
-mkdir ~/.cache
-mkdir ~/.cache/awesome
+mkdir -p ~/.cache/awesome
 touch ~/.cache/awesome/stderr
 touch ~/.cache/awesome/stdout
 mkdir ~/.config/conky/arch/.cache
