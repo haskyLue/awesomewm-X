@@ -666,6 +666,7 @@ function (widget, args)
         end
     end
 end, 3)
+awful.widget.layout.margins[netwidget] = { right = modifier.seperator_max }
 
 -- vicious.widgets.uptime
   -- provides system uptime and load information
