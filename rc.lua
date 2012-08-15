@@ -76,7 +76,7 @@ script_options = {
                conky_2 = true,        -- (default true) ~/.config/conky/conky_grey/conkyrc_grey
                linux = 'archlinux',   -- archlinux/debian/fedora/gentoo/
                email = true,          -- (default false) ~/.config/conky/unread_email.sh
-           --  font = 'Terminus 8',          -- comment to use themes settings
+               font = 'Sans 9',          -- comment to use themes settings
                taglist_font = 'Terminus 12', -- comment to use themes settings
                border_width = 0,
              }
@@ -133,18 +133,18 @@ usr = {
     primary_browser = -- 'firefox',
                          'luakit',
     screen_width = 
-          1024 -- 1024 and below
+        --  1024 -- 1024 and below
         --  1152 -- 1025-1152
         --  1280 -- 1153-1280
         --  1368 -- 1281-1368
-        --    1440 -- 1369-1440 (default)
+            1440 -- 1369-1440 (default)
         --  1680 -- 1441-1680
         --  1920 -- 1681 and above
     ,
     top_wibox    = 18, -- default 15 (height)
     bottom_wibox = 18, -- default 15 (height)
     networks     = { 'eth0', 'wlan0' }, -- Add your devices network interfaces here
-    uptimewidget_enable    = false,
+    uptimewidget_enable    = true,
     cpuwidget_enable       = true,
     memwidget_enable       = true,
     netwidget_enable       = true,
@@ -277,7 +277,7 @@ elseif usr.screen_width >= 1440 and usr.screen_width < 1680 then
         mem_text      = 'Memory: ', 
         net_text      = 'Traffic: ',
         net_text2     = 'Total: ',
-        du_text       = 'Diskusage',
+        du_text       = 'DU',
     --  extra_widgets = true
     }
 elseif usr.screen_width >= 1680 then
