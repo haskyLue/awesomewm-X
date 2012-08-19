@@ -1202,6 +1202,7 @@ end
 -- Autostart programs here or in ~/.xinitrc (Autostart Daemons in /etc/rc.conf)
 -- launch clipboard manager
 run_once('parcellite')
+run_once('kalu')
 -- launch the composite manager
 run_once('cairo-compmgr')
 -- Use the second argument, if the programm you wanna start differs from the what you want to search.
