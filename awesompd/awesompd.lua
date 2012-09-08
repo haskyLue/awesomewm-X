@@ -57,7 +57,7 @@ end
 -- Constants
 awesompd.PLAYING = "Playing"
 awesompd.PAUSED = "Paused"
-awesompd.STOPPED = "MPD stopped"
+awesompd.STOPPED = "Vol"
 awesompd.DISCONNECTED = "Disconnected"
 
 awesompd.MOUSE_LEFT = 1

@@ -140,7 +140,7 @@ usr = {
             1440 -- 1369-1440 (default)
         --  1680 -- 1441-1680
         --  1920 -- 1681 and above
-    ,
+    ,              
     top_wibox    = 18, -- default 15 (height)
     bottom_wibox = 18, -- default 15 (height)
     networks     = { 'eth0', 'wlan0' }, -- Add your devices network interfaces here

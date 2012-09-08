@@ -73,6 +73,16 @@ theme.border_normal = '#fafafa'
 theme.border_focus  = '#659fdb'
 theme.border_marked = '#91231c'
 
+-- {{{ Widgets
+theme.fg_widget        = "#AECF96"
+theme.fg_center_widget = "#88A175"
+theme.fg_end_widget    = "#FF5656"
+theme.fg_off_widget    = "#494B4F"
+theme.fg_netup_widget  = "#7F9F7F"
+theme.fg_netdn_widget  = theme.fg_urgent
+theme.bg_widget        = theme.bg_normal
+theme.border_widget    = theme.bg_normal
+
 if home_path ~= nil then
 	-- Display the taglist squares
 	theme.taglist_squares_sel   = themedir .. '/taglist/focus.png'
