@@ -189,6 +189,10 @@ local layouts = {
    awful.layout.suit.tile,            -- 2
    awful.layout.suit.tile.left,       -- 3
    awful.layout.suit.max,             -- 4
+    awful.layout.suit.tile.bottom,
+     awful.layout.suit.tile.top,
+     awful.layout.suit.fair,
+     awful.layout.suit.fair.horizontal,
 -- awful.layout.suit.max.fullscreen,  -- 11
 -- awful.layout.suit.magnifier        -- 12
 }
