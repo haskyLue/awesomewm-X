@@ -6,8 +6,8 @@ if home_path ~= nil then
 end
 
 theme = {}
-theme.font         = 'Terminus 8'
-theme.taglist_font = 'Terminus 12'
+theme.font         = 'Sans 10'
+theme.taglist_font = 'Sans 12'
 theme.border_width = '1'
 
 if home_path ~= nil then
@@ -54,8 +54,8 @@ if home_path ~= nil then
 end
 
 theme.menu_icons    = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
-theme.font          = 'snap'
-theme.taglist_font = "snap 12"
+theme.font          = 'Sans 10'
+theme.taglist_font = "Sans 12"
 
 theme.bg_normal     = '#171717'
 theme.bg_focus      = '#171717'

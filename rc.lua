@@ -460,7 +460,7 @@ awful.widget.layout.margins[pacmanwidget] = { right = modifier.seperator_max }
 pacmanwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'sh ' .. home_path .. 'bin/pacupdater') end ) ) )
 local t = timer( {timeout = 1800} )
 t:add_signal('timeout', function()
-    local f = io.popen('echo Pacman: $(pacman -Qqu | wc -l | tail)', 'r')
+    local f = io.popen('echo Pac: $(pacman -Qqu | wc -l | tail)', 'r')
     local s = f:read('*a')
     f:close()
     pacmanwidget.text = s
