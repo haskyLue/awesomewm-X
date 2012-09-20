@@ -23,7 +23,7 @@ require('awesompd/awesompd') -- awesome.naquadah.org/wiki/Awesompd_widget
 local req = {
     awmXversion = '0.0.5',
  -- revelation = require('revelation'), -- http://awesome.naquadah.org/wiki/Revelation
-    scratch = require('scratch'),
+ --   scratch = require('scratch'),
     lognotify = require('lognotify'),	-- https://github.com/Mic92/lognotify
     lfs = require('lfs'),
     utils = require('utils'),
@@ -447,7 +447,7 @@ local mysystray = widget({ type = 'systray' })
 local diskwidget = widget({ type = 'textbox' })
 diskwidget.text = modifier.du_text
 awful.widget.layout.margins[diskwidget] = { right = modifier.seperator_max }
-diskwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'multitail -ci white /var/log/kernel.log -cis yellow /var/log/pacman.log -ci red /var/log/boot -cis green /home/pdq/.xplanetFX/logs/xplanetFX.log -ci red /var/log/Xorg.0.log -cis green /var/log/httpd/access_log -ci red -I /var/log/httpd/error_log -cis red -I /var/log/httpd/error_log') end ) ) )
+diskwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ('urxvtc -name multitails -e multitail -ci white /var/log/kernel.log -cis yellow /var/log/pacman.log -ci red /var/log/boot -cis green /home/pdq/.xplanetFX/logs/xplanetFX.log -ci red /var/log/Xorg.0.log -cis green /var/log/httpd/access_log -ci red -I /var/log/httpd/error_log -cis red -I /var/log/httpd/error_log') end ) ) )
 -- the first argument is the widget to trigger the diskusage
 -- the second/third is the percentage at which a line gets orange/red
 -- true = show only local filesystems
@@ -620,7 +620,7 @@ local cpuwidget = widget({ type = 'textbox', name = 'cpuwidget' })
 cpuwidget.width = modifier.cpu_w
 vicious.register(cpuwidget, vicious.widgets.cpu, modifier.cpu_text .. '$1%')
 -- button to launch htop
-cpuwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'htop --sort-key PERCENT_CPU') end ) ) )
+cpuwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( 'urxvtc -name htops -e htop --sort-key PERCENT_CPU') end ) ) )
 
 -- function cpu_widgets(cores)
 --     for i=1, cores do
@@ -687,7 +687,7 @@ uptimewidget:buttons(awful.util.table.join(awful.button({}, 1, function () aweso
 local memwidget = widget({ type = 'textbox', name = 'memwidget' })
 vicious.register(memwidget, vicious.widgets.mem, modifier.mem_text .. '$1% $2MB/$3MB')
 awful.widget.layout.margins[memwidget] = { left = modifier.seperator_max, right = modifier.seperator_min }
-memwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec( usr.terminal_cmd .. 'htop --sort-key PERCENT_MEM') end ) ) )
+memwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec('urxvtc -name htops -e htop --sort-key PERCENT_MEM') end ) ) )
 local memgraphwidget = awful.widget.progressbar()
 memgraphwidget:set_vertical(true):set_ticks(true)
 memgraphwidget:set_width(modifier.cpuw_width):set_ticks_size(2)
@@ -868,6 +868,17 @@ root.buttons(awful.util.table.join(
 -- end
 
 -- Key bindings
+
+local quake = require("quake")
+
+local quakeconsole = {}
+for s = 1, screen.count() do
+   quakeconsole[s] = quake({ terminal = usr.terminal,
+           height = 0.3,
+           screen = s })
+end
+
+
 local globalkeys = awful.util.table.join(
   
    req.keydoc.group('Layout manipulation'),
@@ -924,7 +935,7 @@ local globalkeys = awful.util.table.join(
    
    awful.key({ }, 'F1', req.keydoc.display),
 
-   awful.key({ usr.modkey, }, '`', function () usr.exec('sh '.. home_path .. 'bin/screenshot') end, 'Take screenshot and copy URL'),
+   awful.key({ usr.modkey, }, '!', function () usr.exec('sh '.. home_path .. 'bin/screenshot') end, 'Take screenshot and copy URL'),
 
    awful.key({ usr.modkey, }, ']', function () usr.exec("sh -c 'luakit -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end, 'Launch web browser [proxy]'),
 
@@ -955,19 +966,23 @@ local globalkeys = awful.util.table.join(
             beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "Execute:"') end, 'Launch dmenu'),
    -- http://awesome.naquadah.org/wiki/Move_Mouse
    awful.key({ usr.modkey , 'Control' }, 'm', function() moveMouse(usr.safeCoords.x, usr.safeCoords.y) end, 'Hide mouse cursor'),
-   awful.key({ usr.modkey }, 't', -- toggle bottom panel
+   awful.key({ usr.modkey, 'zMod1' }, 't', -- toggle bottom panel
               function ()
                   my_top_wibox[mouse.screen].visible = not my_top_wibox[mouse.screen].visible
               end, 'Toggle top wibox'),
-   awful.key({ usr.modkey }, 'b', -- toggle bottom panel
+   awful.key({ usr.modkey, 'Mod1'}, 'b', -- toggle bottom panel
               function ()
                   my_bottom_wibox[mouse.screen].visible = not my_bottom_wibox[mouse.screen].visible
               end, 'Toggle bottom wibox'),
    -- req.scratch.drop(prog, vert, horiz, width, height, sticky, screen)
    -- awful.key({ usr.modkey }, 'F11', function () req.scratch.drop('gmrun') end),
-awful.key({
- }, 'F12', function () req.scratch.drop(usr.terminal, 'bottom', 'left', 0.50, 0.50) end, 'Toggle terminal'),
+--awful.key({
+ --}, 'F12', function () req.scratch.drop(usr.terminal, 'bottom', 'left', 0.50, 0.50) end, 'Toggle terminal'),
       -- http://awesome.naquadah.org/wiki/SSH:_prompt
+
+   awful.key({ }, "F12",
+     function () quakeconsole[mouse.screen]:toggle() end),
+
    awful.key({ usr.modkey, }, 'F3', function ()
      awful.prompt.run({ prompt = 'ssh: ' },
      mypromptbox[mouse.screen].widget,
@@ -1007,6 +1022,7 @@ awful.key({
      awful.util.getdir('cache') .. '/ssh_history')
 end, 'SSH history')
 )
+
 -- mpd
 musicwidget:append_global_keys()
    root.keys(globalkeys)
@@ -1014,7 +1030,7 @@ musicwidget:append_global_keys()
 local clientkeys = awful.util.table.join(  req.keydoc.group('Client keys'),
 
    awful.key({ usr.modkey,           }, 'f',      function (c) c.fullscreen = not c.fullscreen  end, 'Fullscreen'),
-   awful.key({ usr.modkey,           }, 'c',      function (c) c:kill()                         end, 'Close'),
+   awful.key({ usr.modkey,           }, '`',      function (c) c:kill()                         end, 'Close'),
    awful.key({ usr.modkey, 'Control' }, 'space',  awful.client.floating.toggle                     , 'Toggle floating'),
    awful.key({ usr.modkey, 'Control' }, 'Return', function (c) c:swap(awful.client.getmaster()) end, 'Swap'),
    awful.key({ usr.modkey,           }, 'o',      awful.client.movetoscreen                        , 'Move to screen'),
@@ -1032,7 +1048,7 @@ local clientkeys = awful.util.table.join(  req.keydoc.group('Client keys'),
             c.maximized_vertical   = not c.maximized_vertical
         end, 'Maximize'),
    -- stick/unstick application to all tags
-   awful.key({ usr.modkey }, 's', function (c) c.sticky = not c.sticky end, 'Sticky'),
+   awful.key({ usr.modkey, "Control" }, 's', function (c) c.sticky = not c.sticky end, 'Sticky'),
    -- toggle title bar for application
    awful.key({ usr.modkey, "Control" }, "t", function (c)
         if   c.titlebar then awful.titlebar.remove(c)
@@ -1093,6 +1109,12 @@ local clientbuttons = awful.util.table.join(
    awful.button({ usr.modkey }, 3, awful.mouse.client.resize))
 
 -- Set keys
+-- load the 'run or raise' function
+require("aweror")
+
+-- generate and add the 'run or raise' key bindings to the globalkeys table
+globalkeys = awful.util.table.join(globalkeys, aweror.genkeys(usr.modkey))
+
 root.keys(globalkeys)
 
 -- Rules
@@ -1108,22 +1130,30 @@ awful.rules.rules = {
   -- { rule = {class = 'URxvt'}, 
  --    properties = { opacity = 0.6 } },
    { rule = { class = 'luakit' },          -- browser tag
-     properties = { tag = tags[1][1] } },
-  -- { rule = { name = 'htop' },          -- browser tag
-  --   properties = { tag = tags[1][8] } },
+     properties = { tag = tags[1][1], switchtotag = true } },
+   { rule = { class = 'Transmission-qt' }, 
+     properties = { tag = tags[1][4], switchtotag = true } },
  --  { rule = { class = 'luakit', name = string.find(c:name, "^%[proxy%]") },
  --    properties = { tag = tags[1][2] } },
+    { rule = { instance = "multitails" }, 
+     properties = { tag = tags[1][3], switchtotag = true  } },
+    { rule = { instance = "htops" }, 
+     properties = { tag = tags[1][3], switchtotag = true  } },
+     { rule = { class = "Konversation" }, 
+     properties = { tag = tags[1][2], switchtotag = true  } },   
+    -- { rule = { class = "Yakuake" }, 
+   --  properties = { floating = true } },   
    { rule = { class = 'Chromium' },         -- browser tag
-     properties = { tag = tags[1][1] } },
+     properties = { tag = tags[1][1], switchtotag = true } },
    { rule = {name = 'Xchat'},                -- messages tag
-     properties = {tag = tags[1][7]} },
+     properties = {tag = tags[1][7]}, switchtotag = true },
 --   callback = function(c) c:tags({tags[1][5], tags[1][4]}) end}, -- multitag
-   { rule = {class = 'Sublime'},
-     properties = {tag = tags[1][6]} },
+   { rule = {class = 'sublime_text'},
+     properties = {tag = tags[1][6], switchtotag = true} },
    { rule = {class = 'Kdenlive'},
-     properties = {tag = tags[1][5]} },
+     properties = {tag = tags[1][5], switchtotag = true} },
    { rule = { class = 'Plugin-container' }, -- fullscreen youtube videos
-     properties = { floating = true } },
+     properties = { floating = true, switchtotag = true } },
  --  { rule = { class = 'Nitrogen' }, 
  --   properties = { tag = tags[1][7], 
  --                   floating = true, 
@@ -1209,6 +1239,7 @@ run_once('parcellite')
 run_once('kalu')
 -- launch the composite manager
 run_once('cairo-compmgr')
+run_once('nm-applet')
 -- Use the second argument, if the programm you wanna start differs from the what you want to search.
 -- run_once('redshift', 'redshift -o -l 0:0 -t 6500:5500')
 

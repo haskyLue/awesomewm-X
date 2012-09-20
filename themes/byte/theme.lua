@@ -101,7 +101,7 @@ if home_path ~= nil then
 	theme.layout_tiletop = themedir .. '/layouts/tiletop.png'
 	--theme.layout_spiral  = themedir .. '/layouts/spiral.png'
 	--theme.layout_dwindle = themedir .. '/layouts/dwindle.png'
-	theme.menu_height   = '20'
+	theme.menu_height   = '25'
 	theme.menu_width    = '100'
 	theme.awesome_icon = home_path .. '.config/awesome/icons/menu_icon.png'
 	-- Widget icons
