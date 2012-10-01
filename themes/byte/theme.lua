@@ -53,7 +53,7 @@ if home_path ~= nil then
 	--}}}
 end
 
-theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
+theme.menu_icons = 'Bespin-Black' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
 
 theme.bg_normal     = '#262729'
 theme.bg_focus      = '#262729'
@@ -101,7 +101,7 @@ if home_path ~= nil then
 	theme.layout_tiletop = themedir .. '/layouts/tiletop.png'
 	--theme.layout_spiral  = themedir .. '/layouts/spiral.png'
 	--theme.layout_dwindle = themedir .. '/layouts/dwindle.png'
-	theme.menu_height   = '25'
+	theme.menu_height   = '22'
 	theme.menu_width    = '100'
 	theme.awesome_icon = home_path .. '.config/awesome/icons/menu_icon.png'
 	-- Widget icons

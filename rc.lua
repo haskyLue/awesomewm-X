@@ -13,10 +13,10 @@ require('awful.autofocus')
 require('awful.rules')
 require('beautiful')
 require('naughty')
+require('sqlite3')
 local vicious = require('vicious') -- http://awesome.naquadah.org/wiki/Vicious
 
--- Local libraries
-require('freedesktop.utils') -- https://github.com/terceiro/awesome-freedesktop
+-- Local libraries-- https://github.com/terceiro/awesome-freedesktop
 require('freedesktop.menu') 
 require('awesompd/awesompd') -- awesome.naquadah.org/wiki/Awesompd_widget
 
@@ -133,11 +133,11 @@ usr = {
     primary_browser = -- 'firefox',
                          'luakit',
     screen_width = 
-        --  1024 -- 1024 and below
+       --   1024 -- 1024 and below
         --  1152 -- 1025-1152
         --  1280 -- 1153-1280
         --  1368 -- 1281-1368
-            1440 -- 1369-1440 (default)
+           1440 -- 1369-1440 (default)
         --  1680 -- 1441-1680
         --  1920 -- 1681 and above
     ,              
@@ -248,13 +248,13 @@ if usr.screen_width >= 599 and usr.screen_width < 1151 then
     modifier = {
         seperator_min = 5,
         seperator_max = 10,
-        uptime_text   = 'UP: ', 
-        cpu_text      = 'CPU: ',
+        uptime_text   = '', 
+        cpu_text      = '',
         cpu_w         = 60,
         cpuw_width    = 15,
-        mem_text      = 'RAM: ', 
-        net_text      = 'NET: ',
-        net_text2     = 'TT: ',
+        mem_text      = '', 
+        net_text      = '',
+        net_text2     = '',
         du_text       = 'DU',
     }
 elseif usr.screen_width >= 1152 and usr.screen_width < 1440 then
@@ -262,26 +262,26 @@ elseif usr.screen_width >= 1152 and usr.screen_width < 1440 then
         seperator_min = 10,
         seperator_max = 10,
         uptime_text   = 'UP: ', 
-        cpu_text      = 'CPU: ',
+        cpu_text      = '⚡ CPU: ',
         cpu_w         = 60,
         cpuw_width    = 15,
-        mem_text      = 'RAM: ', 
-        net_text      = 'NET: ',
+        mem_text      = '⚡ RAM: ', 
+        net_text      = '⚡ NET: ',
         net_text2     = 'TT: ',
         du_text       = 'DU',
     }
 elseif usr.screen_width >= 1440 and usr.screen_width < 1680 then
     modifier = {
-        seperator_min = 10,
-        seperator_max = 20,
-        uptime_text   = 'Uptime: ', 
+        seperator_min = 5,
+        seperator_max = 10,
+        uptime_text   = '', 
         cpu_w         = 75,
-        cpu_text      = 'Cores: ',
-        cpuw_width    = 30,
-        mem_text      = 'Memory: ', 
-        net_text      = 'Traffic: ',
+        cpu_text      = '⚡ CPU: ',
+        cpuw_width    = 15,
+        mem_text      = '⚡ RAM: ', 
+        net_text      = '⚡ NET: ',
         net_text2     = 'Total: ',
-        du_text       = 'DU',
+        du_text       = '⚡ DU',
     --  extra_widgets = true
     }
 elseif usr.screen_width >= 1680 then
@@ -290,7 +290,7 @@ elseif usr.screen_width >= 1680 then
         seperator_max = 20,
         uptime_text   = 'Uptime: ', 
         cpu_w         = 75,
-        cpu_text      = 'Cores: ',
+        cpu_text      = 'CPU: ',
         cpuw_width    = 30,
         mem_text      = 'Memory: ', 
         net_text      = 'Traffic: ',
@@ -446,7 +446,7 @@ local mysystray = widget({ type = 'systray' })
 -- Disk useage widget http://jasonmaur.com/awesome-wm-widgets-configuration/#disk-usage
 local diskwidget = widget({ type = 'textbox' })
 diskwidget.text = modifier.du_text
-awful.widget.layout.margins[diskwidget] = { right = modifier.seperator_max }
+awful.widget.layout.margins[diskwidget] = { right = modifier.seperator_min }
 diskwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ('urxvtc -name multitails -e multitail -ci white /var/log/kernel.log -cis yellow /var/log/pacman.log -ci red /var/log/boot -cis green /home/pdq/.xplanetFX/logs/xplanetFX.log -ci red /var/log/Xorg.0.log -cis green /var/log/httpd/access_log -ci red -I /var/log/httpd/error_log -cis red -I /var/log/httpd/error_log') end ) ) )
 -- the first argument is the widget to trigger the diskusage
 -- the second/third is the percentage at which a line gets orange/red
@@ -455,12 +455,12 @@ req.disk.addToWidget(diskwidget, 75, 90, true)
 
 -- pacman update widget based off setkeh Awesome-Widget-Notify
 pacmanwidget = widget({ type = 'textbox' })
-awful.widget.layout.margins[pacmanwidget] = { right = modifier.seperator_max }
+awful.widget.layout.margins[pacmanwidget] = { right = modifier.seperator_min }
 -- button to run pacman update
 pacmanwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'sh ' .. home_path .. 'bin/pacupdater') end ) ) )
 local t = timer( {timeout = 1800} )
 t:add_signal('timeout', function()
-    local f = io.popen('echo Pac: $(pacman -Qqu | wc -l | tail)', 'r')
+    local f = io.popen('echo ⚡ Pac: $(pacman -Qqu | wc -l | tail)', 'r')
     local s = f:read('*a')
     f:close()
     pacmanwidget.text = s
@@ -470,12 +470,12 @@ t:start()
 
 -- aur update widget based off setkeh Awesome-Widget-Notify
 local aurwidget = widget({ type = 'textbox' })
-awful.widget.layout.margins[aurwidget] = { right = modifier.seperator_max }
+awful.widget.layout.margins[aurwidget] = { right = modifier.seperator_min }
 -- button to run packer update
 aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'sh ' .. home_path .. 'bin/packerupdater') end ) ) )
 local t = timer({ timeout = 1800 })
 t:add_signal('timeout', function()
-    local f = io.popen('echo AUR: $(' .. usr.aur_helper .. ' | wc -l | tail)', 'r')
+    local f = io.popen('echo ⚡ AUR: $(' .. usr.aur_helper .. ' | wc -l | tail)', 'r')
     local s = f:read('*a')
     f:close()
     aurwidget.text = s
@@ -532,7 +532,7 @@ vicious.register(forecast, vicious.widgets.weather, function (widget, args)
                                                       args["{sky}"] .. "\nHumidity: " .. 
                                                       args["{humid}"] .. "%\n" .. "Pressure: " .. 
                                                       args["{press}"] .. " hPa") 
-                                                   return args["{tempc}"] .. ' °C' end, 1800, usr.weather_code)
+                                                   return '⚡ ' .. args["{tempc}"] .. ' °C ⚡' end, 1800, usr.weather_code)
 
 -- {{{ awesome.naquadah.org/wiki/Awesompd_widget
 local musicwidget = awesompd:create() -- Create awesompd widget
@@ -679,14 +679,14 @@ awful.widget.layout.margins[netwidget] = { right = modifier.seperator_max }
   --  for 5 minutes and 6th for 15 minutes
 local uptimewidget = widget({ type = 'textbox' })
 vicious.register(uptimewidget, vicious.widgets.uptime, modifier.uptime_text .. '$1d $2:$3, $4, $5, $6', 60)
-awful.widget.layout.margins[uptimewidget] = { left = modifier.seperator_min, right = modifier.seperator_max }
+awful.widget.layout.margins[uptimewidget] = { left = modifier.seperator_min, right = modifier.seperator_min }
 -- button to restart awesome
 uptimewidget:buttons(awful.util.table.join(awful.button({}, 1, function () awesome.restart() end ) ) )
 
 -- memory widget
 local memwidget = widget({ type = 'textbox', name = 'memwidget' })
 vicious.register(memwidget, vicious.widgets.mem, modifier.mem_text .. '$1% $2MB/$3MB')
-awful.widget.layout.margins[memwidget] = { left = modifier.seperator_max, right = modifier.seperator_min }
+awful.widget.layout.margins[memwidget] = { left = modifier.seperator_min, right = modifier.seperator_min }
 memwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec('urxvtc -name htops -e htop --sort-key PERCENT_MEM') end ) ) )
 local memgraphwidget = awful.widget.progressbar()
 memgraphwidget:set_vertical(true):set_ticks(true)
@@ -694,7 +694,7 @@ memgraphwidget:set_width(modifier.cpuw_width):set_ticks_size(2)
 memgraphwidget:set_background_color(beautiful.bg_graphs)
 memgraphwidget:set_gradient_colors({ beautiful.fg_widget, beautiful.fg_center_widget, beautiful.fg_end_widget})
 vicious.register(memgraphwidget, vicious.widgets.mem, '$1', 5)
-awful.widget.layout.margins[memgraphwidget] = { left = 0, right = modifier.seperator_max }
+awful.widget.layout.margins[memgraphwidget] = { left = 0, right = modifier.seperator_min }
 
 -- Simple function to move the mouse to the coordinates set above.
 local function moveMouse(x_co, y_co)
@@ -704,6 +704,29 @@ end
 if usr.moveMouseOnStartup then
     moveMouse(usr.safeCoords.x, usr.safeCoords.y)
 end
+
+-- {{{ CPU temperature
+local thermalwidget  = widget({ type = "textbox" })
+vicious.register(thermalwidget, vicious.widgets.thermal, "$1°C", 20, { "coretemp.0", "core"} )
+awful.widget.layout.margins[thermalwidget] = { right = modifier.seperator_min }
+-- }}}
+
+tb_rss = widget({ type = 'textbox' })
+awful.widget.layout.margins[tb_rss] = { left = modifier.seperator_min, right = modifier.seperator_min }
+tb_rss:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec('liferea') end ) ) )
+function hook_rss_liferea()
+    db = sqlite3.open(home_path .. '.liferea_1.8/liferea.db')
+    row = db:first_irow('SELECT COUNT(*) FROM items where read = 0 and comment = 0;')
+ -- db = sqlite3.open(home_path .. '.newsbeuter/cache.db')
+ -- row = db:first_irow('SELECT COUNT(*) FROM rss_item WHERE unread=1;')
+    tb_rss.text = '⚡ Unread items: ' .. row[1]
+    db:close()
+end
+
+mytimer = timer({ timeout = 60 })
+mytimer:add_signal('timeout', hook_rss_liferea)
+mytimer:start()
+
 
 -- Naughty log notify
 ilog = req.lognotify {
@@ -821,6 +844,7 @@ for s = 1, screen.count() do
       {
          usr.uptimewidget_enable and uptimewidget or nil,
          usr.cpuwidget_enable and cpuwidget or nil,
+         thermalwidget,
          cpugraphwidget,
          cpuinfo > 1 and cpugraphwidget1 or nil,
          cpuinfo > 2 and cpugraphwidget2 or nil,
@@ -835,6 +859,7 @@ for s = 1, screen.count() do
          usr.diskusagewidget_enable and diskwidget or nil,
          usr.aurwidget_enable and aurwidget or nil,
          usr.pacmanwidget_enable and pacmanwidget or nil,
+         tb_rss,
       -- usr.batterywidget_enable and batterywidget or nil,
          layout = awful.widget.layout.horizontal.rightleft
    }
@@ -935,7 +960,7 @@ local globalkeys = awful.util.table.join(
    
    awful.key({ }, 'F1', req.keydoc.display),
 
-   awful.key({ usr.modkey, }, '!', function () usr.exec('sh '.. home_path .. 'bin/screenshot') end, 'Take screenshot and copy URL'),
+   awful.key({ usr.modkey, }, 'F12', function () usr.exec('sh '.. home_path .. 'bin/screenshot') end, 'Take screenshot and copy URL'),
 
    awful.key({ usr.modkey, }, ']', function () usr.exec("sh -c 'luakit -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end, 'Launch web browser [proxy]'),
 
@@ -1142,7 +1167,9 @@ awful.rules.rules = {
      { rule = { class = "Konversation" }, 
      properties = { tag = tags[1][2], switchtotag = true  } },   
     -- { rule = { class = "Yakuake" }, 
-   --  properties = { floating = true } },   
+   --  properties = { floating = true } },
+   { rule = { class = 'Liferea' },
+     properties = { floating = true, switchtotag = true } },
    { rule = { class = 'Chromium' },         -- browser tag
      properties = { tag = tags[1][1], switchtotag = true } },
    { rule = {name = 'Xchat'},                -- messages tag

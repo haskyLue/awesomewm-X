@@ -1,5 +1,5 @@
 [Desktop Entry]
 Name=Tobble Bottom Panel
-Exec=xdotool key super+b
+Exec=xdotool key super+alt+b
 Icon=/usr/share/icons/gnome/32x32/apps/preferences-system-windows.png
 Position=0.5
