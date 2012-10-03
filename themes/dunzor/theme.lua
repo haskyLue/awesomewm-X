@@ -5,8 +5,8 @@ if home_path ~= nil then
 end
 
 theme = {}
-theme.font         = 'fixed 8'
-theme.taglist_font = 'fixed 12'
+theme.font         = 'Sans 8'
+theme.taglist_font = 'Sans 12'
 theme.border_width = '1'
 
 if home_path ~= nil then
@@ -61,13 +61,24 @@ theme.bg_urgent     = '#6e3e3e'
 theme.bg_minimize   = '#444444'
 
 theme.fg_normal     = '#c8c8c8'
-theme.fg_focus      = '#55aaff'
+theme.fg_focus      = '#FFF971'
 theme.fg_urgent     = '#ffffff'
 theme.fg_minimize   = '#ffffff'
 
 theme.bg_bottom     = '#161616' -- bottom panel color
 theme.fg_bottom     = '#c8c8c8' -- bottom panel text color
 theme.bg_graphs     = '#0f0f0f' -- graphs background color
+
+-- {{{ Widgets
+theme.fg_widget        = "#AECF96"
+theme.fg_center_widget = "#88A175"
+theme.fg_end_widget    = "#FF5656"
+theme.fg_off_widget    = "#494B4F"
+theme.fg_netup_widget  = "#7F9F7F"
+theme.fg_netdn_widget  = theme.fg_urgent
+theme.bg_widget        = theme.bg_normal
+theme.border_widget    = theme.bg_normal
+-- }}}
 
 -- specific
 -- theme.fg_sb_hi           = '#9dcd9e'

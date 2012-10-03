@@ -103,9 +103,9 @@ usr = {
     terminal_font = "URxvt*font: xft:terminus:pixelsize=16:antialias=false\n" ..
                  -- "!URxvt*font: xft:Envy Code R-10\n" ..
                     "URxvt*iconFile: /usr/share/icons/gnome/24x24/apps/terminal.png\n" ..
-                    "URxvt*background: #000000\n" .. -- black
+                    "URxvt*background: #161616\n" .. -- black
                     "URxvt*foreground: #d3d3d3\n" .. -- white
-                    "URxvt*transparent: true\n" .. 
+                    "URxvt*transparent: false\n" .. 
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
                     "*underlineColor: #de5105\n",
     poweroff   = 'sudo /sbin/poweroff',
@@ -275,7 +275,7 @@ elseif usr.screen_width >= 1440 and usr.screen_width < 1680 then
         seperator_min = 5,
         seperator_max = 10,
         uptime_text   = '', 
-        cpu_w         = 75,
+        cpu_w         = 80,
         cpu_text      = '⚡ CPU: ',
         cpuw_width    = 15,
         mem_text      = '⚡ RAM: ', 
@@ -1263,10 +1263,10 @@ end
 -- Autostart programs here or in ~/.xinitrc (Autostart Daemons in /etc/rc.conf)
 -- launch clipboard manager
 run_once('parcellite')
-run_once('kalu')
+-- run_once('kalu')
 -- launch the composite manager
-run_once('cairo-compmgr')
-run_once('nm-applet')
+-- run_once('cairo-compmgr')
+-- run_once('nm-applet')
 -- Use the second argument, if the programm you wanna start differs from the what you want to search.
 -- run_once('redshift', 'redshift -o -l 0:0 -t 6500:5500')
 
