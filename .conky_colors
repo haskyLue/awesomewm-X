@@ -1,0 +1,100 @@
+ use_xft yes
+xftfont Envy Code R:size=9
+xftalpha 0.5
+
+default_color DDDDDD
+default_outline_color black
+default_shade_color black
+
+uppercase no
+override_utf8_locale no
+
+color1 DDDDDD
+color2 666666
+color3 DDDDDD
+#color2 AAAAAA
+#color3 888888
+color4 666666SYSTEM INFO:SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
+SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
+SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
+SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
+SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
+SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
+SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
+SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
+SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
+SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
+SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
+SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
+SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
+SYSTEM INFO:
+ 
+Kernel:
+Linux 3.4.4-2-ARCH
+Architecture:
+x86_64
