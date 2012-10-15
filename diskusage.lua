@@ -119,6 +119,7 @@ function M.addToWidget(mywidget, orange, red, onlyLocal)
   mywidget:add_signal('mouse::enter', function ()
         
         usage = naughty.notify({
+                title = 'Diskusage',
                 text = string.format('<span font_desc="%s">%s</span>', "Envy Code R", display(orange, red, onlyLocal)),
                 timeout = 0,
                 hover_timeout = 0.5,

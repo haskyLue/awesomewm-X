@@ -23,11 +23,11 @@ require('awesompd/awesompd') -- awesome.naquadah.org/wiki/Awesompd_widget
 local req = {
     awmXversion = '0.0.5',
  -- revelation = require('revelation'), -- http://awesome.naquadah.org/wiki/Revelation
- --   scratch = require('scratch'),
+    scratch = require('scratch'),
     lognotify = require('lognotify'),	-- https://github.com/Mic92/lognotify
     lfs = require('lfs'),
     utils = require('utils'),
-    disk = require('diskusage'),
+  --  disk = require('diskusage'),
     keydoc = require('keydoc'),
     -- wrapper for pango markup
     markup = utils.markup,
@@ -129,13 +129,13 @@ usr = {
     -- networks     = { 'eth0', 'wlan0' }, -- Add your devices network interfaces here
     cpuwidget_enable       = true,
     memwidget_enable       = true,
-    diskusagewidget_enable = true,
+ --   diskusagewidget_enable = true,
     pacmanwidget_enable    = true, 
     aurwidget_enable       = true,
     debug_clients          = false, -- useful for \client rules setup
     -- weather_code  =  'CYWG', -- 'CYWG' -- ICAO code
-    date_format   = '%l:%M%p', -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
-    launcher_path = home_path .. '.config/awesome/launcher/', -- no need to change
+    date_format   = ' %l:%M%p ', -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
+   -- launcher_path = home_path .. '.config/awesome/launcher/', -- no need to change
     -- http://awesome.naquadah.org/wiki/Move_Mouse
     -- set the desired pixel coordinates:
     --  if your screen is 1440x900 the this line sets the bottom right.
@@ -160,6 +160,14 @@ usr = {
     exec = awful.util.spawn,
  -- sexec  = awful.util.spawn_with_shell,
 }
+
+naughty.config.notify_callback = function(args)
+  if args.title == nil then
+    args.title = ''
+  end
+        usr.exec("twmnc -c '" .. args.text .. "' -t '" .. args.title .. "'")
+        return nil
+end
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts = {
@@ -367,23 +375,23 @@ vicious.register(datewidget, vicious.widgets.date, usr.date_format, 61)
 -- Calendar tooltip
 --req.cal.register(datewidget, req.markup.fg(beautiful.fg_focus, '<b>%s</b>'))
 
-local orglendar = require('orglendar')
-orglendar.files = { home_path .. '.config/awesome/custom/work.org', -- Specify here all files you want to be parsed, separated by comma
-                    home_path .. '.config/awesome/custom/home.org' }
-orglendar.register(datewidget)
+-- local orglendar = require('orglendar')
+-- orglendar.files = { home_path .. '.config/awesome/custom/work.org', -- Specify here all files you want to be parsed, separated by comma
+--                     home_path .. '.config/awesome/custom/home.org' }
+-- orglendar.register(datewidget)
 
 -- Create a systray
 local mysystray = widget({ type = 'systray' })
 
 -- Disk useage widget http://jasonmaur.com/awesome-wm-widgets-configuration/#disk-usage
-local diskwidget = widget({ type = 'textbox' })
-diskwidget.text = modifier.du_text
-awful.widget.layout.margins[diskwidget] = { right = modifier.seperator_min }
-diskwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ('urxvtc -name multitails -e multitail -ci white /var/log/kernel.log -cis yellow /var/log/pacman.log -ci red /var/log/boot -cis green /home/pdq/.xplanetFX/logs/xplanetFX.log -ci red /var/log/Xorg.0.log -cis green /var/log/httpd/access_log -ci red -I /var/log/httpd/error_log -cis red -I /var/log/httpd/error_log') end ) ) )
--- the first argument is the widget to trigger the diskusage
--- the second/third is the percentage at which a line gets orange/red
--- true = show only local filesystems
-req.disk.addToWidget(diskwidget, 75, 90, true)
+-- local diskwidget = widget({ type = 'textbox' })
+-- diskwidget.text = modifier.du_text
+-- awful.widget.layout.margins[diskwidget] = { right = modifier.seperator_min }
+-- diskwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ('urxvtc -name multitails -e multitail -ci white /var/log/kernel.log -cis yellow /var/log/pacman.log -ci red /var/log/boot -cis green /home/pdq/.xplanetFX/logs/xplanetFX.log -ci red /var/log/Xorg.0.log -cis green /var/log/httpd/access_log -ci red -I /var/log/httpd/error_log -cis red -I /var/log/httpd/error_log') end ) ) )
+-- -- the first argument is the widget to trigger the diskusage
+-- -- the second/third is the percentage at which a line gets orange/red
+-- -- true = show only local filesystems
+-- req.disk.addToWidget(diskwidget, 75, 90, true)
 
 -- pacman update widget based off setkeh Awesome-Widget-Notify
 pacmanwidget = widget({ type = 'textbox' })
@@ -444,41 +452,41 @@ musicwidget:register_buttons({ { '', awesompd.MOUSE_LEFT, musicwidget:command_to
 musicwidget:run() -- After all configuration is done, run the widget
 
 -- Quick launch bar widget https://awesome.naquadah.org/wiki/Quick_launch_bar_widget
-local function getValue(t, key)
-   _, _, res = string.find(t, key .. " *= *([^%c]+)%c")
-   return res
-end
+-- local function getValue(t, key)
+--    _, _, res = string.find(t, key .. " *= *([^%c]+)%c")
+--    return res
+-- end
 
-local function split (s,t)
-   local l = {n=0}
-   local f = function (s)
-      l.n = l.n + 1
-      l[l.n] = s
-   end
-   local p = "%s*(.-)%s*"..t.."%s*"
-   s = string.gsub(s,p,f)
-   l.n = l.n + 1
-   return l
-end
+-- local function split (s,t)
+--    local l = {n=0}
+--    local f = function (s)
+--       l.n = l.n + 1
+--       l[l.n] = s
+--    end
+--    local p = "%s*(.-)%s*"..t.."%s*"
+--    s = string.gsub(s,p,f)
+--    l.n = l.n + 1
+--    return l
+-- end
 
-local launchbar = { layout = awful.widget.layout.horizontal.rightleft }
-local files = split(io.popen('ls ' .. usr.launcher_path .. '*.desktop'):read('*all'),"\n")
-for i = 1, table.getn(files) do
-   local t = io.open(files[i]):read('*all')
-   launchbar[i] = { image = image(getValue(t,'Icon')),
-                    command = getValue(t,'Exec'),
- --                   tooltip = getValue(t,'Name'),
-                    position = tonumber(getValue(t,'Position')) or 255 }
-end
+-- local launchbar = { layout = awful.widget.layout.horizontal.rightleft }
+-- local files = split(io.popen('ls ' .. usr.launcher_path .. '*.desktop'):read('*all'),"\n")
+-- for i = 1, table.getn(files) do
+--    local t = io.open(files[i]):read('*all')
+--    launchbar[i] = { image = image(getValue(t,'Icon')),
+--                     command = getValue(t,'Exec'),
+--  --                   tooltip = getValue(t,'Name'),
+--                     position = tonumber(getValue(t,'Position')) or 255 }
+-- end
 
-table.sort(launchbar, function(a,b) return a.position < b.position end)
-for i = 1, table.getn(launchbar) do
-   local txt = launchbar[i].tooltip
-   launchbar[i] = awful.widget.launcher(launchbar[i])
---   local tt = awful.tooltip ({ objects = { launchbar[i] } })
---   tt:set_text (txt)
---   tt:set_timeout (0)
-end
+-- table.sort(launchbar, function(a,b) return a.position < b.position end)
+-- for i = 1, table.getn(launchbar) do
+--    local txt = launchbar[i].tooltip
+--    launchbar[i] = awful.widget.launcher(launchbar[i])
+-- --   local tt = awful.tooltip ({ objects = { launchbar[i] } })
+-- --   tt:set_text (txt)
+-- --   tt:set_timeout (0)
+-- end
 
 -- load avg / cpu widget
 local cpuwidget = widget({ type = 'textbox', name = 'cpuwidget' })
@@ -506,6 +514,7 @@ end
 -- {{{ CPU temperature
 local thermalwidget  = widget({ type = "textbox" })
 vicious.register(thermalwidget, vicious.widgets.thermal, "$1°C", 20, { "coretemp.0", "core"} )
+thermalwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ('urxvtc -name multitails -e multitail -ci white /var/log/kernel.log -cis yellow /var/log/pacman.log -ci red /var/log/boot -cis green /home/pdq/.xplanetFX/logs/xplanetFX.log -ci red /var/log/Xorg.0.log -cis green /var/log/httpd/access_log -ci red -I /var/log/httpd/error_log -cis red -I /var/log/httpd/error_log') end ) ) )
 awful.widget.layout.margins[thermalwidget] = { right = modifier.seperator_min }
 -- }}}
 
@@ -603,7 +612,7 @@ for s = 1, screen.count() do
    -- Add widgets to the wibox - order matters
    my_top_wibox[s].widgets = {
       {
-         mylauncher,
+        mylauncher,
          mytaglist[s],
          mypromptbox[s],
          layout = awful.widget.layout.horizontal.leftright
@@ -611,11 +620,11 @@ for s = 1, screen.count() do
       mylayoutbox[s],
       datewidget,
       s == 1 and mysystray or nil,
-      launchbar,
+     -- launchbar,
                musicwidget.widget,
       usr.aurwidget_enable and aurwidget or nil,
       usr.pacmanwidget_enable and pacmanwidget or nil,
-            usr.diskusagewidget_enable and diskwidget or nil,
+       --     usr.diskusagewidget_enable and diskwidget or nil,
             thermalwidget,
       usr.memwidget_enable and memwidget or nil,
        usr.cpuwidget_enable and cpuwidget or nil,
@@ -714,7 +723,8 @@ local globalkeys = awful.util.table.join(
    awful.key({ usr.modkey,           }, 'space', function () awful.layout.inc(layouts,  1) end, 'Next layout'),
    awful.key({ usr.modkey, 'Shift'   }, 'space', function () awful.layout.inc(layouts, -1) end, 'Previous layout'),
    awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore, 'Un-minimize client'),
-  
+   awful.key({ usr.modkey, }, 'x', function () usr.exec('xkill') end),
+
    req.keydoc.group('Custom'),
    
    awful.key({ usr.modkey, }, 'F1', req.keydoc.display),
@@ -757,6 +767,8 @@ local globalkeys = awful.util.table.join(
    awful.key({ }, "F12",
      function () quakeconsole[mouse.screen]:toggle() end),
 
+  awful.key({ }, "F2", function () usr.exec('stalonetray -bg "#0f0f0f" --sticky --skip-taskbar --geometry 112x22+1330+880') end),
+  awful.key({ }, "F3", function () usr.exec('killall stalonetray') end),
    awful.key({ usr.modkey, }, 'F3', function ()
      awful.prompt.run({ prompt = 'ssh: ' },
      mypromptbox[mouse.screen].widget,
@@ -1012,7 +1024,8 @@ end
 -- Autostart programs here or in ~/.xinitrc (Autostart Daemons in /etc/rc.conf)
 -- launch clipboard manager
 run_once('parcellite')
--- run_once('kalu')
+run_once('dropboxd')
+run_once('twmnd')
 -- launch the composite manager
 -- run_once('cairo-compmgr')
 -- run_once('nm-applet')
@@ -1038,9 +1051,9 @@ if debug then
     timer.awfulkeysdiff = timer.awfulkeys-timer.wiboxes
     -- Script execution time and information
     local function timer_output()
-        return "\n::: Session started: ".. os.date() .. " :::\r\n\n" .. 
-                "Awesomewm-X: ".. req.awmXversion .."\n" ..
-                "Script: " .. beautiful.wpscript .. "\n" ..
+        return -- "\n::: Session started: ".. os.date() .. " :::\r\n\n" .. 
+              --  "Awesomewm-X: ".. req.awmXversion .."\n" ..
+            --    "Script: " .. beautiful.wpscript .. "\n" ..
                 "Theme: ".. beautiful.theme_name .."\n" .. 
                 "User: " .. os.getenv('USER') .."@" .. awful.util.pread('hostname'):match("[^\n]*") .. "\n" ..
                 "Libraries: Loaded in " .. round(timer.libsdiff, 4) .. "\n" ..
@@ -1063,4 +1076,6 @@ if debug then
     io.stderr:flush()
     io.stderr:close()
 end
+
+
 -- }}} EndFile
