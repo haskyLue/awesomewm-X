@@ -42,7 +42,7 @@ URxvt*urgentOnBell:  true
 *color15:    rgb:ff/ff/ef
 
 ! enable clickable links
-URxvt*urlLauncher: firefox
+! URxvt*urlLauncher: firefox
 URxvt*matcher.button: 1
 URxvt*matcher.pattern.1: \\b(mailto|http|https|ftp|file):[/]*[\\w-]\\.[\\w./?&@#-]*[\\w/-]
 URxvt*matcher.pattern.2: \\bwww\\.[\\w-]\\.[\\w./?&@#-]*[\\w/-]

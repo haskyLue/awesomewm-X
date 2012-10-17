@@ -100,7 +100,8 @@ usr = {
                     "URxvt*foreground: #d3d3d3\n" .. -- white
                     "URxvt*transparent: false\n" .. 
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
-                    "*underlineColor: #de5105\n",
+                    "*underlineColor: #de5105\n" ..
+                    "URxvt*urlLauncher: luakit\n",
     poweroff   = 'sudo /sbin/poweroff',
     reboot     = 'sudo /sbin/reboot',
  -- hibernate  = 'sudo /usr/sbin/pm-hibernate',
@@ -172,14 +173,14 @@ usr = {
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts = {
    awful.layout.suit.floating,        -- 1
-   awful.layout.suit.tile,            -- 2
+ --  awful.layout.suit.tile,            -- 2
    awful.layout.suit.tile.left,       -- 3
    awful.layout.suit.max,             -- 4
-    awful.layout.suit.tile.bottom,
-     awful.layout.suit.tile.top,
-     awful.layout.suit.fair,
-     awful.layout.suit.fair.horizontal,
--- awful.layout.suit.max.fullscreen,  -- 11
+  --  awful.layout.suit.tile.bottom,
+--     awful.layout.suit.tile.top,
+ --    awful.layout.suit.fair,
+ --    awful.layout.suit.fair.horizontal,
+ awful.layout.suit.max.fullscreen,  -- 11
 -- awful.layout.suit.magnifier        -- 12
 }
 
@@ -193,12 +194,12 @@ local tags = {
 --    names = { '➊', '➋', '➌', '➍', '➎', '➏', '➐', '➑' },
 
     layout = {
-      layouts[4],  -- 1:firefox (max size)
-      layouts[3],  -- 2:weechat/xchat/pidgin (tiled)
-      layouts[3],  -- 3:logs/bots/shells (tiled)
-      layouts[3],  -- 4:media playing (tiled)
+      layouts[3],  -- 1:firefox (max size)
+      layouts[2],  -- 2:weechat/xchat/pidgin (tiled)
+      layouts[2],  -- 3:logs/bots/shells (tiled)
+      layouts[2],  -- 4:media playing (tiled)
       layouts[1],  -- 5:media editing (floating)
-      layouts[3],  -- 6:projects/development (tiled)
+      layouts[2],  -- 6:projects/development (tiled)
       layouts[1],  -- 7:shells (floating)
       layouts[1]   -- 8:shells (floating)
             }
@@ -730,6 +731,8 @@ local globalkeys = awful.util.table.join(
    awful.key({ usr.modkey, }, 'F1', req.keydoc.display),
 
    awful.key({ usr.modkey, }, 'F12', function () usr.exec('sh '.. home_path .. 'bin/screenshot') end, 'Take screenshot and copy URL'),
+   awful.key({ usr.modkey, 'Control' }, 'F12', function () usr.exec('sh '.. home_path .. 'bin/multiscreenshot') end, 'Take screenshot of all Tags and copy URL'),
+   awful.key({ usr.modkey, 'Shift' }, 'F12', function () usr.exec('urxvtc -name screencast -e '.. home_path .. 'bin/screencast') end, 'Start screencast'),
 
    awful.key({ usr.modkey, }, ']', function () usr.exec("sh -c 'luakit -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end, 'Launch web browser [proxy]'),
 
