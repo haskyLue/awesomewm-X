@@ -124,7 +124,7 @@ usr = {
     },
     primary_browser = -- 'firefox',
                          'luakit',        
-    top_wibox    = 18, -- default 15 (height)
+    top_wibox    = 16, -- default 15 (height)
     -- bottom_wibox = 18, -- default 15 (height)
     -- networks     = { 'eth0', 'wlan0' }, -- Add your devices network interfaces here
     cpuwidget_enable       = true,
@@ -161,13 +161,13 @@ usr = {
  -- sexec  = awful.util.spawn_with_shell,
 }
 
-naughty.config.notify_callback = function(args)
-  if args.title == nil then
-    args.title = ''
-  end
-        usr.exec("twmnc -c '" .. args.text .. "' -t '" .. args.title .. "'")
-        return nil
-end
+-- naughty.config.notify_callback = function(args)
+--   if args.title == nil then
+--     args.title = ''
+--   end
+--         usr.exec("twmnc -c '" .. args.text .. "' -t '" .. args.title .. "'")
+--    --     return nil
+-- end
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts = {
@@ -1025,7 +1025,7 @@ end
 -- launch clipboard manager
 run_once('parcellite')
 run_once('dropboxd')
-run_once('twmnd')
+-- run_once('twmnd')
 -- launch the composite manager
 -- run_once('cairo-compmgr')
 -- run_once('nm-applet')
@@ -1077,5 +1077,9 @@ if debug then
     io.stderr:close()
 end
 
-
+-- disable startup-notification globally
+local oldspawn = awful.util.spawn
+awful.util.spawn = function (s)
+  oldspawn(s, false)
+end
 -- }}} EndFile
