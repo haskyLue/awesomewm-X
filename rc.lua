@@ -515,7 +515,7 @@ end
 -- {{{ CPU temperature
 local thermalwidget  = widget({ type = "textbox" })
 vicious.register(thermalwidget, vicious.widgets.thermal, "$1°C", 20, { "coretemp.0", "core"} )
-thermalwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ('urxvtc -name multitails -e multitail -ci white /var/log/kernel.log -cis yellow /var/log/pacman.log -ci red /var/log/boot -cis green /home/pdq/.xplanetFX/logs/xplanetFX.log -ci red /var/log/Xorg.0.log -cis green /var/log/httpd/access_log -ci red -I /var/log/httpd/error_log -cis red -I /var/log/httpd/error_log') end ) ) )
+thermalwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ('urxvtc -name multitails -e multitail -ci white /var/log/kernel.log -cis yellow /var/log/pacman.log -ci red /var/log/boot -cis red /var/log/Xorg.0.log -cis green /var/log/httpd/access_log -ci red -I /var/log/httpd/error_log -cis red -I /var/log/httpd/error_log') end ) ) )
 awful.widget.layout.margins[thermalwidget] = { right = modifier.seperator_min }
 -- }}}
 
