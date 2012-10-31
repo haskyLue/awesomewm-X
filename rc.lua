@@ -63,7 +63,7 @@ home_path  = os.getenv('HOME') .. '/'
 -- START BASIC CONFIGURATION -- (* reload awesome when make any changes below)
 script_options = {
                idesk = false,         -- use idesk (default false)
-            -- global = true,         -- comment to use per theme script (default commented) or global script ~/.config/awesome/global_script.sh
+               global = true,         -- comment to use per theme script (default commented) or global script ~/.config/awesome/global_script.sh
                wallpaper = false,      -- theme changes wallpaper (default true) unless global uncommented then uses ~/.config/awesome/global_wallpaper.jpg
                conky_1 = true,        -- (default true) ~/.config/conky/.conkyrc
                conky_2 = true,        -- (default true) ~/.config/conky/conky_grey/conkyrc_grey
@@ -101,7 +101,7 @@ usr = {
                     "URxvt*transparent: false\n" .. 
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
                     "*underlineColor: #de5105\n" ..
-                    "URxvt*urlLauncher: luakit\n",
+                    "URxvt*urlLauncher: chromium\n",
     poweroff   = 'sudo /sbin/poweroff',
     reboot     = 'sudo /sbin/reboot',
  -- hibernate  = 'sudo /usr/sbin/pm-hibernate',
@@ -124,7 +124,7 @@ usr = {
         -- 'luakit',
     },
     primary_browser = -- 'firefox',
-                         'luakit',        
+                         'chromium',        
     top_wibox    = 16, -- default 15 (height)
     -- bottom_wibox = 18, -- default 15 (height)
     -- networks     = { 'eth0', 'wlan0' }, -- Add your devices network interfaces here
@@ -135,7 +135,7 @@ usr = {
     aurwidget_enable       = true,
     debug_clients          = false, -- useful for \client rules setup
     -- weather_code  =  'CYWG', -- 'CYWG' -- ICAO code
-    date_format   = ' %l:%M%p ', -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
+    date_format   = '%l:%M%p' , -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
    -- launcher_path = home_path .. '.config/awesome/launcher/', -- no need to change
     -- http://awesome.naquadah.org/wiki/Move_Mouse
     -- set the desired pixel coordinates:
@@ -309,8 +309,8 @@ local servicesmenu = {
    { 'Transmission Off', usr.terminal_cmd .. 'killall transmission-daemon', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'LAMP On', sudo_bash .. 'lamp start', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'LAMP Off', sudo_bash .. 'lamp stop', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
-   { 'MPD On', sudo_bash .. 'rc.d start mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
-   { 'MPD Off', sudo_bash .. 'rc.d stop mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+   { 'MPD On', sudo_bash .. 'systemtcl start mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+   { 'MPD Off', sudo_bash .. 'systemtcl stop mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    -- { 'rtorrent On', usr.terminal_cmd .. 'tmux new-window rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    -- { 'rtorrent Off', usr.terminal_cmd .. 'killall rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
 }
@@ -434,7 +434,7 @@ musicwidget.browser = usr.web_browser
 -- Specify decorators on the left and the right side of the
 -- widget. Or just leave empty strings if you decorate the widget from outside.
 musicwidget.ldecorator = '<span color="#FFA842">'
-musicwidget.rdecorator = '</span>'
+musicwidget.rdecorator = ' </span>'
 -- Set all the servers to work with (here can be any servers you use)
 musicwidget.servers = {
   { server = 'localhost',
@@ -491,7 +491,6 @@ musicwidget:run() -- After all configuration is done, run the widget
 
 -- load avg / cpu widget
 local cpuwidget = widget({ type = 'textbox', name = 'cpuwidget' })
-cpuwidget.width = modifier.cpu_w
 vicious.register(cpuwidget, vicious.widgets.cpu, modifier.cpu_text .. '$1%</span>')
 -- button to launch htop
 cpuwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( 'urxvtc -name htops -e htop --sort-key PERCENT_CPU') end ) ) )

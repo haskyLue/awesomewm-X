@@ -27,10 +27,10 @@ if home_path ~= nil then
 	end
 	themedir      = themes .. themename
 
-	if script_options.global == nil then
-	    theme.wpscript     = themedir .. '/script.sh'
+	if script_options.global ~= nil then
+	    theme.wpscript     = config .. '/global_script.sh'
 	else
-	    theme.wpscript     = config .. '/globalscript.sh'
+	    theme.wpscript     = themedir .. '/script.sh'
 	end
 
 	if awful.util.file_readable(theme.wpscript) then
