@@ -102,8 +102,10 @@ usr = {
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
                     "*underlineColor: #de5105\n" ..
                     "URxvt*urlLauncher: chromium\n",
-    poweroff   = 'sudo /sbin/poweroff',
-    reboot     = 'sudo /sbin/reboot',
+    -- poweroff   = 'sudo /sbin/poweroff',
+    -- reboot     = 'sudo /sbin/reboot',
+    poweroff   = 'systemctl poweroff',
+    reboot     = 'systemctl reboot',
  -- hibernate  = 'sudo /usr/sbin/pm-hibernate',
  -- suspend    = 'sudo /usr/sbin/pm-suspend',
  -- gui_sudo   = 'kdesu', -- sudo command for gui applications (gksudo, kdesu)
@@ -194,7 +196,7 @@ local tags = {
 --    names = { '➊', '➋', '➌', '➍', '➎', '➏', '➐', '➑' },
 
     layout = {
-      layouts[3],  -- 1:firefox (max size)
+      layouts[2],  -- 1:firefox (max size)
       layouts[2],  -- 2:weechat/xchat/pidgin (tiled)
       layouts[2],  -- 3:logs/bots/shells (tiled)
       layouts[2],  -- 4:media playing (tiled)
@@ -1027,6 +1029,11 @@ end
 -- launch clipboard manager
 run_once('parcellite')
 run_once('dropboxd')
+run_once('vlc')
+usr.exec('urxvtc -name logging -e sudo journalctl -f')
+usr.exec('urxvtc -name arm -e arm')
+usr.exec('urxvtc -name debug -e tail -f ' .. home_path .. '.cache/awesome/stderr')
+usr.exec('urxvtc')
 -- run_once('twmnd')
 -- launch the composite manager
 -- run_once('cairo-compmgr')
