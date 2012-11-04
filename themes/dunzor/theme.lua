@@ -56,12 +56,12 @@ end
 theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
 
 theme.bg_normal     = '#161616'
-theme.bg_focus      = '#3e3e3e'
+theme.bg_focus      = '#000000'
 theme.bg_urgent     = '#6e3e3e'
 theme.bg_minimize   = '#444444'
 
 theme.fg_normal     = '#c8c8c8'
-theme.fg_focus      = '#FFF971'
+theme.fg_focus      = '#F7BE57'
 theme.fg_urgent     = '#ffffff'
 theme.fg_minimize   = '#ffffff'
 
@@ -114,18 +114,18 @@ if home_path ~= nil then
 	-- }}}
 
 	-- {{{ Layout
-	theme.layout_tile       = themedir .. '/layouts/tile.png'
-	theme.layout_tileleft   = themedir .. '/layouts/tileleft.png'
-	theme.layout_tilebottom = themedir .. '/layouts/tilebottom.png'
-	theme.layout_tiletop    = themedir .. '/layouts/tiletop.png'
-	theme.layout_fairv      = themedir .. '/layouts/fairv.png'
-	theme.layout_fairh      = themedir .. '/layouts/fairh.png'
-	theme.layout_spiral     = themedir .. '/layouts/spiral.png'
-	theme.layout_dwindle    = themedir .. '/layouts/dwindle.png'
-	theme.layout_max        = themedir .. '/layouts/max.png'
-	theme.layout_fullscreen = themedir .. '/layouts/fullscreen.png'
-	theme.layout_magnifier  = themedir .. '/layouts/magnifier.png'
-	theme.layout_floating   = themedir .. '/layouts/floating.png'
+	theme.layout_tile       = themedir .. '/layouts/tilebottomw.png'
+	theme.layout_tilebottom = themedir .. '/layouts/tilebottomw.png'
+	theme.layout_tiletop    = themedir .. '/layouts/tiletopw.png'
+	theme.layout_tileleft   = themedir .. '/layouts/tileleftw.png'
+	theme.layout_fairv      = themedir .. '/layouts/fairvw.png'
+	theme.layout_fairh      = themedir .. '/layouts/fairhw.png'
+	theme.layout_spiral     = themedir .. '/layouts/spiralw.png'
+	theme.layout_dwindle    = themedir .. '/layouts/dwindlew.png'
+	theme.layout_max        = themedir .. '/layouts/maxw.png'
+	theme.layout_fullscreen = themedir .. '/layouts/fullscreenw.png'
+	theme.layout_magnifier  = themedir .. '/layouts/magnifierw.png'
+	theme.layout_floating   = themedir .. '/layouts/floatingw.png'
 	-- }}}
 
 	-- {{{ Titlebar

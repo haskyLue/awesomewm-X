@@ -13,24 +13,21 @@ require('awful.autofocus')
 require('awful.rules')
 require('beautiful')
 require('naughty')
+
 -- require('sqlite3')
 local vicious = require('vicious') -- http://awesome.naquadah.org/wiki/Vicious
 
 -- Local libraries-- https://github.com/terceiro/awesome-freedesktop
 require('freedesktop.menu') 
-require('awesompd/awesompd') -- awesome.naquadah.org/wiki/Awesompd_widget
+-- require('mocp')
 
 local req = {
     awmXversion = '0.0.5',
- -- revelation = require('revelation'), -- http://awesome.naquadah.org/wiki/Revelation
     scratch = require('scratch'),
     lognotify = require('lognotify'),	-- https://github.com/Mic92/lognotify
     lfs = require('lfs'),
     utils = require('utils'),
-  --  disk = require('diskusage'),
     keydoc = require('keydoc'),
-    -- wrapper for pango markup
-    markup = utils.markup,
 }
 
 if debug then
@@ -243,6 +240,45 @@ modifier = {
 --  extra_widgets = true
 }
 
+ cardid  = 0
+ channel = "Master"
+
+  function volume (mode, widget)
+     local cardid  = 0
+     local channel = "Master"
+     if mode == "update" then
+         local status = io.popen("amixer -c " .. cardid .. " -- sget " .. channel):read("*all")
+         
+         local volume = tonumber(string.match(status, "(%d?%d?%d)%%"))
+ 
+         status = string.match(status, "%[(o[^%]]*)%]")
+ 
+         local color = "#FF0000"
+         if string.find(status, "on", 1, true) then
+              color = "#00FF00"
+         end
+         status = ""
+         for i = 1, math.floor(volume / 10) do
+             status = status .. "|"
+         end
+         for i = math.floor(volume / 10) + 1, 10 do
+             status = status .. "-"
+         end
+         status = "[" ..status .. "]"
+         widget.text = "<span color=\"" .. color .. "\">" .. status .. "</span>"
+     elseif mode == "up" then
+         os.execute("amixer -q -c " .. cardid .. " sset " .. channel .. " 5%+")
+         volume("update", widget)
+     elseif mode == "down" then
+         os.execute("amixer -q -c " .. cardid .. " sset " .. channel .. " 5%-")
+         volume("update", widget)
+     else
+         os.execute("amixer -c " .. cardid .. " sset " .. channel .. " toggle")
+         volume("update", widget)
+     end
+ end
+
+
 -- Create a laucher widget and a main menu
 freedesktop.utils.icon_theme = beautiful.menu_icons
 local menu_items = freedesktop.menu.new()
@@ -311,8 +347,8 @@ local servicesmenu = {
    { 'Transmission Off', usr.terminal_cmd .. 'killall transmission-daemon', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'LAMP On', sudo_bash .. 'lamp start', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'LAMP Off', sudo_bash .. 'lamp stop', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
-   { 'MPD On', sudo_bash .. 'systemtcl start mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
-   { 'MPD Off', sudo_bash .. 'systemtcl stop mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+--   { 'MPD On', sudo_bash .. 'systemtcl start mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+--   { 'MPD Off', sudo_bash .. 'systemtcl stop mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    -- { 'rtorrent On', usr.terminal_cmd .. 'tmux new-window rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    -- { 'rtorrent Off', usr.terminal_cmd .. 'killall rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
 }
@@ -410,49 +446,14 @@ awful.widget.layout.margins[aurwidget] = { right = modifier.seperator_min }
 -- button to run packer update
 aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'sh ' .. home_path .. 'bin/packerupdater') end ) ) )
 
--- {{{ awesome.naquadah.org/wiki/Awesompd_widget
-local musicwidget = awesompd:create() -- Create awesompd widget
-musicwidget.widget.bg = beautiful.bg_normal
-musicwidget.fg = beautiful.fg_normal
-musicwidget.font = beautiful.font -- Set widget font 
-musicwidget.scrolling = true -- If true, the text in the widget will be scrolled
-musicwidget.output_size = 30 -- Set the size of widget in symbols
-musicwidget.update_interval = 10 -- Set the update interval in seconds
--- Set the folder where icons are located (change username to your login name)
-musicwidget.path_to_icons = home_path .. '.config/awesome/awesompd/icons' 
--- Set the default music format for Jamendo streams. You can change
--- this option on the fly in awesompd itself.
--- possible formats: awesompd.FORMAT_MP3, awesompd.FORMAT_OGG
-musicwidget.jamendo_format = awesompd.FORMAT_MP3
--- If true, song notifications for Jamendo tracks and local tracks will also contain 
--- album cover image.
-musicwidget.show_album_cover = true
--- Specify how big in pixels should an album cover be. Maximum value is 100.
-musicwidget.album_cover_size = 50
--- This option is necessary if you want the album covers to be shown for your local tracks.
-musicwidget.mpd_config = home_path .. '.mpdconf'
--- Specify the browser you use so awesompd can open links from Jamendo in it.
-musicwidget.browser = usr.web_browser
--- Specify decorators on the left and the right side of the
--- widget. Or just leave empty strings if you decorate the widget from outside.
-musicwidget.ldecorator = '<span color="#FFA842">'
-musicwidget.rdecorator = ' </span>'
--- Set all the servers to work with (here can be any servers you use)
-musicwidget.servers = {
-  { server = 'localhost',
-    port = 6600 } 
-}
--- Set the buttons of the widget
-musicwidget:register_buttons({ { '', awesompd.MOUSE_LEFT, musicwidget:command_toggle() },
-                            { 'Control', awesompd.MOUSE_SCROLL_UP, musicwidget:command_prev_track() },
-                            { 'Control', awesompd.MOUSE_SCROLL_DOWN, musicwidget:command_next_track() },
-                            { '', awesompd.MOUSE_SCROLL_UP, musicwidget:command_volume_up() },
-                            { '', awesompd.MOUSE_SCROLL_DOWN, musicwidget:command_volume_down() },
-                            { '', awesompd.MOUSE_RIGHT, musicwidget:command_show_menu() },
-                            { '', 'XF86AudioLowerVolume', musicwidget:command_volume_down() },
-                            { '', 'XF86AudioRaiseVolume', musicwidget:command_volume_up() },
-                            { usr.modkey, 'Pause', musicwidget:command_playpause() } })
-musicwidget:run() -- After all configuration is done, run the widget
+--Create Volume Progressbar
+ tb_volume = widget({ type = 'textbox', name = 'tb_volume', align = 'right' })
+ tb_volume:buttons({
+  button({ }, 4, function () volume('up', tb_volume) end),
+  button({ }, 5, function () volume('down', tb_volume) end),
+  button({ }, 1, function () volume('mute', tb_volume) end)
+ })
+ volume('update', tb_volume)
 
 -- Quick launch bar widget https://awesome.naquadah.org/wiki/Quick_launch_bar_widget
 -- local function getValue(t, key)
@@ -620,10 +621,12 @@ for s = 1, screen.count() do
          layout = awful.widget.layout.horizontal.leftright
       },
       mylayoutbox[s],
+       s == 1 and mysystray or nil,
       datewidget,
-      s == 1 and mysystray or nil,
+       tb_volume,
      -- launchbar,
-               musicwidget.widget,
+   -- mocpwidget,
+            --   musicwidget.widget,
       usr.aurwidget_enable and aurwidget or nil,
       usr.pacmanwidget_enable and pacmanwidget or nil,
        --     usr.diskusagewidget_enable and diskwidget or nil,
@@ -761,7 +764,36 @@ local globalkeys = awful.util.table.join(
     end, 'Launch yubnub'),
    awful.key({ usr.modkey }, 'p', function () 
         usr.exec('dmenu_run -i -nb "' .. beautiful.bg_graphs.. '" -sb "' .. beautiful.bg_graphs ..'" -sf "' .. 
-            beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "Execute:"') end, 'Launch dmenu'),
+            beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "RUN:"') end, 'Launch dmenu'),
+  
+-- Run or raise applications with dmenu
+-- awful.key({ usr.modkey }, 'p',
+-- function ()
+--     local f_reader = io.popen('dmenu_path_c | dmenu_run -i -nb "' .. beautiful.bg_graphs.. '" -sb "' .. beautiful.bg_graphs ..'" -sf "' .. 
+--              beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "RUN:"')
+--     local command = assert(f_reader:read('*a'))
+--     f_reader:close()
+--     if command == "" then return end
+
+--     -- Check throught the clients if the class match the command
+--     local lower_command=string.lower(command)
+--     for k, c in pairs(client.get()) do
+--         local class=string.lower(c.class)
+--         if string.match(class, lower_command) then
+--             for i, v in ipairs(c:tags()) do
+--                 awful.tag.viewonly(v)
+--                 c:raise()
+--                 c.minimized = false
+--                 return
+--             end
+--         end
+--     end
+--     awful.util.spawn(command)
+-- end),
+
+   awful.key({ usr.modkey }, 'o', function () 
+        usr.exec('dmenu_mocp -i -nb "' .. beautiful.bg_graphs.. '" -sb "' .. beautiful.bg_graphs ..'" -sf "' .. 
+            beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "RUN:"') end, 'Launch dmenu_mocp'),
    -- http://awesome.naquadah.org/wiki/Move_Mouse
    awful.key({ usr.modkey , 'Control' }, 'm', function() moveMouse(usr.safeCoords.x, usr.safeCoords.y) end, 'Hide mouse cursor'),
    awful.key({ usr.modkey, 'Mod1' }, 't', -- toggle bottom panel
@@ -813,9 +845,13 @@ local globalkeys = awful.util.table.join(
 end, 'SSH history')
 )
 
+ globalkeys = awful.util.table.join(globalkeys, awful.key({ }, "XF86AudioRaiseVolume",function () volume("up", tb_volume) end))
+ globalkeys = awful.util.table.join(globalkeys, awful.key({ }, "XF86AudioLowerVolume",function  () volume("down", tb_volume) end))
+ globalkeys = awful.util.table.join(globalkeys, awful.key({ }, "XF86AudioMute",function  () volume("mute", tb_volume) end))
+
 -- mpd
-musicwidget:append_global_keys()
-   root.keys(globalkeys)
+-- musicwidget:append_global_keys()
+--    root.keys(globalkeys)
 
 local clientkeys = awful.util.table.join(  req.keydoc.group('Client keys'),
 
@@ -1030,13 +1066,13 @@ end
 run_once('parcellite')
 run_once('dropboxd')
 run_once('vlc')
-usr.exec('urxvtc -name logging -e sudo journalctl -f')
-usr.exec('urxvtc -name arm -e arm')
-usr.exec('urxvtc -name debug -e tail -f ' .. home_path .. '.cache/awesome/stderr')
-usr.exec('urxvtc')
+-- usr.exec('urxvtc -name logging -e sudo journalctl -f')
+-- usr.exec('urxvtc -name arm -e arm')
+-- usr.exec('urxvtc -name debug -e tail -f ' .. home_path .. '.cache/awesome/stderr')
+-- usr.exec('urxvtc')
 -- run_once('twmnd')
 -- launch the composite manager
--- run_once('cairo-compmgr')
+run_once('cairo-compmgr')
 -- run_once('nm-applet')
 -- Use the second argument, if the programm you wanna start differs from the what you want to search.
 -- run_once('redshift', 'redshift -o -l 0:0 -t 6500:5500')
@@ -1085,6 +1121,11 @@ if debug then
     io.stderr:flush()
     io.stderr:close()
 end
+
+--awful.hooks.timer.register(10, function () volume("update", tb_volume) end)
+mtimer = timer({ timeout = 10 })
+mtimer:add_signal("timeout", function () volume("update", tb_volume) end)
+mtimer:start()
 
 -- disable startup-notification globally
 local oldspawn = awful.util.spawn
