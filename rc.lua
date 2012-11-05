@@ -964,7 +964,9 @@ awful.rules.rules = {
     { rule = { instance = "multitails" }, 
      properties = { tag = tags[1][3], switchtotag = true  } },
     { rule = { instance = "htops" }, 
-     properties = { tag = tags[1][3], switchtotag = true  } },
+      properties = { tag = tags[1][3], switchtotag = true  } },
+    { rule = { instance = "weechat 0.3.9" }, 
+     properties = { tag = tags[1][2], switchtotag = true  } },
      { rule = { class = "Konversation" }, 
      properties = { tag = tags[1][2], switchtotag = true  } },   
     -- { rule = { class = "Yakuake" }, 
@@ -1065,7 +1067,7 @@ end
 -- launch clipboard manager
 run_once('parcellite')
 run_once('dropboxd')
-run_once('vlc')
+-- run_once('vlc')
 -- usr.exec('urxvtc -name logging -e sudo journalctl -f')
 -- usr.exec('urxvtc -name arm -e arm')
 -- usr.exec('urxvtc -name debug -e tail -f ' .. home_path .. '.cache/awesome/stderr')
