@@ -1067,6 +1067,9 @@ end
 -- launch clipboard manager
 run_once('parcellite')
 run_once('dropboxd')
+usr.exec('killall simpleswitcher')
+usr.exec('simpleswitcher -key F9 -dkey F10 -font Terminus -fg "' .. beautiful.fg_normal .. '" -bg "' .. beautiful.bg_graphs.. '" -hlfg "' .. beautiful.fg_focus .. '" -hlbg "' .. beautiful.bg_focus .. '"')
+
 -- run_once('vlc')
 -- usr.exec('urxvtc -name logging -e sudo journalctl -f')
 -- usr.exec('urxvtc -name arm -e arm')

@@ -26,15 +26,15 @@ if home_path ~= nil then
 	end
 	themedir      = themes .. themename
 
-	if script_options.global == nil then
-	    theme.wpscript     = themedir .. '/script.sh'
-	else
-	    theme.wpscript     = config .. '/global_script.sh'
-	end
+	-- if script_options.global == nil then
+	--     theme.wpscript     = themedir .. '/script.sh'
+	-- else
+	--     theme.wpscript     = config .. '/global_script.sh'
+	-- end
 
-	if awful.util.file_readable(theme.wpscript) then
-	    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
-	end
+	-- if awful.util.file_readable(theme.wpscript) then
+	--     theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
+	-- end
 
 	if awful.util.file_readable(config .. '/vain/init.lua') then
 	    theme.useless_gap_width  = '3'
