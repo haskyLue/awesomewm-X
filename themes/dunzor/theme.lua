@@ -58,12 +58,12 @@ theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't
 theme.bg_normal     = '#161616'
 theme.bg_focus      = '#000000'
 theme.bg_urgent     = '#6e3e3e'
-theme.bg_minimize   = '#444444'
+theme.bg_minimize   = '#161616'
 
 theme.fg_normal     = '#c8c8c8'
 theme.fg_focus      = '#F7BE57'
 theme.fg_urgent     = '#ffffff'
-theme.fg_minimize   = '#ffffff'
+theme.fg_minimize   = '#565656'
 
 theme.bg_bottom     = '#161616' -- bottom panel color
 theme.fg_bottom     = '#c8c8c8' -- bottom panel text color
