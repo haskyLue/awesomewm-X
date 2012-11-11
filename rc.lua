@@ -98,7 +98,7 @@ usr = {
                     "URxvt*transparent: false\n" .. 
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
                     "*underlineColor: #de5105\n" ..
-                    "URxvt*urlLauncher: chromium\n",
+                    "URxvt*urlLauncher: luakit\n",
     -- poweroff   = 'sudo /sbin/poweroff',
     -- reboot     = 'sudo /sbin/reboot',
     poweroff   = 'systemctl poweroff',
@@ -123,7 +123,7 @@ usr = {
         -- 'luakit',
     },
     primary_browser = -- 'firefox',
-                         'chromium',        
+                         'luakit',        
     top_wibox    = 16, -- default 15 (height)
     -- bottom_wibox = 18, -- default 15 (height)
     -- networks     = { 'eth0', 'wlan0' }, -- Add your devices network interfaces here
@@ -969,8 +969,8 @@ awful.rules.rules = {
      properties = { tag = tags[1][2], switchtotag = true  } },
      { rule = { class = "Konversation" }, 
      properties = { tag = tags[1][2], switchtotag = true  } },   
-    -- { rule = { class = "Yakuake" }, 
-   --  properties = { floating = true } },
+   { rule = { class = "Steam" }, 
+     properties = { floating = true } },
    { rule = { class = 'Liferea' },
      properties = { floating = true, switchtotag = true } },
    { rule = { class = 'Chromium' },         -- browser tag
