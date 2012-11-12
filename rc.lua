@@ -362,7 +362,7 @@ if script_options.idesk or script_options.conky_1 or script_options.conky_2 or s
         { 'Wallpaper', 'nitrogen', freedesktop.utils.lookup_icon({ icon = 'style' }) },
         { 'Kill Conky', usr.terminal_cmd .. 'killall conky', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
         { 'Kill Idesk', usr.terminal_cmd .. 'killall idesk', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
-        { 'Start Conky', '/bin/bash ' .. home_path .. '.config/awesome/themes/current/script.sh ' .. script_run, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+        { 'Start Conky', 'zsh ' .. home_path .. '.config/awesome/themes/current/script.sh ' .. script_run, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
         { 'Start Idesk', 'idesk', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
     }
     table.insert(menu_items, { 'Desktop Options', myideskmenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
@@ -437,14 +437,14 @@ pacmanwidget = widget({ type = 'textbox' })
 pacmanwidget.text = '<span color="#FF53E9">PAC</span>'
 awful.widget.layout.margins[pacmanwidget] = { right = modifier.seperator_min }
 -- button to run pacman update
-pacmanwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'sh ' .. home_path .. 'bin/pacupdater') end ) ) )
+pacmanwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'zsh ' .. home_path .. 'bin/pacupdater') end ) ) )
 
 -- aur update widget based off setkeh Awesome-Widget-Notify
 local aurwidget = widget({ type = 'textbox' })
 aurwidget.text = '<span color="#FF4242">AUR</span>'
 awful.widget.layout.margins[aurwidget] = { right = modifier.seperator_min }
 -- button to run packer update
-aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'sh ' .. home_path .. 'bin/packerupdater') end ) ) )
+aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'zsh ' .. home_path .. 'bin/packerupdater') end ) ) )
 
 --Create Volume Progressbar
  tb_volume = widget({ type = 'textbox', name = 'tb_volume', align = 'right' })
@@ -734,13 +734,13 @@ local globalkeys = awful.util.table.join(
    
    awful.key({ usr.modkey, }, 'F1', req.keydoc.display),
 
-   awful.key({ usr.modkey, }, 'F12', function () usr.exec('sh '.. home_path .. 'bin/screenshot') end, 'Take screenshot and copy URL'),
+   awful.key({ usr.modkey, }, 'F12', function () usr.exec('zsh '.. home_path .. 'bin/screenshot') end, 'Take screenshot and copy URL'),
    awful.key({ usr.modkey, 'Control' }, 'F12', function () usr.exec('sh '.. home_path .. 'bin/multiscreenshot') end, 'Take screenshot of all Tags and copy URL'),
    awful.key({ usr.modkey, 'Shift' }, 'F12', function () usr.exec('urxvtc -name screencast -e '.. home_path .. 'bin/screencast') end, 'Start screencast'),
 
-   awful.key({ usr.modkey, }, ']', function () usr.exec("sh -c 'luakit -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end, 'Launch web browser [proxy]'),
+   awful.key({ usr.modkey, }, ']', function () usr.exec("zsh -c 'luakit -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end, 'Launch web browser [proxy]'),
 
-   awful.key({ usr.modkey, }, '[', function () usr.exec("sh -c 'luakit -U -c " .. home_path .. ".config/luakit/rc.lua  > /dev/null 2>&1'") end, 'Launch web browser'),
+   awful.key({ usr.modkey, }, '[', function () usr.exec("zsh -c 'luakit -U -c " .. home_path .. ".config/luakit/rc.lua  > /dev/null 2>&1'") end, 'Launch web browser'),
 
    awful.key({ usr.modkey, }, '\\', function () usr.exec('spacefm --panel=1') end, 'Launch file manager'),
 
