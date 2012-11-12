@@ -343,8 +343,8 @@ local myawesomemenu = {
 }
 
 local servicesmenu = {
-   { 'Transmission On', usr.terminal_cmd .. 'transmission-daemon -g ' .. home_path .. '.config/transmission', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
-   { 'Transmission Off', usr.terminal_cmd .. 'killall transmission-daemon', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+   { 'Transmission On', usr.terminal_cmd .. 'sudo systemctl start transmission.service', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+   { 'Transmission Off', usr.terminal_cmd .. 'sudo systemctl stop transmission.service', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'LAMP On', sudo_bash .. 'lamp start', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'LAMP Off', sudo_bash .. 'lamp stop', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
 --   { 'MPD On', sudo_bash .. 'systemtcl start mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
@@ -1126,8 +1126,7 @@ if debug then
     io.stderr:flush()
     io.stderr:close()
 end
-
---awful.hooks.timer.register(10, function () volume("update", tb_volume) end)
+awful.hooks.timer.register(10, function () volume("update", tb_volume) end)
 mtimer = timer({ timeout = 10 })
 mtimer:add_signal("timeout", function () volume("update", tb_volume) end)
 mtimer:start()
