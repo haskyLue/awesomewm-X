@@ -10,6 +10,7 @@ Xft.hintstyle:  hintslight
 !
 !	U R X V T - Settings
 !
+URxvt*skipBuiltinGlyphs: False
 URxvt*saveLines: 3100
 URxvt*geometry:					80x25
 URxvt*borderLess:				false
@@ -18,6 +19,8 @@ URxvt*scrollBar_right:				false
 URxvt*scrollBar:		      false
 URxvt*cursorBlink:				true
 URxvt*cursorUnderline:				true
+URxvt*cursorColor:  #ff9900
+URxvt*cursorColor2: #000000
 URxvt*scrollColor:				#111111
 URxvt*internalborder: 6
 
