@@ -448,11 +448,13 @@ aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec
 
 --Create Volume Progressbar
  tb_volume = widget({ type = 'textbox', name = 'tb_volume', align = 'right' })
- tb_volume:buttons({
-  button({ }, 4, function () volume('up', tb_volume) end),
-  button({ }, 5, function () volume('down', tb_volume) end),
-  button({ }, 1, function () volume('mute', tb_volume) end)
- })
+
+ tb_volume:buttons(awful.util.table.join(
+  awful.button({ }, 4, function () volume('up', tb_volume) end),
+  awful.button({ }, 5, function () volume('down', tb_volume) end),
+  awful.button({ }, 1, function () volume('mute', tb_volume) end)
+  ))
+
  volume('update', tb_volume)
 
 -- Quick launch bar widget https://awesome.naquadah.org/wiki/Quick_launch_bar_widget
@@ -1067,9 +1069,7 @@ end
 -- launch clipboard manager
 run_once('parcellite')
 run_once('dropboxd')
-usr.exec('killall simpleswitcher')
-usr.exec('simpleswitcher -key F9 -dkey F10 -font Terminus -fg "' .. beautiful.fg_normal .. '" -bg "' .. beautiful.bg_graphs.. '" -hlfg "' .. beautiful.fg_focus .. '" -hlbg "' .. beautiful.bg_focus .. '"')
-
+run_once('simpleswitcher', 'simpleswitcher -key F9 -dkey F10 -font Terminus -fg "' .. beautiful.fg_normal .. '" -bg "' .. beautiful.bg_graphs.. '" -hlfg "' .. beautiful.fg_focus .. '" -hlbg "' .. beautiful.bg_focus .. '"')
 -- run_once('vlc')
 -- usr.exec('urxvtc -name logging -e sudo journalctl -f')
 -- usr.exec('urxvtc -name arm -e arm')
@@ -1126,7 +1126,7 @@ if debug then
     io.stderr:flush()
     io.stderr:close()
 end
-awful.hooks.timer.register(10, function () volume("update", tb_volume) end)
+-- awful.hooks.timer.register(10, function () volume("update", tb_volume) end)
 mtimer = timer({ timeout = 10 })
 mtimer:add_signal("timeout", function () volume("update", tb_volume) end)
 mtimer:start()
