@@ -3,11 +3,9 @@ awesomewm-X
 
 Configuration files for Awesome Window Manager.
 
-https://www.youtube.com/watch?v=Cbl0vinkg2A&hd=1
-
 https://github.com/idk/awesomewm-X
 
-Depends on: git, [luasocket][9], mpd, mpc, bash-completion, cclive, dmenu, htop, multitail, profont, scrot, artwiz-fonts, terminus-font, xclip, cairo-compmgr-git, conky-lua, montecarlo-font, rxvt-unicode-patched, ttf-envy-code-r and [luainotify][8]
+Depends on: git, [luasocket][9], cclive, dmenu, htop, multitail, scrot, terminus-font, xclip, cairo-compmgr-git, conky-lua, rxvt-unicode-patched, ttf-envy-code-r and [luainotify][8]
 
 Optional:   [idesk][1]
 
@@ -34,9 +32,9 @@ Step 2: INSTALL Awesome Window Manager and misc packages
 
 `Archlinux:`
 
-    # pacman -S awesome luasocket luafilesystem mpd mpc gnome-icon-theme bash-completion cclive dmenu htop multitail profont scrot artwiz-fonts terminus-font xclip
+    # pacman -S awesome luasocket luafilesystem cclive dmenu htop multitail scrot terminus-font xclip
     
-    $ packer -S cairo-compmgr-git conky-lua luainotify montecarlo-font rxvt-unicode-patched ttf-envy-code-r
+    $ packer -S cairo-compmgr-git conky-lua luainotify rxvt-unicode-patched ttf-envy-code-r
 
 
 `Cleanup`

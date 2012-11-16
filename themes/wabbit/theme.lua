@@ -5,8 +5,8 @@ if home_path ~= nil then
 end
 
 theme = {}
-theme.font         = 'MonteCarlo medium 11'
-theme.taglist_font = 'MonteCarlo medium 13'
+theme.font         = 'Terminus 11'
+theme.taglist_font = 'Terminus 13'
 theme.border_width = '1'
 
 if home_path ~= nil then

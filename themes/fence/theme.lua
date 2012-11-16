@@ -6,8 +6,8 @@ if home_path ~= nil then
 end
 
 theme = {}
-theme.font         = 'Montecarlo 8'
-theme.taglist_font = 'Monetcarlo 12'
+theme.font         = 'Terminus 8'
+theme.taglist_font = 'Terminus 12'
 theme.border_width = '1'
 theme.bg_normal     = '#050505'
 theme.bg_minimize   = '#191919'
