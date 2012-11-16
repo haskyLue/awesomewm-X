@@ -53,7 +53,7 @@ if home_path ~= nil then
 
 end
 
-theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
+theme.menu_icons = 'Bespin-Black' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
 
 theme.bg_normal     = '#161616'
 theme.bg_focus      = '#000000'
