@@ -93,7 +93,7 @@ usr = {
     terminal_font = "URxvt*font: xft:terminus:pixelsize=16:antialias=false\n" ..
                  -- "!URxvt*font: xft:Envy Code R-10\n" ..
                     "URxvt*iconFile: /usr/share/icons/gnome/24x24/apps/terminal.png\n" ..
-                    "URxvt*background: #161616\n" .. -- black
+                    "URxvt*background: rgba:2222/2222/2222/bbbb\n" .. -- black
                     "URxvt*foreground: #d3d3d3\n" .. -- white
                     "URxvt*transparent: false\n" .. 
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
@@ -446,6 +446,13 @@ awful.widget.layout.margins[aurwidget] = { right = modifier.seperator_min }
 -- button to run packer update
 aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'zsh ' .. home_path .. 'bin/packerupdater') end ) ) )
 
+-- conky toggle widget
+local conkywidget = widget({ type = 'textbox' })
+conkywidget.text = '<span color="#FFDD00">Ω</span>'
+awful.widget.layout.margins[conkywidget] = { right = modifier.seperator_min }
+-- button to run packer update
+conkywidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'saidar -c') end ) ) )
+
 --Create Volume Progressbar
  tb_volume = widget({ type = 'textbox', name = 'tb_volume', align = 'right' })
 
@@ -629,6 +636,7 @@ for s = 1, screen.count() do
      -- launchbar,
    -- mocpwidget,
             --   musicwidget.widget,
+          conkywidget,
       usr.aurwidget_enable and aurwidget or nil,
       usr.pacmanwidget_enable and pacmanwidget or nil,
        --     usr.diskusagewidget_enable and diskwidget or nil,
@@ -955,8 +963,12 @@ awful.rules.rules = {
                     keys = clientkeys,
                     size_hints_honor = false,
                     buttons = clientbuttons } },
-  -- { rule = {class = 'URxvt'}, 
- --    properties = { opacity = 0.6 } },
+   { rule = {class = 'URxvt'}, 
+    properties = { opacity = 0.9 } },
+   { rule = {class = 'Nitrogen'}, 
+    properties = { opacity = 0.8 } },
+--   { rule = {class = 'Spacefm'}, 
+--    properties = { opacity = 0.8 }, 
    { rule = { class = 'luakit' },          -- browser tag
      properties = { tag = tags[1][1], switchtotag = true } },
    { rule = { class = 'Transmission-qt' }, 
@@ -969,16 +981,14 @@ awful.rules.rules = {
       properties = { tag = tags[1][3], switchtotag = true  } },
     { rule = { instance = "weechat 0.3.9" }, 
      properties = { tag = tags[1][2], switchtotag = true  } },
-     { rule = { class = "Konversation" }, 
-     properties = { tag = tags[1][2], switchtotag = true  } },   
+  --   { rule = { class = "Konversation" }, 
+ --    properties = { tag = tags[1][2], switchtotag = true  } },   
    { rule = { class = "Steam" }, 
      properties = { floating = true } },
-   { rule = { class = 'Liferea' },
-     properties = { floating = true, switchtotag = true } },
+ --  { rule = { class = 'Liferea' },
+ --    properties = { floating = true, switchtotag = true } },
    { rule = { class = 'Chromium' },         -- browser tag
      properties = { tag = tags[1][1], switchtotag = true } },
-   { rule = {name = 'Xchat'},                -- messages tag
-     properties = {tag = tags[1][7]}, switchtotag = true },
 --   callback = function(c) c:tags({tags[1][5], tags[1][4]}) end}, -- multitag
    { rule = {class = 'sublime_text'},
      properties = {tag = tags[1][6], switchtotag = true} },
