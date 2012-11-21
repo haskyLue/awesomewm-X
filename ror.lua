@@ -10,11 +10,9 @@
 module("ror")
 table5={
    ["a"]={"kdenlive","Kdenlive"}, 
-   ["x"]={"konversation","Konversation"}, 
    ["z"]={"luakit -U","luakit"}, 
    ["v"]={"vlc","Vlc"}, 
    ["s"]={"subl","sublime_text"},
-   ["t"]={"transmission-qt","Transmission-qt"},
    ["F2"]={"urxvtc -name multitails -e multitail -ci white /var/log/kernel.log -cis yellow /var/log/pacman.log -ci red /var/log/boot -cis green /home/pdq/.xplanetFX/logs/xplanetFX.log -ci red /var/log/Xorg.0.log -cis green /var/log/httpd/access_log -ci red -I /var/log/httpd/error_log -cis red -I /var/log/httpd/error_log","multitails", "instance"}, 
    --["F1"]={"urxvtc -name htops -e htop","htops", "instance"}
    -- ["s"]={"xterm -name rootTerm -cr red -title rootTerm -e su","rootTerm", "instance"}, 
