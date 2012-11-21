@@ -385,6 +385,15 @@ end
 local datewidget = widget({ type = 'textbox', name = 'datewidget' })
 vicious.register(datewidget, vicious.widgets.date, usr.date_format, 61)
 
+datewidget_t = awful.tooltip({
+objects = { datewidget },
+timer_function = function()
+return os.date("Today is %A %B %d %Y\nThe time is %T")
+end,
+})
+
+
+
 local mysystray = widget({ type = 'systray' })
 
 -- pacman update widget based off setkeh Awesome-Widget-Notify
