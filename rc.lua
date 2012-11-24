@@ -82,7 +82,7 @@ usr = {
                     "URxvt*iconFile: /usr/share/icons/gnome-colors-common/16x16/apps/terminal.png\n" ..
                     "URxvt*background: rgba:2222/2222/2222/bbbb\n" .. -- black
                     "URxvt*foreground: #d3d3d3\n" .. -- white
-                    "URxvt*transparent: false\n" .. 
+                    "URxvt*transparent: true\n" .. 
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
                     "*underlineColor: #de5105\n" ..
                     "URxvt*urlLauncher: luakit\n",
@@ -799,8 +799,8 @@ awful.rules.rules = {
                     keys = clientkeys,
                     size_hints_honor = false,
                     buttons = clientbuttons } },
-   { rule = {class = 'URxvt'}, 
-    properties = { opacity = 0.9 } },
+  -- { rule = {class = 'URxvt'}, 
+  --  properties = { opacity = 0.9 } },
    { rule = {class = 'Nitrogen'}, 
     properties = { opacity = 0.8 } },
    { rule = { class = 'luakit' },          -- browser tag

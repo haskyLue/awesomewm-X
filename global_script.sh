@@ -17,4 +17,10 @@
 # conky -d -c "$HOME"/.config/conky/distro/archlinux/distro.ck &
 # sleep 1
 nitrogen --restore &
+sleep 3s
+wmctrl -r "tail" -t 2
+wmctrl -r "arm" -t 2
+wmctrl -r "sudo" -t 2
+wmctrl -r "moc" -t 6
+wmctrl -r "weechat" -t 1
 exit 0
