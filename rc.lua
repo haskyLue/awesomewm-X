@@ -914,7 +914,7 @@ run_once('parcellite')
 run_once('dropboxd')
 run_once('simpleswitcher', 'simpleswitcher -key F9 -dkey F10 -font Terminus -fg "' .. beautiful.fg_normal .. '" -bg "' .. beautiful.bg_graphs.. '" -hlfg "' .. beautiful.fg_focus .. '" -hlbg "' .. beautiful.bg_focus .. '"')
 -- launch the composite manager
-run_once('cairo-compmgr')
+-- run_once('cairo-compmgr')
 -- run_once('nm-applet')
 -- Use the second argument, if the programm you wanna start differs from the what you want to search.
 -- run_once('redshift', 'redshift -o -l 0:0 -t 6500:5500')

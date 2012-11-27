@@ -12,11 +12,11 @@
 killall conky
 # #killall idesk
 # sleep 1
-conky -d -c "$HOME"/.config/conky/.conkyrw &
+# conky -d -c "$HOME"/.config/conky/.conkyrw &
 # sleep 1
-# conky -d -c "$HOME"/.config/conky/.conkyweather &
+conky -d -c "$HOME"/.config/conky/.bottomrc &
 # sleep 1
-# conky -d -c "$HOME"/.config/conky/distro/archlinux/distro.ck &
+#conky -d -c "$HOME"/.config/conky/distro/archlinux/distro.ck &
 # sleep 1
 nitrogen --restore &
 exit 0
