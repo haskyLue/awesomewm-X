@@ -381,6 +381,18 @@ if debug then
     timer.menudiff = timer.menu-timer.usr
 end
 
+ require("menubar")
+ menubar.cache_entries = true
+ menubar.app_folders = { "/usr/share/applications/" }
+ menubar.show_categories = true   -- Change to false if you want only programs to appear in the menu
+ menubar.set_icon_theme('gnome')
+menubar.g = {
+   height = 16,
+   width = 880,
+   x = 0,
+   y = 0
+}
+
 -- Create a textclock widget
 local datewidget = widget({ type = 'textbox', name = 'datewidget' })
 vicious.register(datewidget, vicious.widgets.date, usr.date_format, 61)
@@ -692,6 +704,8 @@ local globalkeys = awful.util.table.join(
    awful.key({ }, "F12",
      function () quakeconsole[mouse.screen]:toggle() end),
 
+ awful.key({ usr.modkey }, '0', function () menubar.show() end),
+
   awful.key({ }, "F2", function () usr.exec('stalonetray -bg "#0f0f0f" --sticky --skip-taskbar --geometry 112x22+1330+880') end),
   awful.key({ }, "F3", function () usr.exec('killall stalonetray') end)
 )
@@ -903,8 +917,8 @@ local function run_once(process, cmd)
       ["*"]  = "%*", ["?"]  = "%?" }
    for p in processwalker() do
       if p:find(process:gsub("[-+?*]", regex_killer)) then
-         return
-      end
+         end
+      return
    end
    return usr.exec(cmd or process)
 end
