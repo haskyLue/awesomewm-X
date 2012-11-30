@@ -24,7 +24,7 @@ local req = {
     awmXversion = '0.0.6',
 --    lognotify = require('lognotify'),	-- https://github.com/Mic92/lognotify
   -- http://awesome.naquadah.org/wiki/Autostart#The_native_lua_way  
-    lfs = require('lfs'),
+ --   lfs = require('lfs'),
 --  utils = require('utils'),
  -- http://awesome.naquadah.org/wiki/Document_keybindings
     keydoc = require('keydoc'),
@@ -85,7 +85,7 @@ usr = {
                     "URxvt*transparent: true\n" .. 
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
                     "*underlineColor: #de5105\n" ..
-                    "URxvt*urlLauncher: luakit\n",
+                    "URxvt*urlLauncher: firefox\n",
     -- poweroff   = 'sudo /sbin/poweroff',
     -- reboot     = 'sudo /sbin/reboot',
     poweroff   = 'systemctl poweroff',
@@ -102,15 +102,15 @@ usr = {
     },
     web_browser = {
            'DISABLED', -- uncomment this to hide menu entries
-        -- 'firefox'
+           'firefox'
         -- 'firefox-beta-bin',
-           'chromium',
+        -- 'chromium',
         -- 'opera',
         -- 'midori',
         -- 'luakit',
     },
-    primary_browser = -- 'firefox',
-                         'chromium',        
+    primary_browser =    'firefox',
+                      -- 'chromium',        
     top_wibox    = 16, -- default 15 (height)
     cpuwidget_enable       = true,
     memwidget_enable       = true,
@@ -174,7 +174,7 @@ local tags = {
       layouts[2],  -- 4:media playing (tiled)
       layouts[1],  -- 5:media editing (floating)
       layouts[2],  -- 6:projects/development (tiled)
-      layouts[1],  -- 7:shells (floating)
+      layouts[2],  -- 7:shells (floating)
       layouts[1]   -- 8:shells (floating)
             }
         }
@@ -805,52 +805,64 @@ root.keys(globalkeys)
 
 -- Rules
 awful.rules.rules = {
-   -- All clients will match this rule.
-   { rule = { },
-     properties = { border_width = beautiful.border_width,
-                    border_color = beautiful.border_normal,
-                    focus = true,
-                    keys = clientkeys,
-                    size_hints_honor = false,
-                    buttons = clientbuttons } },
-  -- { rule = {class = 'URxvt'}, 
-  --  properties = { opacity = 0.9 } },
-   { rule = {class = 'Nitrogen'}, 
+    -- All clients will match this rule.
+    { rule = { },
+    properties = { border_width = beautiful.border_width,
+                border_color = beautiful.border_normal,
+                focus = true,
+                keys = clientkeys,
+                size_hints_honor = false,
+                buttons = clientbuttons } },
+    { rule = {class = 'Nitrogen'}, 
     properties = { opacity = 0.8 } },
-   { rule = { class = 'luakit' },          -- browser tag
-     properties = { tag = tags[1][1], switchtotag = true } },
-   { rule = { class = 'Transmission-qt' }, 
-     properties = { tag = tags[1][4], switchtotag = true } },
- --  { rule = { class = 'luakit', name = string.find(c:name, "^%[proxy%]") },
- --    properties = { tag = tags[1][2] } },
-    { rule = { instance = "multitails" }, 
-     properties = { tag = tags[1][3], switchtotag = true  } },
-    { rule = { instance = "htops" }, 
-      properties = { tag = tags[1][3], switchtotag = true  } },
-    { rule = { instance = "weechat 0.3.9" }, 
-     properties = { tag = tags[1][2], switchtotag = true  } },
-  --   { rule = { class = "Konversation" }, 
- --    properties = { tag = tags[1][2], switchtotag = true  } },   
-  -- { rule = { class = "Steam" }, 
-  --   properties = { floating = true } },
- --  { rule = { class = 'Liferea' },
- --    properties = { floating = true, switchtotag = true } },
-   { rule = { class = 'Chromium' },         -- browser tag
-     properties = { tag = tags[1][1], switchtotag = true } },
---   callback = function(c) c:tags({tags[1][5], tags[1][4]}) end}, -- multitag
-   { rule = {class = 'sublime_text'},
-     properties = {tag = tags[1][6], switchtotag = true} },
-   { rule = {class = 'Kdenlive'},
-     properties = {tag = tags[1][5], switchtotag = true} },
-   { rule = { class = 'Plugin-container' }, -- fullscreen youtube videos
-     properties = { floating = true, switchtotag = true } },
- --  { rule = { class = 'Nitrogen' }, 
- --   properties = { tag = tags[1][7], 
- --                   floating = true, 
- --                   border_width = "0", 
- --                   border_height = "0", 
- --                   switchtotag = tags[1][7] }, 
- --                   callback = function(c) c:geometry({x=0, y=0}) end },
+    { rule = { class = 'luakit' },          -- browser tag
+    properties = { tag = tags[1][1], switchtotag = true } },
+    { rule = { instance = "Htop" }, 
+    properties = { tag = tags[1][3], switchtotag = true  } },
+    { rule = { instance = "IRC1" }, 
+    properties = { tag = tags[1][2], switchtotag = true  } },
+    { rule = { instance = "IRC2" }, 
+    properties = { tag = tags[1][2], switchtotag = true  } },
+    { rule = { instance = "Saidar" }, 
+    properties = { tag = tags[1][3], switchtotag = true  } },
+    { rule = { instance = "Logs" }, 
+    properties = { tag = tags[1][3], switchtotag = true  } },
+    { rule = { instance = "TTYload" }, 
+    properties = { tag = tags[1][3], switchtotag = true  } },
+    { rule = { instance = "MOCP" }, 
+    properties = { tag = tags[1][7], switchtotag = true  } },
+    { rule = { class = "Spacefm" }, 
+    properties = { tag = tags[1][6], switchtotag = true  } },
+    { rule = { instance = "IRC1" }, 
+    properties = { tag = tags[1][2], switchtotag = true  } },
+    { rule = { instance = "STDerr" }, 
+    properties = { tag = tags[1][3], switchtotag = true  } },
+    { rule = { instance = "Test" }, 
+    properties = { tag = tags[1][6], switchtotag = true  } },
+    { rule = { instance = "Play" }, 
+    properties = { tag = tags[1][2], switchtotag = true  } },
+    { rule = { class = 'Vlc' },         -- browser tag
+    properties = { tag = tags[1][1] } },
+    { rule = { name = 'Playlist' },        
+    properties = { tag = tags[1][7] } },
+    { rule = { class = 'Chromium' },         -- browser tag
+    properties = { tag = tags[1][1], switchtotag = true } },
+    { rule = { class = 'Firefox' },         -- browser tag
+    properties = { tag = tags[1][1], switchtotag = true } },
+    --   callback = function(c) c:tags({tags[1][5], tags[1][4]}) end}, -- multitag
+    { rule = {class = 'sublime_text'},
+    properties = {tag = tags[1][6], switchtotag = true} },
+    { rule = {class = 'Kdenlive'},
+    properties = {tag = tags[1][5], switchtotag = true} },
+    { rule = { class = 'Plugin-container' }, -- fullscreen youtube videos
+    properties = { floating = true, switchtotag = true } },
+    --  { rule = { class = 'Nitrogen' }, 
+    --   properties = { tag = tags[1][7], 
+    --                   floating = true, 
+    --                   border_width = "0", 
+    --                   border_height = "0", 
+    --                   switchtotag = tags[1][7] }, 
+    --                   callback = function(c) c:geometry({x=0, y=0}) end },
 }
 
 -- Signal function to execute when a new client appears.
@@ -890,48 +902,7 @@ function round(number, decimal)
 	return math.floor(number * multiplier + 0.5) / multiplier
 end
 
--- Run once functions
-local function processwalker()
-   local function yieldprocess()
-      for dir in req.lfs.dir('/proc') do
-         -- All directories in /proc containing a number, represent a process
-         if tonumber(dir) ~= nil then
-            local f, err = io.open('/proc/'..dir..'/cmdline')
-            if f then
-               local cmdline = f:read('*all')
-               f:close()
-               if cmdline ~= '' then
-                  coroutine.yield(cmdline)
-               end
-             end
-           end
-         end
-      end
-   return coroutine.wrap(yieldprocess)
-end
-
-local function run_once(process, cmd)
-   assert(type(process) == 'string')
-   local regex_killer = {
-      ["+"]  = "%+", ["-"] = "%-",
-      ["*"]  = "%*", ["?"]  = "%?" }
-   for p in processwalker() do
-      if p:find(process:gsub("[-+?*]", regex_killer)) then
-         end
-      return
-   end
-   return usr.exec(cmd or process)
-end
--- Autostart programs here or in ~/.xinitrc (Daemons with systemctl or in /etc/rc.conf)
--- launch clipboard manager
-run_once('parcellite')
-run_once('dropboxd')
-run_once('simpleswitcher', 'simpleswitcher -key F9 -dkey F10 -font Terminus -fg "' .. beautiful.fg_normal .. '" -bg "' .. beautiful.bg_graphs.. '" -hlfg "' .. beautiful.fg_focus .. '" -hlbg "' .. beautiful.bg_focus .. '"')
--- launch the composite manager
--- run_once('cairo-compmgr')
--- run_once('nm-applet')
--- Use the second argument, if the programm you wanna start differs from the what you want to search.
--- run_once('redshift', 'redshift -o -l 0:0 -t 6500:5500')
+awful.util.spawn("sh " .. home_path .. ".config/awesome/global_script.sh");
 
 -- grab window/client class
 if usr.debug_clients then

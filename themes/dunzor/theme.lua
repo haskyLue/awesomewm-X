@@ -26,6 +26,10 @@ if home_path ~= nil then
 	end
 	themedir      = themes .. themename
 
+	-- theme.wpscript     = config .. '/global_script.sh'
+	-- if awful.util.file_readable(theme.wpscript) then
+	--     theme.wallpaper_cmd = { 'sh ' .. theme.wpscript }
+	-- end
 	-- if script_options.global == nil then
 	--     theme.wpscript     = themedir .. '/script.sh'
 	-- else

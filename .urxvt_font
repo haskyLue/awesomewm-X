@@ -5,4 +5,4 @@ URxvt*foreground: #d3d3d3
 URxvt*transparent: true
 URxvt*perl-ext-common:	default,clipboard,matcher,
 *underlineColor: #de5105
-URxvt*urlLauncher: luakit
+URxvt*urlLauncher: firefox
