@@ -32,7 +32,6 @@ if [ -f "$tc1" ] && [ -f "$tc2" ]  ; then
 	[ -z "$(pidof parcellite)" ] && parcellite &
 	[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
 	[ -z "$(pidof mocp)" ] && urxvtc -name MOCP -e mocp &
-	[ -z "$(pidof conky)" ] && urxvtd &
 	[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.bottomrc &
 	[ -z "$(pidof httpd)" ] && sudo lamp start
 	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 30 --aur --icon pac_icon &
