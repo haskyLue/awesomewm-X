@@ -13,11 +13,10 @@
 tc1="/media/truecrypt1/test"
 tc2="/media/truecrypt2/test"
 
+## if not use truecrypt data comment following line
 if [ -f "$tc1" ] && [ -f "$tc2" ]  ; then
 
 	nitrogen --restore &
-
-	[ -z "$(pidof urxvtd)" ] && urxvtd -q -o -f &
 	[ -z "$(pidof bitlbee)" ] && sudo bitlbee -D
 	[ -z "$(pidof weechat-curses)" ] && urxvtc -name IRC1 -e weechat-curses && urxvtc -name IRC2 -e weechat-curses -d ~/.weechat-priv &
 	[ -z "$(pidof xbindkeys)" ] && xbindkeys &
@@ -30,7 +29,7 @@ if [ -f "$tc1" ] && [ -f "$tc2" ]  ; then
 	[ -z "$(pidof spacefm)" ] && spacefm &
 	[ -z "$(pidof firefox)" ] && firefox &
 	[ -z "$(pidof dropbox)" ] && dropboxd &
-	[ -z "$(pidof urxvtd)" ] && parcellite &
+	[ -z "$(pidof parcellite)" ] && parcellite &
 	[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
 	[ -z "$(pidof mocp)" ] && urxvtc -name MOCP -e mocp &
 	[ -z "$(pidof conky)" ] && urxvtd &
@@ -39,9 +38,10 @@ if [ -f "$tc1" ] && [ -f "$tc2" ]  ; then
 	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 30 --aur --icon pac_icon &
 	
 	# some leftover terminals
-	#urxvtc -name Test &
+	#eurxvtc -name Test &
 	#urxvtc -name Play &
 	#urxvtc -name STDerr -e tail -f "$HOME/.cache/awesome/stderr" &
+## if not use truecrypt data comment following line
 fi
 wmctrl -s 0
 exit 0

@@ -1,5 +1,5 @@
 -- https://github.com/idk/awesomewm-X  https://github.com/idk/pdq
--- BASIC CONFIGURATION begins on line 70
+-- BASIC CONFIGURATION begins on line 67
 local debug = true -- true/false (default true)
 if debug then
     local socket = require('socket') -- luasocket
@@ -19,16 +19,8 @@ local vicious = require('vicious') -- http://awesome.naquadah.org/wiki/Vicious
 require('freedesktop.menu') 
 local quake = require("quake")
 local aweror = require("aweror")
-
-local req = {
-    awmXversion = '0.0.6',
---    lognotify = require('lognotify'),	-- https://github.com/Mic92/lognotify
-  -- http://awesome.naquadah.org/wiki/Autostart#The_native_lua_way  
- --   lfs = require('lfs'),
---  utils = require('utils'),
- -- http://awesome.naquadah.org/wiki/Document_keybindings
-    keydoc = require('keydoc'),
-}
+-- http://awesome.naquadah.org/wiki/Document_keybindings
+local keydoc = require('keydoc')
 
 if debug then
     timer.libs = socket.gettime() -- debug
@@ -59,7 +51,7 @@ end
 -- define /home/$USER
 home_path  = os.getenv('HOME') .. '/'
 
--- START BASIC CONFIGURATION -- (* reload awesome when make any changes below)
+-- START BASIC CONFIGURATION -- (reload awesome when make any changes below)
 script_options = {
     font = 'Envy Code R 9.5',    -- comment to use themes settings
     taglist_font = 'Terminus 12', -- comment to use themes settings
@@ -86,8 +78,8 @@ usr = {
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
                     "*underlineColor: #de5105\n" ..
                     "URxvt*urlLauncher: firefox\n",
-    -- poweroff   = 'sudo /sbin/poweroff',
-    -- reboot     = 'sudo /sbin/reboot',
+ -- poweroff   = 'sudo /sbin/poweroff',
+ -- reboot     = 'sudo /sbin/reboot',
     poweroff   = 'systemctl poweroff',
     reboot     = 'systemctl reboot',
  -- hibernate  = 'sudo /usr/sbin/pm-hibernate',
@@ -101,10 +93,10 @@ usr = {
         -- 'pcmanfm,
     },
     web_browser = {
-           'DISABLED', -- uncomment this to hide menu entries
-           'firefox'
+        -- 'DISABLED', -- uncomment this to hide menu entries
+           'firefox',
         -- 'firefox-beta-bin',
-        -- 'chromium',
+           'chromium',
         -- 'opera',
         -- 'midori',
         -- 'luakit',
@@ -118,8 +110,6 @@ usr = {
     pacmanwidget_enable    = true, 
     aurwidget_enable       = true,
     debug_clients          = false, -- useful for client rules setup
-
-    -- weather_code  =  'CYWG', -- 'CYWG' -- ICAO code
     date_format   = '%l:%M%p' , -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
     
     -- http://awesome.naquadah.org/wiki/Move_Mouse
@@ -142,30 +132,26 @@ usr = {
 
     exec = awful.util.spawn,
  -- sexec  = awful.util.spawn_with_shell,
+    awmXversion = '0.0.6',
 }
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts = {
-   awful.layout.suit.floating,        -- 1
- --  awful.layout.suit.tile,            -- 2
-   awful.layout.suit.tile.left,       -- 3
-   awful.layout.suit.max,             -- 4
-  --  awful.layout.suit.tile.bottom,
---     awful.layout.suit.tile.top,
- --    awful.layout.suit.fair,
- --    awful.layout.suit.fair.horizontal,
- awful.layout.suit.max.fullscreen,  -- 11
--- awful.layout.suit.magnifier        -- 12
+    awful.layout.suit.floating,        -- 1
+    --  awful.layout.suit.tile,        -- 2
+    awful.layout.suit.tile.left,       -- 3
+    awful.layout.suit.max,             -- 4
+    --  awful.layout.suit.tile.bottom,
+    --  awful.layout.suit.tile.top,
+    --  awful.layout.suit.fair,
+    --  awful.layout.suit.fair.horizontal,
+    awful.layout.suit.max.fullscreen,  -- 11
+    -- awful.layout.suit.magnifier     -- 12
 }
 
 -- Tags
 local tags = {
---  names  = { '1:Web', '2:Chat', '3:Logs', '4:Video', 
---             '5:Video2', '6:Dev', '7:---', '8:---' },
---  names = { '☠', '⌥', '✇', '⌤', '⍜', '⌨', '⚡', '✣' },
   names = { '☢', '☎', '☀', '❖', 'Ω', '⌨', '⚡', '☣' },
---  names = { '♨', '⌨', '⚡', '✉', '❁', '☃', '☄', '⚢' },
---    names = { '➊', '➋', '➌', '➍', '➎', '➏', '➐', '➑' },
 
     layout = {
       layouts[2],  -- 1:firefox (max size)
@@ -184,7 +170,6 @@ for s = 1, screen.count() do
    tags[s] = awful.tag(tags.names, s, tags.layout)
 end
 -- END BASIC CONFIGURATION --
-
 
 if usr.gui_editor then
    editor_cmd = usr.editor
@@ -310,7 +295,7 @@ local myawesomemenu = {
    { 'Edit Current script', editor_cmd .. ' ' .. home_path .. '.config/awesome/themes/current/script.sh', freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
    { 'Debug Awesome', usr.terminal_cmd .. 'tail -f ' .. home_path .. '.cache/awesome/stderr', freedesktop.utils.lookup_icon({ icon = 'help' }) },
    { 'Test Awesome', '/bin/bash /home/pdq/.config/awesome/bin/awesome_test' },
-   -- { 'Preferred Apps' , 'exo-preferred-applications', freedesktop.utils.lookup_icon({ icon = 'help' })},
+-- { 'Preferred Apps' , 'exo-preferred-applications', freedesktop.utils.lookup_icon({ icon = 'help' })},
    { 'Reload', awesome.restart, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'Logout', awesome.quit, freedesktop.utils.lookup_icon({ icon = 'system-log-out' })},
    { 'Shutdown' , usr.poweroff, freedesktop.utils.lookup_icon({ icon = 'system-shutdown' })},
@@ -322,10 +307,10 @@ local servicesmenu = {
    { 'Transmission Off', usr.terminal_cmd .. 'sudo systemctl stop transmission.service', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'LAMP On', sudo_bash .. 'lamp start', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { 'LAMP Off', sudo_bash .. 'lamp stop', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
---   { 'MPD On', sudo_bash .. 'systemtcl start mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
---   { 'MPD Off', sudo_bash .. 'systemtcl stop mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
-   -- { 'rtorrent On', usr.terminal_cmd .. 'tmux new-window rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
-   -- { 'rtorrent Off', usr.terminal_cmd .. 'killall rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
+-- { 'MPD On', sudo_bash .. 'systemtcl start mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+-- { 'MPD Off', sudo_bash .. 'systemtcl stop mpd', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+-- { 'rtorrent On', usr.terminal_cmd .. 'tmux new-window rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+-- { 'rtorrent Off', usr.terminal_cmd .. 'killall rtorrent', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
 }
 
 table.insert(menu_items, { 'Awesome Options', myawesomemenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
@@ -381,11 +366,11 @@ if debug then
     timer.menudiff = timer.menu-timer.usr
 end
 
- require("menubar")
- menubar.cache_entries = true
- menubar.app_folders = { "/usr/share/applications/" }
- menubar.show_categories = true   -- Change to false if you want only programs to appear in the menu
- menubar.set_icon_theme('gnome')
+require("menubar")
+menubar.cache_entries = true
+menubar.app_folders = { "/usr/share/applications/" }
+menubar.show_categories = true   -- Change to false if you want only programs to appear in the menu
+menubar.set_icon_theme('gnome')
 menubar.g = {
    height = 16,
    width = 880,
@@ -404,8 +389,6 @@ return os.date("Today is %A %B %d %Y\nThe time is %T")
 end,
 })
 
-
-
 local mysystray = widget({ type = 'systray' })
 
 -- pacman update widget based off setkeh Awesome-Widget-Notify
@@ -422,23 +405,15 @@ awful.widget.layout.margins[aurwidget] = { right = modifier.seperator_min }
 -- button to run packer update
 aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'zsh ' .. home_path .. 'bin/packerupdater') end ) ) )
 
--- conky toggle widget
-local conkywidget = widget({ type = 'textbox' })
-conkywidget.text = '<span color="#FFDD00">Ω</span>'
-awful.widget.layout.margins[conkywidget] = { right = modifier.seperator_min }
--- button to run packer update
-conkywidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'saidar -c') end ) ) )
-
 --Create Volume Progressbar
- tb_volume = widget({ type = 'textbox', name = 'tb_volume', align = 'right' })
+tb_volume = widget({ type = 'textbox', name = 'tb_volume', align = 'right' })
 
- tb_volume:buttons(awful.util.table.join(
+tb_volume:buttons(awful.util.table.join(
   awful.button({ }, 4, function () volume('up', tb_volume) end),
   awful.button({ }, 5, function () volume('down', tb_volume) end),
   awful.button({ }, 1, function () volume('mute', tb_volume) end)
-  ))
-
- volume('update', tb_volume)
+))
+volume('update', tb_volume)
 
 -- load avg / cpu widget
 local cpuwidget = widget({ type = 'textbox', name = 'cpuwidget' })
@@ -467,20 +442,6 @@ local thermalwidget  = widget({ type = "textbox" })
 vicious.register(thermalwidget, vicious.widgets.thermal, "$1°C", 20, { "coretemp.0", "core"} )
 thermalwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ('urxvtc -name multitails -e multitail -ci white /var/log/kernel.log -cis yellow /var/log/pacman.log -ci red /var/log/boot -cis red /var/log/Xorg.0.log -cis green /var/log/httpd/access_log -ci red -I /var/log/httpd/error_log -cis red -I /var/log/httpd/error_log') end ) ) )
 awful.widget.layout.margins[thermalwidget] = { right = modifier.seperator_min }
-
--- Naughty log notify
--- ilog = req.lognotify {
---   logs = {
---      mpd = { file = home_path ..'.mpd/log', ignore = {'player_thread: played'} },
---      pacman = { file = '/var/log/pacman.log', },
---      syslog = { file = '/var/log/syslog.log', },
---      kernel = { file = '/var/log/kernel.log', ignore = {'Mark'} },
---      php = { file = '/var/log/httpd/error_log' },
---   },
---   interval = 1,
---   naughty_timeout = 15
--- }
--- ilog:start()
 
 if debug then
     timer.widgets = socket.gettime() -- debug
@@ -563,26 +524,21 @@ for s = 1, screen.count() do
    my_top_wibox[s].widgets = {
       {
         mylauncher,
-         mytaglist[s],
-         mypromptbox[s],
-         layout = awful.widget.layout.horizontal.leftright
+        mytaglist[s],
+        mypromptbox[s],
+        layout = awful.widget.layout.horizontal.leftright
       },
       mylayoutbox[s],
-       s == 1 and mysystray or nil,
-      datewidget,
-       tb_volume,
-     -- launchbar,
-   -- mocpwidget,
-            --   musicwidget.widget,
-          conkywidget,
-      usr.aurwidget_enable and aurwidget or nil,
-      usr.pacmanwidget_enable and pacmanwidget or nil,
-       --     usr.diskusagewidget_enable and diskwidget or nil,
-            thermalwidget,
-      usr.memwidget_enable and memwidget or nil,
-       usr.cpuwidget_enable and cpuwidget or nil,
-      mytasklist[s],
-      layout = awful.widget.layout.horizontal.rightleft
+        s == 1 and mysystray or nil,
+        datewidget,
+        tb_volume,
+        usr.aurwidget_enable and aurwidget or nil,
+        usr.pacmanwidget_enable and pacmanwidget or nil,
+        thermalwidget,
+        usr.memwidget_enable and memwidget or nil,
+        usr.cpuwidget_enable and cpuwidget or nil,
+        mytasklist[s],
+        layout = awful.widget.layout.horizontal.rightleft
    }
 end
 
@@ -607,16 +563,15 @@ for s = 1, screen.count() do
            screen = s })
 end
 
-
 local globalkeys = awful.util.table.join(
   
-   req.keydoc.group('Layout manipulation'),
+   keydoc.group('Layout manipulation'),
 
    awful.key({ usr.modkey,           }, 'Left',   awful.tag.viewprev, 'View previous tag'),
    awful.key({ usr.modkey,           }, 'Right',  awful.tag.viewnext, 'View next tag'),
    awful.key({ usr.modkey,           }, 'Escape', awful.tag.history.restore, 'Focus previously selected tag set'),
 
-  req.keydoc.group('Client manipulation'),
+  keydoc.group('Client manipulation'),
 
    awful.key({ usr.modkey, }, 'j',
         function ()
@@ -658,26 +613,17 @@ local globalkeys = awful.util.table.join(
    awful.key({ usr.modkey, 'Control' }, 'n', awful.client.restore, 'Un-minimize client'),
    awful.key({ usr.modkey, }, 'x', function () usr.exec('xkill') end),
 
-   req.keydoc.group('Custom'),
+   keydoc.group('Custom'),
    
-   awful.key({ usr.modkey, }, 'F1', req.keydoc.display),
-
+   awful.key({ usr.modkey, }, 'F1', keydoc.display),
    awful.key({ usr.modkey, }, 'F12', function () usr.exec('zsh '.. home_path .. 'bin/screenshot') end, 'Take screenshot and copy URL'),
    awful.key({ usr.modkey, 'Control' }, 'F12', function () usr.exec('sh '.. home_path .. 'bin/multiscreenshot') end, 'Take screenshot of all Tags and copy URL'),
    awful.key({ usr.modkey, 'Shift' }, 'F12', function () usr.exec('urxvtc -name screencast -e '.. home_path .. 'bin/screencast') end, 'Start screencast'),
-
    awful.key({ usr.modkey, }, ']', function () usr.exec("zsh -c 'luakit -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end, 'Launch web browser [proxy]'),
-
    awful.key({ usr.modkey, }, '[', function () usr.exec("zsh -c 'luakit -U -c " .. home_path .. ".config/luakit/rc.lua  > /dev/null 2>&1'") end, 'Launch web browser'),
-
    awful.key({ usr.modkey, }, '\\', function () usr.exec('spacefm --panel=1') end, 'Launch file manager'),
-
---   awful.key({ usr.modkey, 'Control' }, '\\', function () usr.exec('spacefm') end, 'Launch file manager [new instance]'),
-
    awful.key({ usr.modkey, }, '\'', function () usr.exec('subl') end, 'Launch text editor'),
-
    awful.key({ usr.modkey, }, '/', function () usr.exec('xchat') end, 'Launch IRC client'),
-
    -- yubnub try, 'ls dictionary'
    awful.key({ usr.modkey }, 'w' , function ()
         awful.prompt.run({ prompt = 'Web search: ' }, mypromptbox[mouse.screen].widget,
@@ -691,7 +637,6 @@ local globalkeys = awful.util.table.join(
    awful.key({ usr.modkey }, 'p', function () 
         usr.exec('dmenu_run -i -nb "' .. beautiful.bg_graphs.. '" -sb "' .. beautiful.bg_graphs ..'" -sf "' .. 
             beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "RUN:"') end, 'Launch dmenu'),
-  
    awful.key({ usr.modkey }, 'o', function () 
         usr.exec('dmenu_mocp -i -nb "' .. beautiful.bg_graphs.. '" -sb "' .. beautiful.bg_graphs ..'" -sf "' .. 
             beautiful.fg_focus ..'" -nf "' .. beautiful.fg_focus .. '" -p "RUN:"') end, 'Launch dmenu_mocp'),
@@ -701,20 +646,18 @@ local globalkeys = awful.util.table.join(
               function ()
                   my_top_wibox[mouse.screen].visible = not my_top_wibox[mouse.screen].visible
               end, 'Toggle top wibox'),
-   awful.key({ }, "F12",
-     function () quakeconsole[mouse.screen]:toggle() end),
+   awful.key({ }, "F12", function () quakeconsole[mouse.screen]:toggle() end),
+   awful.key({ usr.modkey }, '0', function () menubar.show() end),
 
- awful.key({ usr.modkey }, '0', function () menubar.show() end),
-
-  awful.key({ }, "F2", function () usr.exec('stalonetray -bg "#0f0f0f" --sticky --skip-taskbar --geometry 112x22+1330+880') end),
-  awful.key({ }, "F3", function () usr.exec('killall stalonetray') end)
+   awful.key({ }, "F2", function () usr.exec('stalonetray -bg "#0f0f0f" --sticky --skip-taskbar --geometry 112x22+1330+880') end),
+   awful.key({ }, "F3", function () usr.exec('killall stalonetray') end)
 )
 
  globalkeys = awful.util.table.join(globalkeys, awful.key({ }, "XF86AudioRaiseVolume",function () volume("up", tb_volume) end))
  globalkeys = awful.util.table.join(globalkeys, awful.key({ }, "XF86AudioLowerVolume",function  () volume("down", tb_volume) end))
  globalkeys = awful.util.table.join(globalkeys, awful.key({ }, "XF86AudioMute",function  () volume("mute", tb_volume) end))
 
-local clientkeys = awful.util.table.join(  req.keydoc.group('Client keys'),
+local clientkeys = awful.util.table.join(  keydoc.group('Client keys'),
 
    awful.key({ usr.modkey,           }, 'f',      function (c) c.fullscreen = not c.fullscreen  end, 'Fullscreen'),
    awful.key({ usr.modkey,           }, '`',      function (c) c:kill()                         end, 'Close'),
@@ -760,7 +703,7 @@ end
 for i = 1, keynumber do
    globalkeys = awful.util.table.join(
 
-req.keydoc.group('Global keys'),
+keydoc.group('Global keys'),
     globalkeys,
       awful.key({ usr.modkey }, '#' .. i + 9,
                   function ()
@@ -797,7 +740,6 @@ local clientbuttons = awful.util.table.join(
 
 -- Set keys
 -- load the 'run or raise' function
-
 -- generate and add the 'run or raise' key bindings to the globalkeys table
 globalkeys = awful.util.table.join(globalkeys, aweror.genkeys(usr.modkey))
 
@@ -924,7 +866,7 @@ if debug then
     -- Script execution time and information
     local function timer_output()
         return -- "\n::: Session started: ".. os.date() .. " :::\r\n\n" .. 
-              --  "Awesomewm-X: ".. req.awmXversion .."\n" ..
+              --  "Awesomewm-X: ".. usr.awmXversion .."\n" ..
             --    "Script: " .. beautiful.wpscript .. "\n" ..
                 "Theme: ".. beautiful.theme_name .."\n" .. 
                 "User: " .. os.getenv('USER') .."@" .. awful.util.pread('hostname'):match("[^\n]*") .. "\n" ..
