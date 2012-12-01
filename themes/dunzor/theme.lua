@@ -26,24 +26,9 @@ if home_path ~= nil then
 	end
 	themedir      = themes .. themename
 
-	-- theme.wpscript     = config .. '/global_script.sh'
-	-- if awful.util.file_readable(theme.wpscript) then
-	--     theme.wallpaper_cmd = { 'sh ' .. theme.wpscript }
-	-- end
-	-- if script_options.global == nil then
-	--     theme.wpscript     = themedir .. '/script.sh'
-	-- else
-	--     theme.wpscript     = config .. '/global_script.sh'
-	-- end
-
-	-- if awful.util.file_readable(theme.wpscript) then
-	--     theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
-	-- end
-
 	if awful.util.file_readable(config .. '/vain/init.lua') then
 	    theme.useless_gap_width  = '3'
 	end
-	--}}}
 
 	if script_options.font ~= nil then
 		theme.font = script_options.font
@@ -83,13 +68,6 @@ theme.fg_netdn_widget  = theme.fg_urgent
 theme.bg_widget        = theme.bg_normal
 theme.border_widget    = theme.bg_normal
 -- }}}
-
--- specific
--- theme.fg_sb_hi           = '#9dcd9e'
--- theme.fg_batt_mid        = '#008600'
--- theme.fg_batt_low        = '#e4f01b'
--- theme.fg_batt_crit       = '#a84007'
--- theme.vol_bg             = '#000000'
 
 theme.border_normal = '#000000'
 theme.border_focus  = '#535d6c'
@@ -157,7 +135,6 @@ if home_path ~= nil then
 	theme.titlebar_maximized_button_normal_inactive = themedir .. '/titlebar/maximized_normal_inactive.png'
 	-- }}}
 	theme.awesome_icon = home_path .. '.config/awesome/icons/menu_icon.png'
-	-- theme.awesome_icon = sharedicons .. '/awesome16.png'
 
 	-- calendar settings
 	theme.calendar_w         = 160
@@ -166,4 +143,3 @@ if home_path ~= nil then
 end
 
 return theme
--- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:encoding=utf-8:textwidth=80
