@@ -18,14 +18,15 @@ if [ -f "$tc1" ] && [ -f "$tc2" ]  ; then
 
 	nitrogen --restore &
 	[ -z "$(pidof bitlbee)" ] && sudo bitlbee -D
-	[ -z "$(pidof weechat-curses)" ] && urxvtc -name IRC1 -e weechat-curses && urxvtc -name IRC2 -e weechat-curses -d ~/.weechat-priv &
+	[ -z "$(pidof weechat-curses)" ] && urxvtc -name IRC1 -e weechat-curses && urxvtc -name IRC2 -e weechat-curses -d ~/.weechat-priv
 	[ -z "$(pidof xbindkeys)" ] && xbindkeys &
-	[ -z "$(pidof htop)" ] && urxvtc -name Htop -e htop &
-	[ -z "$(pidof saidar)" ] && urxvtc -name Saidar -e saidar -c &
-	[ -z "$(pidof ttyload)" ] && urxvtc name TTYload -e ttyload &
-	[ -z "$(pidof journalctl)" ] && urxvtc -name Logs -e sudo journalctl -f &
+	[ -z "$(pidof htop)" ] && urxvtc -name Htop -e htop
+	[ -z "$(pidof saidar)" ] && urxvtc -name Saidar -e saidar -c
+	[ -z "$(pidof tail)" ] && urxvtc -name STDerr -e tail -f "$HOME/.cache/awesome/stderr"
+	[ -z "$(pidof ttyload)" ] && urxvtc name TTYload -e ttyload
+	[ -z "$(pidof journalctl)" ] && urxvtc -name Logs -e sudo journalctl -f
 	[ -z "$(pidof vlc)" ] && vlc "$HOME/Videos/playlist" &
-	[ -z "$(pidof sublime_text)" ] && subl && sudo subl &
+	[ -z "$(pidof sublime_text)" ] && subl && sudo subl
 	[ -z "$(pidof spacefm)" ] && spacefm &
 	[ -z "$(pidof firefox)" ] && firefox &
 	[ -z "$(pidof dropbox)" ] && dropboxd &
@@ -36,11 +37,11 @@ if [ -f "$tc1" ] && [ -f "$tc2" ]  ; then
 	[ -z "$(pidof httpd)" ] && sudo lamp start
 	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 30 --aur --icon pac_icon &
 	
-	# some leftover terminals
-	#eurxvtc -name Test &
-	#urxvtc -name Play &
-	#urxvtc -name STDerr -e tail -f "$HOME/.cache/awesome/stderr" &
 ## if not use truecrypt data comment following line
 fi
+
+# focus tag 1
 wmctrl -s 0
+
+# exit cleanly
 exit 0
