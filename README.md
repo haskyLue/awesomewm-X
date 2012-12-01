@@ -5,9 +5,9 @@ Configuration files for Awesome Window Manager.
 
 https://github.com/idk/awesomewm-X
 
-Depends on: git, [luasocket][9], cclive, dmenu, htop, multitail, scrot, terminus-font, xclip, cairo-compmgr-git, conky-lua, rxvt-unicode-patched, ttf-envy-code-r and [luainotify][8]
+Depends on:  git, awesome, dmenu, luasocket, terminus-font, conky-lua, rxvt-unicode-patched, ttf-envy-code-r
 
-Optional:   [idesk][1]
+Optional:
 
 
 Step 1: MINIMAL and/or OPTIONAL packages
@@ -17,7 +17,7 @@ Step 1: MINIMAL and/or OPTIONAL packages
 
 Install Minimal required packages (ie: after fresh install):
 
-    # pacman -S  xorg-server xorg-xinit xorg-server-utils consolekit mesa
+    # pacman -S  xorg-server xorg-xinit xorg-server-utils mesa
 
 
 Install recommended packages:
@@ -32,14 +32,9 @@ Step 2: INSTALL Awesome Window Manager and misc packages
 
 `Archlinux:`
 
-    # pacman -S awesome luasocket luafilesystem cclive dmenu htop multitail scrot terminus-font xclip
+    # pacman -S awesome luasocket dmenu terminus-font
     
-    $ packer -S cairo-compmgr-git conky-lua luainotify rxvt-unicode-patched ttf-envy-code-r
-
-
-`Cleanup`
-
-    # pacman -Rs docbook2x perl-xml-libxml scons toluapp
+    $ packer -S conky-lua rxvt-unicode-patched ttf-envy-code-r
 
 
 Step 3: INSTALL Awesomewm-X (comes with luakit-X and conky-X)
@@ -90,15 +85,16 @@ SUPPORT
 
 
 TODO
-----
-
-1. automatically check number of cores in use
-2. clean up theme
-3. configuration variable for OS. ie: archlinux, gentoo, ubuntu, fedora
 
 
 HISTORY
 -------
+
+* 2012-12-01: Version 0.0.6
+  - Version enhancement: new menubar
+  - Version enhancement: theme tweaks
+  - Version enhancement: configuration tweaks
+  - Version enhancement: optimization tweaks
 
 * 2012-07-04: Version 0.0.5
 
@@ -164,13 +160,9 @@ Contributing
 SHARE AND ENJOY!
 ----------------
 
-[1]: https://wiki.archlinux.org/index.php/Mpd
-[2]: https://wiki.archlinux.org/index.php/ConsoleKit
 [3]: https://wiki.archlinux.org/index.php/Display_Manager
 [4]: https://wiki.archlinux.org/index.php/SLIM
 [5]: https://wiki.archlinux.org/index.php/Start_X_at_boot
 [6]: http://www.linuxdistrocommunity.com
 [7]: https://github.com/idk/awesomewm-X/issues
-[8]: http://www3.telus.net/taj_khattra/luainotify.html
 [9]: http://w3.impa.br/~diego/software/luasocket
-[10]: https://wiki.archlinux.org/index.php/idesk
