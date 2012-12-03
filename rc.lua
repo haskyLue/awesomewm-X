@@ -784,9 +784,9 @@ awful.rules.rules = {
     { rule = { instance = "Play" }, 
     properties = { tag = tags[1][2], switchtotag = true  } },
     { rule = { class = 'Vlc' },         -- browser tag
-    properties = { tag = tags[1][1] } },
+    properties = { sticky = true } },
     { rule = { name = 'Playlist' },        
-    properties = { tag = tags[1][7] } },
+    properties = { sticky = false, tag = tags[1][7] } },
     { rule = { class = 'Chromium' },         -- browser tag
     properties = { tag = tags[1][1], switchtotag = true } },
     { rule = { class = 'Firefox' },         -- browser tag
