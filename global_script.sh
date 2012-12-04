@@ -17,6 +17,7 @@ tc2="/media/truecrypt2/test"
 if [ -f "$tc1" ] && [ -f "$tc2" ]  ; then
 
 	nitrogen --restore &
+	[ -z "$(pidof compton)" ] && compton -cF
 	[ -z "$(pidof bitlbee)" ] && sudo bitlbee -D
 	[ -z "$(pidof weechat-curses)" ] && urxvtc -name IRC1 -e weechat-curses && urxvtc -name IRC2 -e weechat-curses -d ~/.weechat-priv
 	[ -z "$(pidof xbindkeys)" ] && xbindkeys &
@@ -27,7 +28,7 @@ if [ -f "$tc1" ] && [ -f "$tc2" ]  ; then
 	[ -z "$(pidof journalctl)" ] && urxvtc -name Logs -e sudo journalctl -f
 	[ -z "$(pidof vlc)" ] && vlc "$HOME/Videos/playlist" &
 	[ -z "$(pidof sublime_text)" ] && subl && sudo subl
-	[ -z "$(pidof spacefm)" ] && spacefm &
+	#[ -z "$(pidof spacefm)" ] && spacefm &
 	[ -z "$(pidof firefox)" ] && firefox &
 	[ -z "$(pidof dropbox)" ] && dropboxd &
 	[ -z "$(pidof parcellite)" ] && parcellite &

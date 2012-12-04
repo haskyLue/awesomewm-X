@@ -72,9 +72,11 @@ usr = {
     terminal_font = "URxvt*font: xft:terminus:pixelsize=16:antialias=false\n" ..
                  -- "!URxvt*font: xft:Envy Code R-10\n" ..
                     "URxvt*iconFile: /usr/share/icons/gnome-colors-common/16x16/apps/terminal.png\n" ..
-                    "URxvt*background: rgba:2222/2222/2222/bbbb\n" .. -- black
+                    "URxvt*background: rgba:1111/1111/1111/0000\n" .. -- black
                     "URxvt*foreground: #d3d3d3\n" .. -- white
-                    "URxvt*transparent: true\n" .. 
+                    "URxvt*transparent: false\n" .. 
+                    "Urxvt*fading: 10\n" ..
+                    "Urxvt*fadeColor: #a146ff\n" ..
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
                     "*underlineColor: #de5105\n" ..
                     "URxvt*urlLauncher: firefox\n",
@@ -755,6 +757,8 @@ awful.rules.rules = {
                 keys = clientkeys,
                 size_hints_honor = false,
                 buttons = clientbuttons } },
+    -- {rule = { class = "URxvt" }, 
+    -- properties = { opacity = 0.8 } },
     { rule = {class = 'Nitrogen'}, 
     properties = { opacity = 0.8 } },
     { rule = { class = 'luakit' },          -- browser tag
@@ -784,7 +788,7 @@ awful.rules.rules = {
     { rule = { instance = "Play" }, 
     properties = { tag = tags[1][2], switchtotag = true  } },
     { rule = { class = 'Vlc' },         -- browser tag
-    properties = { sticky = true } },
+    properties = { floating = true, sticky = true } },
     { rule = { name = 'Playlist' },        
     properties = { sticky = false, tag = tags[1][7] } },
     { rule = { class = 'Chromium' },         -- browser tag
