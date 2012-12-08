@@ -25,19 +25,18 @@ if [ -f "$tc1" ] && [ -f "$tc2" ]  ; then
 	[ -z "$(pidof saidar)" ] && urxvtc -name Saidar -e saidar -c
 	[ -z "$(pidof tail)" ] && urxvtc -name STDerr -e tail -f "$HOME/.cache/awesome/stderr"
 	[ -z "$(pidof ttyload)" ] && urxvtc name TTYload -e ttyload
-	[ -z "$(pidof journalctl)" ] && urxvtc -name Logs -e sudo journalctl -f
 	[ -z "$(pidof vlc)" ] && vlc "$HOME/Videos/playlist" &
 	[ -z "$(pidof sublime_text)" ] && subl && sudo subl
 	#[ -z "$(pidof spacefm)" ] && spacefm &
-	[ -z "$(pidof firefox)" ] && firefox &
-	[ -z "$(pidof dropbox)" ] && dropboxd &
-	[ -z "$(pidof parcellite)" ] && parcellite &
+	#[ -z "$(pidof firefox)" ] && firefox &
+	#[ -z "$(pidof dropbox)" ] && dropboxd &
 	[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
 	[ -z "$(pidof mocp)" ] && urxvtc -name MOCP -e mocp &
 	[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.bottomrc &
 	[ -z "$(pidof httpd)" ] && sudo lamp start
-	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 30 --aur --icon pac_icon &
-	
+	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 30 --aur --icon /home/pdq/.config/awesome/icons/pacman_icon_48x48.png &
+	sudo killall journalctl && urxvtc -name Logs -e sudo journalctl -f
+
 ## if not use truecrypt data comment following line
 fi
 

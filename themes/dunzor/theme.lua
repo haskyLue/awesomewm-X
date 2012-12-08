@@ -5,7 +5,7 @@ if home_path ~= nil then
 end
 
 theme = {}
-theme.font         = 'Terminus 8'
+theme.font         = 'Envy Code R 9.5'
 theme.taglist_font = 'Terminus 12'
 theme.border_width = '1'
 
