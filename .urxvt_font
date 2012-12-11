@@ -6,5 +6,5 @@ URxvt*transparent: false
 Urxvt*fading: 10
 Urxvt*fadeColor: #a146ff
 URxvt*perl-ext-common:	default,clipboard,matcher,
-*underlineColor: #de5105
+*underlineColor: #1691CF
 URxvt*urlLauncher: firefox

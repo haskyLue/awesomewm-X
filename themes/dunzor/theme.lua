@@ -49,8 +49,8 @@ theme.bg_focus      = '#000000'
 theme.bg_urgent     = '#6e3e3e'
 theme.bg_minimize   = '#161616'
 
-theme.fg_normal     = '#c8c8c8'
-theme.fg_focus      = '#F7BE57'
+theme.fg_normal     = '#4CC3FF'
+theme.fg_focus      = '#FFD265'
 theme.fg_urgent     = '#ffffff'
 theme.fg_minimize   = '#565656'
 
@@ -69,7 +69,7 @@ theme.bg_widget        = theme.bg_normal
 theme.border_widget    = theme.bg_normal
 -- }}}
 
-theme.border_normal = '#000000'
+theme.border_normal = '#1691CF'
 theme.border_focus  = '#535d6c'
 theme.border_marked = '#91231c'
 
@@ -82,6 +82,8 @@ theme.border_marked = '#91231c'
 --theme.taglist_bg_focus = '#ff0000'
 
 if home_path ~= nil then
+	theme.menu_height = '15'
+	theme.menu_width  = '100'
 	-- Display the taglist squares
 	-- {{{ Taglist
 	theme.taglist_squares_sel   = themedir .. '/taglist/squarefz.png'

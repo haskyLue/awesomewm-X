@@ -55,7 +55,7 @@ home_path  = os.getenv('HOME') .. '/'
 script_options = {
     font = 'Envy Code R 9.5',    -- comment to use themes settings
     taglist_font = 'Terminus 12', -- comment to use themes settings
-    border_width = 0,
+    border_width = 1,
 }
 
 -- DO NOT EDIT THIS SECTION START --
@@ -78,7 +78,7 @@ usr = {
                     "Urxvt*fading: 10\n" ..
                     "Urxvt*fadeColor: #a146ff\n" ..
                     "URxvt*perl-ext-common:	default,clipboard,matcher,\n" ..
-                    "*underlineColor: #de5105\n" ..
+                    "*underlineColor: #1691CF\n" ..
                     "URxvt*urlLauncher: firefox\n",
  -- poweroff   = 'sudo /sbin/poweroff',
  -- reboot     = 'sudo /sbin/reboot',
@@ -337,18 +337,29 @@ table.insert(menu_items, { 'Task Manager', 'lxtask', freedesktop.utils.lookup_ic
 table.insert(menu_items, { 'Terminal', usr.terminal, freedesktop.utils.lookup_icon({icon = 'terminal'}) })
 
 -- Xdefaults menu pdq 07-02-2012
+local function get_xft()
+    local fxft = io.popen("basename $(dirname $(readlink " .. home_path.. ".Xdefaults))")
+    local xft = fxft:read("*all")
+    fxft:close()
+    if xft == nil then
+        return "Default"
+    end
+
+    return xft
+end
+
 if usr.terminal == 'urxvtc' then
-	local xftmenu = {}
-	local function xft_load(xft_file)
+	xftmenu = {}
+	function xft_load(xft_file)
 	   usr.exec('ln -sfn ' .. home_path .. '.config/awesome/Xdefaults/' .. xft_file .. '/.Xdefaults ' .. home_path .. '.Xdefaults')
 	   usr.exec('xrdb ' .. home_path .. '.Xdefaults')
 	   usr.exec('killall urxvtd')
 	   usr.exec('urxvtd -q -o -f')
 	end
-	local function xft_menu()
-	   local f = io.popen('ls -1 ' .. home_path .. '.config/awesome/Xdefaults/')
+	function xft_menu()
+	   f = io.popen('ls -1 ' .. home_path .. '.config/awesome/Xdefaults/')
 	   for l in f:lines() do
-		  local item = { l, function () xft_load(l) end }
+		  item = { l, function () xft_load(l) end }
 		  table.insert(xftmenu, item)
 	   end
 	   f:close()
@@ -872,7 +883,8 @@ if debug then
         return -- "\n::: Session started: ".. os.date() .. " :::\r\n\n" .. 
               --  "Awesomewm-X: ".. usr.awmXversion .."\n" ..
             --    "Script: " .. beautiful.wpscript .. "\n" ..
-                "Theme: ".. beautiful.theme_name .."\n" .. 
+                "Awesome Theme: ".. beautiful.theme_name .."\n" ..
+                "Xdefaults Theme: ".. get_xft() .."" .. 
                 "User: " .. os.getenv('USER') .."@" .. awful.util.pread('hostname'):match("[^\n]*") .. "\n" ..
                 "Libraries: Loaded in " .. round(timer.libsdiff, 4) .. "\n" ..
                 "User: Loaded in " .. round(timer.usrdiff, 4) .. "\n" ..
