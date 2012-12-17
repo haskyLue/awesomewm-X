@@ -71,7 +71,7 @@ usr = {
     gui_editor    = true, -- terminal or gui based. (true/false)
     terminal_font = "URxvt*font: xft:terminus:pixelsize=16:antialias=false\n" ..
                  -- "!URxvt*font: xft:Envy Code R-10\n" ..
-                    "URxvt*iconFile: /usr/share/icons/gnome-colors-common/16x16/apps/terminal.png\n" ..
+                    "URxvt*iconFile: /usr/share/icons/gnome/16x16/apps/gnome-terminal.png\n" ..
                     "URxvt*background: rgba:1111/1111/1111/0000\n" .. -- black
                     "URxvt*foreground: #d3d3d3\n" .. -- white
                     "URxvt*transparent: false\n" .. 

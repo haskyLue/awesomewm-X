@@ -1,5 +1,5 @@
 URxvt*font: xft:terminus:pixelsize=16:antialias=false
-URxvt*iconFile: /usr/share/icons/gnome-colors-common/16x16/apps/terminal.png
+URxvt*iconFile: /usr/share/icons/gnome/16x16/apps/gnome-terminal.png
 URxvt*background: rgba:1111/1111/1111/0000
 URxvt*foreground: #d3d3d3
 URxvt*transparent: false
