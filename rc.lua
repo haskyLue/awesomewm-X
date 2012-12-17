@@ -323,7 +323,7 @@ myideskmenu = {
     { 'Wallpaper', 'nitrogen', freedesktop.utils.lookup_icon({ icon = 'style' }) },
     { 'Kill Conky', usr.terminal_cmd .. 'killall conky', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
     { 'Kill Idesk', usr.terminal_cmd .. 'killall idesk', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
-    { 'Start Conky', 'zsh ' .. home_path .. '.config/awesome/global_script.sh', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+    { 'Start Script', 'zsh ' .. home_path .. '.config/awesome/global_script.sh', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
 --  { 'Start Idesk', 'idesk', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
 }
 table.insert(menu_items, { 'Desktop Options', myideskmenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
