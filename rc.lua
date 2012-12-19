@@ -295,6 +295,7 @@ local myawesomemenu = {
    { 'Edit Current config', editor_cmd .. ' ' .. awesome.conffile, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
    { 'Edit Current theme', editor_cmd .. ' ' .. theme_path, freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
    { 'Edit Current script', editor_cmd .. ' ' .. home_path .. '.config/awesome/global_script.sh', freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
+   { 'Edit Current conky', editor_cmd .. ' ' .. home_path .. '.config/conky/.bottomrc', freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
    { 'Debug Awesome', usr.terminal_cmd .. 'tail -f ' .. home_path .. '.cache/awesome/stderr', freedesktop.utils.lookup_icon({ icon = 'help' }) },
    { 'Test Awesome', '/bin/bash /home/pdq/.config/awesome/bin/awesome_test' },
 -- { 'Preferred Apps' , 'exo-preferred-applications', freedesktop.utils.lookup_icon({ icon = 'help' })},
