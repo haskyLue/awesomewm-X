@@ -58,7 +58,7 @@ home_path  = os.getenv('HOME') .. '/'
 -- START BASIC CONFIGURATION -- (reload awesome when make any changes below)
 script_options = {
     font = 'Envy Code R 9.5',    -- comment to use themes settings
-    taglist_font = 'Terminus 12', -- comment to use themes settings
+    taglist_font = 'Envy Code R 10', -- comment to use themes settings
     border_width = 1,
 }
 
@@ -177,7 +177,8 @@ local layouts = {
 
 -- Tags 
 local tags = {
-  names = { '☢', '☎', '☀', '❖', 'Ω', '⌨', '⚡', '☣' },
+  --names = { '☢', '☎', '☀', '❖', 'Ω', '⌨', '⚡', '☣' },
+  names = { "一", "二", "三", "四", "五", "六", "七", "八" },
 
     layout = {
       layouts[2],  -- 1:firefox (max size)
@@ -837,6 +838,14 @@ awful.rules.rules = {
     properties = { tag = tags[1][1], switchtotag = true } },
     { rule = { class = 'Firefox' },         -- browser tag
     properties = { tag = tags[1][1], switchtotag = true } },
+    { rule = { class = "Firefox", instance = "Download" },
+    properties = { floating = true } },
+    { rule = { class = "Firefox", instance = "Browser" },
+      properties = { floating = true } },
+    { rule = { class = "Firefox", instance = "Toplevel" },
+      properties = { floating = true } },
+    { rule = { class = "Firefox", instance = "Places" },
+      properties = { floating = true } },
     --   callback = function(c) c:tags({tags[1][5], tags[1][4]}) end}, -- multitag
     { rule = {class = 'sublime_text'},
     properties = {tag = tags[1][6], switchtotag = true} },

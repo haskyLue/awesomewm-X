@@ -43,7 +43,6 @@ end
 
 theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
 theme.icon_theme = 'gnome'
-theme.wallpaper = "/usr/share/awesome/themes/default/background.png"
 
 theme.bg_normal     = '#161616'
 theme.bg_focus      = '#000000'
@@ -94,6 +93,8 @@ if home_path ~= nil then
 	-- }}}
 
 	-- {{{ Misc
+	theme.pacup = themedir .. '/custom/pacnew.png'
+	theme.pacnew = themedir .. '/custom/pacaur.png'
 	--theme.awesome_icon           = themedir .. '/shikamaru.png'
 	theme.menu_submenu_icon      = sharedthemes .. '/default/submenu.png'
 	theme.tasklist_floating_icon = sharedthemes .. '/default/tasklist/floatingw.png'

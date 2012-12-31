@@ -38,7 +38,7 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkyrc &
 	[ -z "$(pidof httpd)" ] && sudo lamp.sh start
 	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 30 --aur --icon "$HOME/.config/awesome/icons/pacman_icon_48x48.png" &
-	sudo killall journalctl && urxvtc -name Logs -e sudo journalctl -f
+	#sudo killall journalctl && urxvtc -name Logs -e sudo journalctl -f
 
 fi
 
