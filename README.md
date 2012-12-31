@@ -93,12 +93,14 @@ HISTORY
   - Version upgrade: awesome 3.5 and lua 5.2 compatible
   - Removed other repos: luakit-X/conky-X no longer included in install script
 
+
 * 2012-12-01: Version 0.0.6
 
   - Version enhancement: new menubar
   - Version enhancement: theme tweaks
   - Version enhancement: configuration tweaks
   - Version enhancement: optimization tweaks
+
 
 * 2012-07-04: Version 0.0.5
 
@@ -108,6 +110,7 @@ HISTORY
   - Version enhancement: theme tweaks
   - Version enhancement: configuration tweaks
   - Version enhancement: optimization tweaks
+
 
 * 2012-07-03: Version 0.0.3
 
@@ -122,6 +125,7 @@ HISTORY
    - Version enhancement: configuration tweaks
    - Version enhancement: optimization tweaks
 
+
 * 2012-06-30: Version 0.0.2
 
    - Convertion of deprecated wicked widgets to vicious widgets (Armageddon 06-29-2012)
@@ -133,6 +137,7 @@ HISTORY
    - Version enhancement: theme tweaks
    - Version enhancement: configuration tweaks
    - Version enhancement: optimization tweaks
+
 
 * 2012-02-18: Version 0.0.1
       
