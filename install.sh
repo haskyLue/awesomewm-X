@@ -12,7 +12,7 @@ cp -r ~/.config/awesomewm-X ~/.config/awesome
 mkdir ~/.config/awesome/Xdefaults/$USER
 mv ~/.Xdefaults ~/.config/awesome/Xdefaults/$USER/.Xdefaults
 ln -sfn ~/.config/awesome/Xdefaults/default/.Xdefaults ~/.Xdefaults
-ln -sfn ~/.config/awesome/themes/pdq ~/.config/awesome/themes/current
+ln -sfn ~/.config/awesome/themes/dunzor ~/.config/awesome/themes/current
 ln -sfn ~/.config/awesome/icons/AwesomeLight.png ~/.config/awesome/icons/menu_icon.png
 ln -sfn ~/.config/awesome/themes/current/theme.lua ~/.config/luakit/awesometheme.lua
   
