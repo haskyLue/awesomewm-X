@@ -35,7 +35,7 @@ Step 2: INSTALL Awesome Window Manager and misc packages
     # pacman -S awesome conky rxvt-unicode dmenu terminus-font ttf-envy-code-r
 
 
-Step 3: INSTALL Awesomewm-X (comes with luakit-X and conky-X)
+Step 3: INSTALL Awesomewm-X
 -------------------
 
     $ wget https://raw.github.com/idk/awesomewm-X/master/install.sh
@@ -87,6 +87,10 @@ TODO
 
 HISTORY
 -------
+
+* 2012-12-31: Version 0.0.7
+  - Version upgrade: awesome 3.5 and lua 5.2 compatible
+  - Removed other repos: luakit-X/conky-X no longer included in install script
 
 * 2012-12-01: Version 0.0.6
   - Version enhancement: new menubar
