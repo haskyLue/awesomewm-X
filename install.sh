@@ -7,14 +7,8 @@ fi
 
 cd ~/.config
 git clone https://github.com/idk/awesomewm-X.git
-git clone https://github.com/idk/conky-X.git
-git clone https://github.com/idk/luakit-X.git
-mv ~/.config/conky ~/.config/conky.original
-cp -r ~/.config/conky-X ~/.config/conky
 mv ~/.config/awesome ~/.config/awesome.original
 cp -r ~/.config/awesomewm-X ~/.config/awesome
-mv ~/.config/luakit ~/.config/luakit.original
-cp -r ~/.config/luakit-X ~/.config/luakit
 mkdir ~/.config/awesome/Xdefaults/$USER
 mv ~/.Xdefaults ~/.config/awesome/Xdefaults/$USER/.Xdefaults
 ln -sfn ~/.config/awesome/Xdefaults/default/.Xdefaults ~/.Xdefaults
@@ -26,19 +20,10 @@ mkdir -p ~/.cache/awesome
 touch ~/.cache/awesome/stderr
 touch ~/.cache/awesome/stdout
 mkdir ~/.config/conky/arch/.cache
-
-mv ~/.xinitrc ~/.xinitrc.original
-cp ~/.config/awesomewm-X/skel/.xinitrc ~/.xinitrc
  
 echo "git clone https://github.com/idk/awesomewm-X.git
-git clone https://github.com/idk/conky-X.git
-git clone https://github.com/idk/luakit-X.git
-mv ~/.config/conky ~/.config/conky.original
-cp -r ~/.config/conky-X ~/.config/conky
 mv ~/.config/awesome ~/.config/awesome.original
 cp -r ~/.config/awesomewm-X ~/.config/awesome
-mv ~/.config/luakit ~/.config/luakit.original
-cp -r ~/.config/luakit-X ~/.config/luakit
 mkdir ~/.config/awesome/Xdefaults/$USER
 mv ~/.Xdefaults ~/.config/awesome/Xdefaults/$USER/.Xdefaults
 ln -sfn ~/.config/awesome/Xdefaults/default/.Xdefaults ~/.Xdefaults
@@ -50,18 +35,16 @@ mkdir -p ~/.cache/awesome
 touch ~/.cache/awesome/stderr
 touch ~/.cache/awesome/stdout
 mkdir ~/.config/conky/arch/.cache
-
-mv ~/.xinitrc ~/.xinitrc.original
-cp ~/.config/awesomewm-X/skel/.xinitrc ~/.xinitrc
 
 =====================================================
 
-Done.... try running 'startx' in the console to start Awesome.
+Add something like the following line in your .xinitrc
 
-Virtualbox installs likely should also add 'vboxguest' 'vboxsf' 'vboxvideo':
-# nano -w /etc/rc.conf
+exec awesome >> "$HOME"/.cache/awesome/stdout 2>> "$HOME"/.cache/awesome/stderr
 
--- add dbus vboxguest vboxsf vboxvideo to DAEMONS array"
+Then.... try running 'startx' in the console to start Awesome.
+
+
 echo ""
 echo "Ctrl-c to exit...this will close automatically in 60 seconds..."
 sleep 60s
