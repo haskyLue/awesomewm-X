@@ -42,7 +42,7 @@ Add something like the following line in your .xinitrc
 
 exec awesome >> "$HOME"/.cache/awesome/stdout 2>> "$HOME"/.cache/awesome/stderr
 
-Then.... try running 'startx' in the console to start Awesome.
+Then.... try running 'startx' in the console to start Awesome."
 
 
 echo ""
