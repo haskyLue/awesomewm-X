@@ -1,7 +1,6 @@
 -- https://github.com/idk/awesomewm-X  https://github.com/idk/pdq
 -- BASIC CONFIGURATION begins on line 57
 
--- local debug = true -- true/false (default true)
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -14,14 +13,16 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
-vicious = require("vicious")
 
+vicious = require("vicious")
 local scratch = require("scratch")
+
 -- Local libraries-- https://github.com/terceiro/awesome-freedesktop
 require('freedesktop.utils') 
-require('freedesktop.menu') 
--- local quake = require("quake")
+require('freedesktop.menu')
+
 local aweror = require("aweror")
+
 -- http://awesome.naquadah.org/wiki/Document_keybindings
 local keydoc = require('keydoc')
 
@@ -112,11 +113,12 @@ usr = {
     top_wibox    = 16, -- default 15 (height)
     cpuwidget_enable       = true,
     memwidget_enable       = true,
- -- diskusagewidget_enable = true,
+    thermalwidget_enable   = true,
     pacmanwidget_enable    = true, 
     aurwidget_enable       = true,
+    tb_volume_enable       = true,
     debug_clients          = false, -- useful for client rules setup
-    date_format   = '%l:%M%p' , -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
+    date_format            = '%I:%M %p' , -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
     
     -- http://awesome.naquadah.org/wiki/Move_Mouse
     -- set the desired pixel coordinates:
@@ -137,9 +139,11 @@ usr = {
     modkey   = 'Mod4', -- change to Mod1 (Alt)if using Virtualbox
 
     exec = awful.util.spawn,
- -- sexec  = awful.util.spawn_with_shell,
     awmXversion = '0.0.6',
 }
+
+space = wibox.widget.textbox()
+space:set_text(' ')
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts = {
@@ -411,16 +415,23 @@ menubar.utils.terminal = usr.terminal -- Set the terminal for applications that 
 -- }}}
 
 -- Create a textclock widget
-mytextclock = awful.widget.textclock()
+mytextclock = awful.widget.textclock(usr.date_format)
+
+datewidget_t = awful.tooltip({
+objects = { mytextclock },
+timer_function = function()
+return os.date("Today is %A %B %d %Y\nThe time is %T")
+end,
+})
 
 -- pacman update widget based off setkeh Awesome-Widget-Notify
 pacmanwidget = wibox.widget.textbox()
-pacmanwidget:set_markup(' <span color="#FF53E9">PAC</span>')
+pacmanwidget:set_markup('<span color="#FF53E9">PAC</span>')
 -- button to run pacman update
 pacmanwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'zsh ' .. home_path .. 'bin/pacupdater') end ) ) )
 
 aurwidget = wibox.widget.textbox()
-aurwidget:set_markup(' <span color="#FF4242">AUR</span> ')
+aurwidget:set_markup('<span color="#FF4242">AUR</span>')
 -- button to run packer update
 aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'zsh ' .. home_path .. 'bin/packerupdater') end ) ) )
 
@@ -436,7 +447,7 @@ volume('update', tb_volume)
 
 -- load avg / cpu widget
 local cpuwidget = wibox.widget.textbox()
-vicious.register(cpuwidget, vicious.widgets.cpu, modifier.cpu_text .. '$1%</span> ')
+vicious.register(cpuwidget, vicious.widgets.cpu, modifier.cpu_text .. '$1%</span>')
 -- button to launch htop
 
 cpuwidget.fit = function(box,w,h)
@@ -447,7 +458,7 @@ cpuwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec
 
 -- memory widget
 local memwidget = wibox.widget.textbox()
-vicious.register(memwidget, vicious.widgets.mem, modifier.mem_text .. '$1%</span> ')
+vicious.register(memwidget, vicious.widgets.mem, modifier.mem_text .. '$1%</span>')
 memwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec('urxvtc -name htops -e htop --sort-key PERCENT_MEM') end ) ) )
 
 -- Simple function to move the mouse to the coordinates set above.
@@ -540,14 +551,20 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    right_layout:add(cpuwidget)
-    right_layout:add(memwidget)
-    right_layout:add(thermalwidget)
-    right_layout:add(pacmanwidget)
-    right_layout:add(aurwidget)
-    right_layout:add(tb_volume)
+    if usr.cpuwidget_enable then right_layout:add(cpuwidget) end
+    right_layout:add(space)
+    if usr.memwidget_enable then right_layout:add(memwidget) end
+    right_layout:add(space)
+    if usr.thermalwidget_enable then right_layout:add(thermalwidget) end
+    right_layout:add(space)
+    if usr.pacmanwidget_enable then right_layout:add(pacmanwidget) end
+    right_layout:add(space)
+    if usr.aurwidget_enable then right_layout:add(aurwidget) end
+    right_layout:add(space)
+    if usr.tb_volume_enable then right_layout:add(tb_volume) end
+    right_layout:add(space)
     right_layout:add(mytextclock)
-        if s == 1 then right_layout:add(wibox.widget.systray()) end
+    if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
