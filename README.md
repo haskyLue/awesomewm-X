@@ -39,7 +39,7 @@ Step 3: INSTALL Awesomewm-X
 -------------------
 
     $ wget https://raw.github.com/idk/awesomewm-X/master/install.sh
-    $ sh awesomewm-X/install.sh
+    $ sh install.sh
 
 USAGE
 -----
