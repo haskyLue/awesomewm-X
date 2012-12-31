@@ -5,10 +5,6 @@ local awful = require("awful")
 awful.util = require("awful.util")
 
 --{{{ Main
-if home_path ~= nil then
-	require('awful.util')
-end
-
 theme = {}
 theme.font         = 'sans 8'
 theme.taglist_font = 'sans 10'

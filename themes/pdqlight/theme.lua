@@ -6,10 +6,6 @@ local awful = require("awful")
 awful.util = require("awful.util")
 
 --{{{ Main
-if home_path ~= nil then
-	require('awful.util')
-end
-
 theme = {}
 theme.font         = 'Envy Code R 8'
 theme.taglist_font = 'Envy Code R 12'

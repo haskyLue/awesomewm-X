@@ -3,11 +3,7 @@
 local awful = require("awful")
 awful.util = require("awful.util")
 
--- wii
 --{{{ Main
-if home_path ~= nil then
-	require('awful.util')
-end
 theme = {}
 theme.font         = 'Terminus 8'
 theme.taglist_font = 'Terminus 12'
