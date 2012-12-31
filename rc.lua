@@ -80,9 +80,10 @@ usr = {
                     "URxvt*transparent: false\n" .. 
                     "Urxvt*fading: 10\n" ..
                     "Urxvt*fadeColor: #a146ff\n" ..
-                    "URxvt*perl-ext-common: default,clipboard,matcher,\n" ..
+                    "URxvt*perl-ext-common:  default,clipboard,matcher\n" ..
                     "*underlineColor: #1691CF\n" ..
-                    "URxvt*urlLauncher: firefox\n",
+                    "URxvt*matcher.button:   1\n" ..
+                    "URxvt*url-launcher: /usr/bin/firefox\n",
  -- poweroff   = 'sudo /sbin/poweroff',
  -- reboot     = 'sudo /sbin/reboot',
     poweroff   = 'systemctl poweroff',
