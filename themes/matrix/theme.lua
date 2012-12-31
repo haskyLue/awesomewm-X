@@ -5,8 +5,8 @@ awful.util = require("awful.util")
 
 --{{{ Main
 theme = {}
-theme.font         = 'Sans 10'
-theme.taglist_font = 'Sans 12'
+theme.font         = 'Terminus 10'
+theme.taglist_font = 'Terminus 12'
 theme.border_width = '1'
 
 if home_path ~= nil then
@@ -39,8 +39,6 @@ if home_path ~= nil then
 end
 
 theme.menu_icons    = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
-theme.font          = 'Sans 10'
-theme.taglist_font = "Sans 12"
 
 theme.bg_normal     = '#171717'
 theme.bg_focus      = '#171717'
