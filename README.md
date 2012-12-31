@@ -89,10 +89,12 @@ HISTORY
 -------
 
 * 2012-12-31: Version 0.0.7
+
   - Version upgrade: awesome 3.5 and lua 5.2 compatible
   - Removed other repos: luakit-X/conky-X no longer included in install script
 
 * 2012-12-01: Version 0.0.6
+
   - Version enhancement: new menubar
   - Version enhancement: theme tweaks
   - Version enhancement: configuration tweaks
