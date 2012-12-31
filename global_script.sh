@@ -33,7 +33,9 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	#[ -z "$(pidof dropbox)" ] && dropboxd &
 	[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
 	[ -z "$(pidof mocp)" ] && urxvtc -name MOCP -e mocp &
-	#[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.bottomrc &
+	killall conky
+	sleep 2s
+	[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkyrc &
 	[ -z "$(pidof httpd)" ] && sudo lamp.sh start
 	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 30 --aur --icon "$HOME/.config/awesome/icons/pacman_icon_48x48.png" &
 	sudo killall journalctl && urxvtc -name Logs -e sudo journalctl -f

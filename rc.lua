@@ -20,7 +20,7 @@ local scratch = require("scratch")
 -- Local libraries-- https://github.com/terceiro/awesome-freedesktop
 require('freedesktop.utils') 
 require('freedesktop.menu') 
-local quake = require("quake")
+-- local quake = require("quake")
 local aweror = require("aweror")
 -- http://awesome.naquadah.org/wiki/Document_keybindings
 local keydoc = require('keydoc')
@@ -30,20 +30,20 @@ local keydoc = require('keydoc')
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
     naughty.notify({ preset = naughty.config.presets.critical,
-                     title = "Oops, there were errors during startup!",
+                     title = 'Oops, there were errors during startup!',
                      text = awesome.startup_errors })
 end
 
 -- Handle runtime errors after startup
 do
     local in_error = false
-    awesome.connect_signal("debug::error", function (err)
+    awesome.connect_signal('debug::error', function (err)
         -- Make sure we don't go into an endless error loop
         if in_error then return end
         in_error = true
 
         naughty.notify({ preset = naughty.config.presets.critical,
-                         title = "Oops, an error happened!",
+                         title = 'Oops, an error happened!',
                          text = err })
         in_error = false
     end)
@@ -170,6 +170,7 @@ local layouts = {
 -- end
 -- }}}
 
+-- Tags 
 local tags = {
   names = { '☢', '☎', '☀', '❖', 'Ω', '⌨', '⚡', '☣' },
 
@@ -244,7 +245,6 @@ modifier = {
          status = "[" ..status .. "]"
 
          widget:set_markup("<span color=\"" .. color .. "\">" .. status .. "</span>") 
-         -- widget.text = "<span color=\"" .. color .. "\">" .. status .. "</span>"
      elseif mode == "up" then
          os.execute("amixer -q -c " .. cardid .. " sset " .. channel .. " 5%+")
          volume("update", widget)
@@ -257,7 +257,6 @@ modifier = {
      end
  end
 -- {{{ Menu
--- Create a laucher widget and a main menu
 -- Create a laucher widget and a main menu
 freedesktop.utils.icon_theme = beautiful.menu_icons
 local menu_items = freedesktop.menu.new()
@@ -341,6 +340,7 @@ myideskmenu = {
     { 'Wallpaper', 'nitrogen', freedesktop.utils.lookup_icon({ icon = 'style' }) },
     { 'Kill Conky', usr.terminal_cmd .. 'killall conky', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
     { 'Kill Idesk', usr.terminal_cmd .. 'killall idesk', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
+    { 'Start Conky', 'conky -d -c ' .. home_path .. '.config/conky/.conkyrc', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
     { 'Start Script', 'zsh ' .. home_path .. '.config/awesome/global_script.sh', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
 --  { 'Start Idesk', 'idesk', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
 }
@@ -409,23 +409,8 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 menubar.utils.terminal = usr.terminal -- Set the terminal for applications that require it
 -- }}}
 
--- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
-
-
-
---Create Volume Progressbar
--- tb_volume = widget({ type = 'textbox', name = 'tb_volume', align = 'right' })
-tb_volume = wibox.widget.textbox()
-
-tb_volume:buttons(awful.util.table.join(
-  awful.button({ }, 4, function () volume('up', tb_volume) end),
-  awful.button({ }, 5, function () volume('down', tb_volume) end),
-  awful.button({ }, 1, function () volume('mute', tb_volume) end)
-))
-volume('update', tb_volume)
-
 
 -- pacman update widget based off setkeh Awesome-Widget-Notify
 pacmanwidget = wibox.widget.textbox()
@@ -437,6 +422,16 @@ aurwidget = wibox.widget.textbox()
 aurwidget:set_markup(' <span color="#FF4242">AUR</span> ')
 -- button to run packer update
 aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'zsh ' .. home_path .. 'bin/packerupdater') end ) ) )
+
+--Create Volume Progressbar
+tb_volume = wibox.widget.textbox()
+
+tb_volume:buttons(awful.util.table.join(
+  awful.button({ }, 4, function () volume('up', tb_volume) end),
+  awful.button({ }, 5, function () volume('down', tb_volume) end),
+  awful.button({ }, 1, function () volume('mute', tb_volume) end)
+))
+volume('update', tb_volume)
 
 -- load avg / cpu widget
 local cpuwidget = wibox.widget.textbox()
@@ -626,7 +621,7 @@ globalkeys = awful.util.table.join(
    keydoc.group('Custom'),
    
    awful.key({ usr.modkey, }, 'F1', keydoc.display),
-   awful.key({ }, 'F12', function () usr.exec('zsh '.. home_path .. 'bin/screenshot') end, 'Take screenshot and copy URL'),
+   awful.key({ usr.modkey, }, 'F12', function () usr.exec('zsh '.. home_path .. 'bin/screenshot') end, 'Take screenshot and copy URL'),
    awful.key({ usr.modkey, 'Control' }, 'F12', function () usr.exec('sh '.. home_path .. 'bin/multiscreenshot') end, 'Take screenshot of all Tags and copy URL'),
    awful.key({ usr.modkey, 'Shift' }, 'F12', function () usr.exec('urxvtc -name screencast -e '.. home_path .. 'bin/screencast') end, 'Start screencast'),
    awful.key({ usr.modkey, }, ']', function () usr.exec("zsh -c 'luakit -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end, 'Launch web browser [proxy]'),
@@ -665,12 +660,12 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
 
-      awful.key({ usr.modkey, }, "F12", function () 
+      awful.key({ }, "F12", function () 
           scratch.drop("urxvtc -name scratch", "top", "left", 0.60, 0.40, false)
       end),
 
     -- Menubar
-    awful.key({ usr.modkey }, "0", function() menubar.show() end)
+    awful.key({ usr.modkey }, "0", function() menubar.show() end, 'Menubar')
 )
 
 globalkeys = awful.util.table.join(globalkeys, awful.key({ }, "XF86AudioRaiseVolume",function () volume("up", tb_volume) end))
