@@ -5,7 +5,7 @@ Configuration files for Awesome Window Manager.
 
 https://github.com/idk/awesomewm-X
 
-Depends on:  git, awesome, dmenu, luasocket, terminus-font, conky-lua, rxvt-unicode-patched, ttf-envy-code-r
+Depends on:  git, awesome, dmenu, terminus-font, conky, rxvt-unicode, ttf-envy-code-r
 
 Optional:
 
@@ -22,7 +22,7 @@ Install Minimal required packages (ie: after fresh install):
 
 Install recommended packages:
 
-    # pacman -S git spacefm
+    # pacman -S git hub spacefm
 
     $ packer -S luakit sublime-text
 
@@ -32,9 +32,7 @@ Step 2: INSTALL Awesome Window Manager and misc packages
 
 `Archlinux:`
 
-    # pacman -S awesome luasocket dmenu terminus-font
-    
-    $ packer -S conky-lua rxvt-unicode-patched ttf-envy-code-r
+    # pacman -S awesome conky rxvt-unicode dmenu terminus-font ttf-envy-code-r
 
 
 Step 3: INSTALL Awesomewm-X (comes with luakit-X and conky-X)
