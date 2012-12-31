@@ -93,8 +93,8 @@ if home_path ~= nil then
 	-- }}}
 
 	-- {{{ Misc
-	theme.pacup = themedir .. '/custom/pacnew.png'
-	theme.pacnew = themedir .. '/custom/pacaur.png'
+	-- theme.pacup = themedir .. '/custom/pacnew.png'
+	-- theme.pacnew = themedir .. '/custom/pacaur.png'
 	--theme.awesome_icon           = themedir .. '/shikamaru.png'
 	theme.menu_submenu_icon      = sharedthemes .. '/default/submenu.png'
 	theme.tasklist_floating_icon = sharedthemes .. '/default/tasklist/floatingw.png'

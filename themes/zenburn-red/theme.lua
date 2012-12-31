@@ -1,5 +1,8 @@
 -- zenburn-red, awesome3 theme, by Adrian C. (anrxc), modified by jessor
 
+local awful = require("awful")
+awful.util = require("awful.util")
+
 --{{{ Main
 if home_path ~= nil then
 	require('awful.util')
@@ -27,20 +30,6 @@ if home_path ~= nil then
 	end
 	themedir      = themes .. themename
 
-	if script_options.global ~= nil then
-	    theme.wpscript     = config .. '/global_script.sh'
-	else
-	    theme.wpscript     = themedir .. '/script.sh'
-	end
-
-	if awful.util.file_readable(theme.wpscript) then
-	    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
-	end
-
-	if awful.util.file_readable(config .. '/vain/init.lua') then
-	    theme.useless_gap_width  = '3'
-	end
-
 	if script_options.font ~= nil then
 		theme.font = script_options.font
 	end
@@ -56,6 +45,9 @@ end
 
 -- {{{ Styles
 theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
+theme.icon_theme = 'gnome'
+theme.bg_systray    = theme.bg_normal
+
 -- {{{ Colors
 theme.fg_normal = '#DCDCCC'
 theme.fg_focus  = '#FFFFFF'

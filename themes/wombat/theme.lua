@@ -1,5 +1,8 @@
 -- wombat (matching the vim colorscheme), awesome3 theme, by zhuravlik
 
+local awful = require("awful")
+awful.util = require("awful.util")
+
 --{{{ Main
 if home_path ~= nil then
 	require('awful.util')
@@ -68,7 +71,8 @@ theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't
 theme.fg_normal = '#cccccc'
 theme.fg_focus  = '#8d8a4b'
 theme.fg_urgent = '#929392'
-
+theme.icon_theme = 'gnome'
+theme.bg_systray    = theme.bg_normal
 -- }}}
 
 -- {{{ Widgets

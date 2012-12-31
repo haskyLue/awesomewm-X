@@ -1,5 +1,8 @@
 -- blue, awesome3 theme, by: bioe007 perrydothargraveatgmaildotcom
 
+local awful = require("awful")
+awful.util = require("awful.util")
+
 --{{{ Main
 if home_path ~= nil then
 	require('awful.util')
@@ -27,20 +30,6 @@ if home_path ~= nil then
 	end
 	themedir      = themes .. themename
 
-	if script_options.global == nil then
-	    theme.wpscript     = themedir .. '/script.sh'
-	else
-	    theme.wpscript     = config .. '/globalscript.sh'
-	end
-
-	if awful.util.file_readable(theme.wpscript) then
-	    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
-	end
-
-	if awful.util.file_readable(config .. '/vain/init.lua') then
-	    theme.useless_gap_width  = '3'
-	end
-
 	if script_options.font ~= nil then
 		theme.font = script_options.font
 	end
@@ -66,6 +55,8 @@ theme.bg_urgent     = '#288ef6'
 theme.fg_normal     = '#b9b9dd'
 theme.fg_focus      = nearwhite
 theme.fg_urgent     = white
+theme.icon_theme = 'gnome'
+theme.bg_systray    = theme.bg_normal
 
 -- {{{ Widgets
 theme.fg_widget        = "#AECF96"

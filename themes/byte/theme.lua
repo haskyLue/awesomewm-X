@@ -1,5 +1,8 @@
 -- byte, awesome3 theme, by mu @ freenode
 
+local awful = require("awful")
+awful.util = require("awful.util")
+
 -- byte
 --{{{ Main
 if home_path ~= nil then
@@ -28,19 +31,6 @@ if home_path ~= nil then
 	end
 	themedir      = themes .. themename
 
-	if script_options.global == nil then
-	    theme.wpscript     = themedir .. '/script.sh'
-	else
-	    theme.wpscript     = config .. '/globalscript.sh'
-	end
-
-	if awful.util.file_readable(theme.wpscript) then
-	    theme.wallpaper_cmd = { 'sh ' .. theme.wpscript .. ' ' .. script_run }
-	end
-	if awful.util.file_readable(config .. '/vain/init.lua') then
-	    theme.useless_gap_width  = '3'
-	end
---}}}
 	if script_options.font ~= nil then
 		theme.font = script_options.font
 	end
@@ -59,6 +49,8 @@ theme.bg_normal     = '#262729'
 theme.bg_focus      = '#262729'
 theme.bg_urgent     = '#262729'
 theme.bg_minimize   = '#262729'
+theme.icon_theme = 'gnome'
+theme.bg_systray    = theme.bg_normal
 
 theme.fg_normal     = '#fafafa'
 theme.fg_focus      = '#659fdb'
