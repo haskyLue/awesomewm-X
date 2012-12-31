@@ -1,5 +1,8 @@
 -- dunzor, awesome3 theme, by dunz0r
 
+local awful = require("awful")
+awful.util = require("awful.util")
+
 if home_path ~= nil then
 	require('awful.util')
 end
@@ -26,10 +29,6 @@ if home_path ~= nil then
 	end
 	themedir      = themes .. themename
 
-	if awful.util.file_readable(config .. '/vain/init.lua') then
-	    theme.useless_gap_width  = '3'
-	end
-
 	if script_options.font ~= nil then
 		theme.font = script_options.font
 	end
@@ -43,11 +42,14 @@ if home_path ~= nil then
 end
 
 theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
+theme.icon_theme = 'gnome'
+theme.wallpaper = "/usr/share/awesome/themes/default/background.png"
 
 theme.bg_normal     = '#161616'
 theme.bg_focus      = '#000000'
 theme.bg_urgent     = '#6e3e3e'
 theme.bg_minimize   = '#161616'
+theme.bg_systray    = theme.bg_normal
 
 theme.fg_normal     = '#4CC3FF'
 theme.fg_focus      = '#FFD265'

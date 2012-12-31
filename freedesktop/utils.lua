@@ -6,7 +6,7 @@ local type = type
 local ipairs = ipairs
 local pairs = pairs
 
-module("freedesktop.utils")
+freedesktop = module("freedesktop.utils")
 
 terminal = 'urxvt'
 
@@ -174,7 +174,7 @@ function parse_desktop_file(arg)
     -- Split categories into a table.
     if program.Categories then
         program.categories = {}
-        for category in program.Categories:gfind('[^;]+') do
+        for category in program.Categories:gmatch('[^;]+') do
             table.insert(program.categories, category)
         end
     end
@@ -230,7 +230,7 @@ function parse_dirs_and_files(arg)
     end
     local paths = io.popen('find '..arg.dir..' -maxdepth 1 -type f'):lines()
     for path in paths do
-        if not path:find("\.desktop$") then
+        if not path:find(".desktop$") then
             local file = {}
             file.filename = path:match("[^/]+$")
             file.path = path
