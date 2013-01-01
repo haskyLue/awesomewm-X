@@ -5,11 +5,17 @@ if [ `id -u` -eq 0 ]; then
    exit
 fi
 
+if [ ! -d $HOME/.config ]; then
+	mkdir -p $HOME/.config
+fi
+
 cd ~/.config
 git clone https://github.com/idk/awesomewm-X.git
-mv ~/.config/awesome ~/.config/awesome.original
-cp -r ~/.config/awesomewm-X ~/.config/awesome
-mkdir ~/.config/awesome/Xdefaults/$USER
+if [ -d $HOME/.config/awesome ]; then
+	mv ~/.config/awesome ~/.config/awesome.original
+fi
+cp -rv ~/.config/awesomewm-X ~/.config/awesome
+mkdir -p ~/.config/awesome/Xdefaults/$USER
 mv ~/.Xdefaults ~/.config/awesome/Xdefaults/$USER/.Xdefaults
 ln -sfn ~/.config/awesome/Xdefaults/default/.Xdefaults ~/.Xdefaults
 ln -sfn ~/.config/awesome/themes/dunzor ~/.config/awesome/themes/current
