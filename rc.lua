@@ -118,7 +118,7 @@ usr = {
     aurwidget_enable       = true,
     tb_volume_enable       = true,
     debug_clients          = false, -- useful for client rules setup
-    date_format            = '%I:%M %p' , -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
+    date_format            = '%I:%M%p' , -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
     
     -- http://awesome.naquadah.org/wiki/Move_Mouse
     -- set the desired pixel coordinates:
@@ -343,7 +343,8 @@ table.insert(menu_items, { 'Awesome Options', myawesomemenu,  freedesktop.utils.
 -- Add script options pdq 07-05-2012
 myideskmenu = {
     { 'Appearance', 'lxappearance', freedesktop.utils.lookup_icon({ icon = 'style' }) },
-    { 'Wallpaper', 'nitrogen', freedesktop.utils.lookup_icon({ icon = 'style' }) },
+    { 'Wallpapers', 'feh -g 640x480 -d -S filename ' .. home_path .. 'Pictures/wallpaper', freedesktop.utils.lookup_icon({ icon = 'style' }) },
+    { 'Wallpapers+', 'feh -g 640x480 -d -S filename ' .. home_path .. 'Pictures/adultpaper', freedesktop.utils.lookup_icon({ icon = 'style' }) },
     { 'Kill Conky', usr.terminal_cmd .. 'killall conky', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
     { 'Kill Idesk', usr.terminal_cmd .. 'killall idesk', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
     { 'Start Conky', 'conky -d -c ' .. home_path .. '.config/conky/.conkyrc', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },

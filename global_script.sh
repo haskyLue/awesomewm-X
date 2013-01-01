@@ -15,7 +15,9 @@ tc2="/media/truecrypt2/test"
 
 if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 
-	nitrogen --restore &
+	#nitrogen --restore &
+	#feh --bg-scale $HOME/Pictures/wallpaper/1088253-blu dragon.jpg &
+	sh ~/bin/rotate_wallpaper &
 	[ -z "$(pidof compton)" ] && compton -cF &
 	[ -z "$(pidof bitlbee)" ] && sudo bitlbee -D
 	[ -z "$(pidof weechat-curses)" ] && urxvtc -name IRC1 -e weechat-curses && urxvtc -name IRC2 -e weechat-curses -d ~/.weechat-priv
