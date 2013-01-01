@@ -349,6 +349,7 @@ myideskmenu = {
     { 'Kill Idesk', usr.terminal_cmd .. 'killall idesk', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
     { 'Start Conky', 'conky -d -c ' .. home_path .. '.config/conky/.conkyrc', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
     { 'Start Script', 'zsh ' .. home_path .. '.config/awesome/global_script.sh', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+    { 'Start Screencast', 'zsh ' .. home_path .. 'bin/screencast', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
 --  { 'Start Idesk', 'idesk', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) }
 }
 table.insert(menu_items, { 'Desktop Options', myideskmenu,  freedesktop.utils.lookup_icon({icon = 'help'}) })
@@ -428,12 +429,12 @@ end,
 
 -- pacman update widget based off setkeh Awesome-Widget-Notify
 pacmanwidget = wibox.widget.textbox()
-pacmanwidget:set_markup('<span color="#FF53E9">PAC</span>')
+pacmanwidget:set_markup('<span color="#FF53E9">漢</span>')
 -- button to run pacman update
 pacmanwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'zsh ' .. home_path .. 'bin/pacupdater') end ) ) )
 
 aurwidget = wibox.widget.textbox()
-aurwidget:set_markup('<span color="#FF4242">AUR</span>')
+aurwidget:set_markup('<span color="#FF4242">字</span>')
 -- button to run packer update
 aurwidget:buttons(awful.util.table.join(awful.button({}, 1, function () usr.exec ( usr.terminal_cmd .. 'zsh ' .. home_path .. 'bin/packerupdater') end ) ) )
 
@@ -641,9 +642,9 @@ globalkeys = awful.util.table.join(
    keydoc.group('Custom'),
    
    awful.key({ usr.modkey, }, 'F1', keydoc.display),
-   awful.key({ usr.modkey, }, 'F12', function () usr.exec('zsh '.. home_path .. 'bin/screenshot') end, 'Take screenshot and copy URL'),
+   awful.key({ usr.modkey, }, 'F12', function () usr.exec('sh '.. home_path .. 'bin/screenshot') end, 'Take screenshot and copy URL'),
    awful.key({ usr.modkey, 'Control' }, 'F12', function () usr.exec('sh '.. home_path .. 'bin/multiscreenshot') end, 'Take screenshot of all Tags and copy URL'),
-   awful.key({ usr.modkey, 'Shift' }, 'F12', function () usr.exec('urxvtc -name screencast -e '.. home_path .. 'bin/screencast') end, 'Start screencast'),
+   awful.key({ usr.modkey, 'Shift' }, 'F12', function () usr.exec('zsh '.. home_path .. 'bin/screencast') end, 'Start screencast'),
    awful.key({ usr.modkey, }, ']', function () usr.exec("zsh -c 'luakit -c " .. home_path .. ".config/luakit/rc-proxy.lua  > /dev/null 2>&1'") end, 'Launch web browser [proxy]'),
    awful.key({ usr.modkey, }, '[', function () usr.exec("zsh -c 'luakit -U -c " .. home_path .. ".config/luakit/rc.lua  > /dev/null 2>&1'") end, 'Launch web browser'),
    awful.key({ usr.modkey, }, '\\', function () usr.exec('spacefm --panel=1') end, 'Launch file manager'),
