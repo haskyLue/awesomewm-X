@@ -344,7 +344,7 @@ table.insert(menu_items, { 'Awesome Options', myawesomemenu,  freedesktop.utils.
 myideskmenu = {
     { 'Appearance', 'lxappearance', freedesktop.utils.lookup_icon({ icon = 'style' }) },
     { 'Wallpapers', 'feh -g 640x480 -d -S filename ' .. home_path .. 'Pictures/wallpaper', freedesktop.utils.lookup_icon({ icon = 'style' }) },
-    { 'Wallpapers+', 'feh -g 640x480 -d -S filename ' .. home_path .. 'Pictures/adultpaper', freedesktop.utils.lookup_icon({ icon = 'style' }) },
+    { 'Wallpapers+', 'feh -g 640x480 -d -S filename ' .. home_path .. 'Pictures/nsfwpaper', freedesktop.utils.lookup_icon({ icon = 'style' }) },
     { 'Kill Conky', usr.terminal_cmd .. 'killall conky', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
     { 'Kill Idesk', usr.terminal_cmd .. 'killall idesk', freedesktop.utils.lookup_icon({ icon = 'system-shutdown' }) },
     { 'Start Conky', 'conky -d -c ' .. home_path .. '.config/conky/.conkyrc', freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
