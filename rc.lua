@@ -855,6 +855,8 @@ awful.rules.rules = {
     properties = {tag = tags[1][5], switchtotag = true} },
     { rule = { class = 'Plugin-container' }, -- fullscreen youtube videos
     properties = { floating = true, switchtotag = true } },
+    { rule = { class = 'Ark' }, 
+    properties = { floating = true } },
     --  { rule = { class = 'Nitrogen' }, 
     --   properties = { tag = tags[1][7], 
     --                   floating = true, 
