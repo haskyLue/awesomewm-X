@@ -683,7 +683,7 @@ globalkeys = awful.util.table.join(
 
       awful.key({ }, "F12", function () 
           scratch.drop("urxvtc -name scratch", "top", "left", 0.60, 0.40, false)
-      end),
+      end, 'Drop Down Terminal'),
 
     -- Menubar
     awful.key({ usr.modkey }, "0", function() menubar.show() end, 'Menubar')
