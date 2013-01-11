@@ -15,12 +15,23 @@ tc2="/media/truecrypt2/test"
 
 if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 
-	#nitrogen --restore &
-	[ -z "$(pidof compton)" ] && compton -cF &
+	if [ ! -z $DISPLAY ]; then
+		WM_WINDOW=$(xprop -root _NET_SUPPORTING_WM_CHECK)
+		WM_WINDOW=${WM_WINDOW##* }
+		WM_NAME=$(xprop -id $WM_WINDOW 8s _NET_WM_NAME)
+		WM_NAME=${WM_NAME##* }
+		WM_NAME=`echo $WM_NAME | sed 's/\"//g'`
+	else
+		WM_NAME=""
+	fi
+
+	if [ "$WM_NAME" = "awesome" ]; then
+		[ -z "$(pidof compton)" ] && compton -cF &
+	fi
 	sleep 2s
 	feh --bg-scale $HOME/Pictures/wallpaper/1088253-bludragon.jpg &
 	#sh ~/bin/rotate_wallpaper &
-	#[ -z "$(pidof bitlbee)" ] && sudo bitlbee -D
+	[ -z "$(pidof bitlbee)" ] && sudo bitlbee -D
 	[ -z "$(pidof weechat-curses)" ] && urxvtc -name "IRC1" -e weechat-curses && urxvtc -name "IRC2" -e weechat-curses -d ~/.weechat-priv
 	[ -z "$(pidof xbindkeys)" ] && xbindkeys &
 	#[ -z "$(pidof htop)" ] && urxvtc -name "Htop" -e htop
