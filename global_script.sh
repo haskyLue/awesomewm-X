@@ -27,32 +27,58 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 
 	if [ "$WM_NAME" = "awesome" ]; then
 		[ -z "$(pidof compton)" ] && compton -cF &
+		sleep 2s
+		#feh --bg-scale $HOME/Pictures/wallpaper/1088253-bludragon.jpg &
+		#sh ~/bin/rotate_wallpaper &
 	fi
-	sleep 2s
-	feh --bg-scale $HOME/Pictures/wallpaper/1088253-bludragon.jpg &
-	#sh ~/bin/rotate_wallpaper &
+
+	## start drop down terminal emulator
+	[ -z "$(pidof stjerm)" ] && stjerm -k f12 -o 80 -fg 66ff11 -sh /bin/sh -l 7000 -h 350 &
+
+	# start IM server and IRC client
 	[ -z "$(pidof bitlbee)" ] && sudo bitlbee -D
 	[ -z "$(pidof weechat-curses)" ] && urxvtc -name "IRC1" -e weechat-curses && urxvtc -name "IRC2" -e weechat-curses -d ~/.weechat-priv
+	
+	## start custom keyboard shortcuts
 	[ -z "$(pidof xbindkeys)" ] && xbindkeys &
+	
+	# start terminal apps
 	#[ -z "$(pidof htop)" ] && urxvtc -name "Htop" -e htop
 	#[ -z "$(pidof saidar)" ] && urxvtc -name "Saidar" -e saidar -c
-	[ -z "$(pidof tail)" ] && urxvtc -name "STDerr" -e tail -f "$HOME/.cache/awesome/stderr"
 	#[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyload
-	#if [ -d "$HOME/Videos/playlist" ] ; then
-#		[ -z "$(pidof vlc)" ] && vlc "$HOME/Videos/playlist" &
-#	fi
+	#sudo killall journalctl && urxvtc -name "Logs" -e sudo journalctl -f
+	if [ "$WM_NAME" = "awesome" ]; then
+		[ -z "$(pidof tail)" ] && urxvtc -name "STDerr" -e tail -f "$HOME/.cache/awesome/stderr"
+	fi
+	
+	#start vlc media player and playlist
+	if [ -d "$HOME/Videos/playlist" ] ; then
+		[ -z "$(pidof vlc)" ] && vlc "$HOME/Videos/playlist" &
+	fi
+
+	# start text editor
 	[ -z "$(pidof sublime_text)" ] && subl
+
+	# start gui applications
 	#[ -z "$(pidof spacefm)" ] && spacefm &
 	#[ -z "$(pidof firefox)" ] && firefox &
+	
+	# start systray applications
 	#[ -z "$(pidof dropbox)" ] && dropboxd &
+	killall aarchup
+	sleep 2s
+	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 30 --aur --icon "$HOME/.config/awesome/icons/pacman_icon_48x48.png" &
+
+	# start daemons and services not auto started at boot
+	#[ -z "$(pidof httpd)" ] && sudo lamp.sh start
 	#[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
 	#[ -z "$(pidof mocp)" ] && urxvtc -name "MOCP" -e mocp &
-	#killall conky
-	#sleep 2s
-	#[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkyrc &
-	#[ -z "$(pidof httpd)" ] && sudo lamp.sh start
-	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 30 --aur --icon "$HOME/.config/awesome/icons/pacman_icon_48x48.png" &
-	#sudo killall journalctl && urxvtc -name "Logs" -e sudo journalctl -f
+	
+	# start system information display
+	killall conky
+	sleep 2s
+	[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkyrc &
+
 fi
 
 # focus tag 1
