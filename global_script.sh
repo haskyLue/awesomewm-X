@@ -33,7 +33,7 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	fi
 
 	## start drop down terminal emulator
-	[ -z "$(pidof stjerm)" ] && stjerm -k f12 -o 80 -fg 66ff11 -sh /bin/sh -l 7000 -h 350 &
+	[ -z "$(pidof stjerm)" ] && stjerm -k f12 -o 80 -fg 66ff11 -ah false -sh /bin/sh -l 7000 -h 350 &
 
 	# start IM server and IRC client
 	[ -z "$(pidof bitlbee)" ] && sudo bitlbee -D
@@ -75,9 +75,9 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	#[ -z "$(pidof mocp)" ] && urxvtc -name "MOCP" -e mocp &
 	
 	# start system information display
-	killall conky
-	sleep 2s
-	[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkyrc &
+	#killall conky
+	#sleep 2s
+	#[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkyrc &
 
 fi
 
