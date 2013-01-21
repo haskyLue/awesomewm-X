@@ -28,13 +28,13 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	if [ "$WM_NAME" = "awesome" ]; then
 		[ -z "$(pidof compton)" ] && compton -cF &
 		sleep 2s
-		#feh --bg-scale $HOME/Pictures/wallpaper/1088253-bludragon.jpg &
+		feh --bg-scale $HOME/Pictures/wallpaper/1088253-bludragon.jpg &
 		#sh ~/bin/rotate_wallpaper &
+	else
+		## start drop down terminal emulator
+		[ -z "$(pidof stjerm)" ] && stjerm -k f12 -o 80 -fg 66ff11 -ah false -sh /bin/sh -l 7000 -h 350 &
 	fi
-
-	## start drop down terminal emulator
-	[ -z "$(pidof stjerm)" ] && stjerm -k f12 -o 80 -fg 66ff11 -ah false -sh /bin/sh -l 7000 -h 350 &
-
+	
 	# start IM server and IRC client
 	[ -z "$(pidof bitlbee)" ] && sudo bitlbee -D
 	[ -z "$(pidof weechat-curses)" ] && urxvtc -name "IRC1" -e weechat-curses && urxvtc -name "IRC2" -e weechat-curses -d ~/.weechat-priv
@@ -44,9 +44,10 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	
 	# start terminal apps
 	#[ -z "$(pidof htop)" ] && urxvtc -name "Htop" -e htop
-	#[ -z "$(pidof saidar)" ] && urxvtc -name "Saidar" -e saidar -c
-	#[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyload
+	[ -z "$(pidof saidar)" ] && urxvtc -name "Saidar" -e saidar -c
+	[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyload
 	#sudo killall journalctl && urxvtc -name "Logs" -e sudo journalctl -f
+
 	if [ "$WM_NAME" = "awesome" ]; then
 		[ -z "$(pidof tail)" ] && urxvtc -name "STDerr" -e tail -f "$HOME/.cache/awesome/stderr"
 	fi
@@ -71,13 +72,13 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 
 	# start daemons and services not auto started at boot
 	#[ -z "$(pidof httpd)" ] && sudo lamp.sh start
-	#[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
+	[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
 	#[ -z "$(pidof mocp)" ] && urxvtc -name "MOCP" -e mocp &
 	
 	# start system information display
-	#killall conky
-	#sleep 2s
-	#[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkyrc &
+	killall conky
+	sleep 2s
+	[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkye17 &
 
 fi
 
