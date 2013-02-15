@@ -44,8 +44,8 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	
 	# start terminal apps
 	#[ -z "$(pidof htop)" ] && urxvtc -name "Htop" -e htop
-	[ -z "$(pidof saidar)" ] && urxvtc -name "Saidar" -e saidar -c
-	[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyload
+	#[ -z "$(pidof saidar)" ] && urxvtc -name "Saidar" -e saidar -c
+	#[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyload
 	#sudo killall journalctl && urxvtc -name "Logs" -e sudo journalctl -f
 
 	if [ "$WM_NAME" = "awesome" ]; then
@@ -76,9 +76,9 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	#[ -z "$(pidof mocp)" ] && urxvtc -name "MOCP" -e mocp &
 	
 	# start system information display
-	killall conky
-	sleep 2s
-	[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkye17 &
+	#killall conky
+	#sleep 2s
+	#[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkye17 &
 
 fi
 
