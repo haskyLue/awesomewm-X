@@ -1,6 +1,6 @@
 #!/bin/bash
 # autostart
-# author pdq  11-27-2012
+# author pdq 11-27-2012
 # THEMEDIR=$HOME"/.config/awesome/themes/dunzor"
 
 ## SEE $XDG_CONFIG_HOME/awesome/custom/
@@ -43,7 +43,7 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	[ -z "$(pidof xbindkeys)" ] && xbindkeys &
 	
 	# start terminal apps
-	#[ -z "$(pidof htop)" ] && urxvtc -name "Htop" -e htop
+	[ -z "$(pidof htop)" ] && urxvtc -name "Htop" -e htop
 	#[ -z "$(pidof saidar)" ] && urxvtc -name "Saidar" -e saidar -c
 	#[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyload
 	#sudo killall journalctl && urxvtc -name "Logs" -e sudo journalctl -f
@@ -54,7 +54,7 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	
 	#start vlc media player and playlist
 	if [ -d "$HOME/Videos/playlist" ] ; then
-		[ -z "$(pidof vlc)" ] && vlc "$HOME/Videos/playlist" &
+		[ -z "$(pidof vlc)" ] && vlc "$HOME/Videos/playlist" /dev/null 2>&1 &
 	fi
 
 	# start text editor
@@ -62,13 +62,13 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 
 	# start gui applications
 	#[ -z "$(pidof spacefm)" ] && spacefm &
-	#[ -z "$(pidof firefox)" ] && firefox &
+	[ -z "$(pidof firefox)" ] && firefox /dev/null 2>&1 &
 	
 	# start systray applications
 	#[ -z "$(pidof dropbox)" ] && dropboxd &
 	killall aarchup
 	sleep 2s
-	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 30 --aur --icon "$HOME/.config/awesome/icons/pacman_icon_48x48.png" &
+	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 60 --aur --icon "$HOME/.config/awesome/icons/pacman_icon_48x48.png" &
 
 	# start daemons and services not auto started at boot
 	#[ -z "$(pidof httpd)" ] && sudo lamp.sh start
