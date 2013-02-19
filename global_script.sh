@@ -78,7 +78,7 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	# start system information display
 	#killall conky
 	#sleep 2s
-	#[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkye17 &
+	[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkye17 /dev/null 2>&1 &
 
 fi
 
