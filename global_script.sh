@@ -32,14 +32,20 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 		#sh ~/bin/rotate_wallpaper &
 	else
 		## start drop down terminal emulator
-		[ -z "$(pidof stjerm)" ] && stjerm -k f12 -o 80 -fg 66ff11 -ah false -sh /bin/sh -l 7000 -h 350 &
+		[ -z "$(pidof stjerm)" ] && stjerm -p right -k f12 -o 80 -fg 66ff11 -ah false -sh /bin/sh -l 7000 -h 350 &
 	fi
+
+	# start dmenu clipboard (dmenuclip/dmenurl)
+	[ -z "$(pidof clipbored)" ] && clipbored
 	
+	# start system information display
+	[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkye17 &
+
 	# start IM server and IRC client
 	[ -z "$(pidof bitlbee)" ] && sudo bitlbee -D
 	[ -z "$(pidof weechat-curses)" ] && urxvtc -name "IRC1" -e weechat-curses && urxvtc -name "IRC2" -e weechat-curses -d ~/.weechat-priv
 	
-	## start custom keyboard shortcuts
+	# start custom keyboard shortcuts
 	[ -z "$(pidof xbindkeys)" ] && xbindkeys &
 	
 	# start terminal apps
@@ -53,8 +59,8 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	fi
 	
 	#start vlc media player and playlist
-	if [ -d "$HOME/Videos/playlist" ] ; then
-		[ -z "$(pidof vlc)" ] && vlc "$HOME/Videos/playlist" /dev/null 2>&1 &
+	if [ -d "$HOME/Videos/tempvideo" ] ; then
+		[ -z "$(pidof vlc)" ] && vlc "$HOME/Videos/tempvideo" &
 	fi
 
 	# start text editor
@@ -62,7 +68,7 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 
 	# start gui applications
 	#[ -z "$(pidof spacefm)" ] && spacefm &
-	[ -z "$(pidof firefox)" ] && firefox /dev/null 2>&1 &
+	[ -z "$(pidof firefox)" ] && firefox &
 	
 	# start systray applications
 	#[ -z "$(pidof dropbox)" ] && dropboxd &
@@ -74,12 +80,6 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	#[ -z "$(pidof httpd)" ] && sudo lamp.sh start
 	[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
 	#[ -z "$(pidof mocp)" ] && urxvtc -name "MOCP" -e mocp &
-	
-	# start system information display
-	#killall conky
-	#sleep 2s
-	[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkye17 /dev/null 2>&1 &
-
 fi
 
 # focus tag 1
