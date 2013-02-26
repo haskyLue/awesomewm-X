@@ -41,8 +41,8 @@ if home_path ~= nil then
 
 end
 
-theme.menu_icons = 'gnome' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
-theme.icon_theme = 'gnome'
+theme.menu_icons = 'kfaenza' -- look inside /usr/share/icons/, default: nil (don't use icon theme)
+theme.icon_theme = 'kfaenza'
 
 theme.bg_normal     = '#161616'
 theme.bg_focus      = '#000000'

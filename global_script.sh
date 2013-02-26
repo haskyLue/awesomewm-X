@@ -49,7 +49,9 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	[ -z "$(pidof xbindkeys)" ] && xbindkeys &
 	
 	# start terminal apps
-	[ -z "$(pidof htop)" ] && urxvtc -name "Htop" -e htop
+	[ -z "$(pidof htop)" ] && urxvtc -name "Htop" -e htop &
+	[ -z "$(pidof nmon)" ] && urxvtc -name "nmon" -e nmon -s 5 &
+	[ -z "$(pidof mocp)" ] && urxvtc -name "MOCP" -e mocp &
 	#[ -z "$(pidof saidar)" ] && urxvtc -name "Saidar" -e saidar -c
 	#[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyload
 	#sudo killall journalctl && urxvtc -name "Logs" -e sudo journalctl -f
@@ -64,26 +66,29 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	fi
 
 	# start text editor
-	[ -z "$(pidof sublime_text)" ] && subl
+	[ -z "$(pidof sublime_text)" ] && subl &
 
 	# start gui applications
-	#[ -z "$(pidof spacefm)" ] && spacefm &
+	[ -z "$(pidof kdenlive)" ] && kdenlive &
 	[ -z "$(pidof firefox)" ] && firefox &
-	
+
 	# start systray applications
 	#[ -z "$(pidof dropbox)" ] && dropboxd &
 	killall aarchup
 	sleep 2s
 	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 60 --aur --icon "$HOME/.config/awesome/icons/pacman_icon_48x48.png" &
 
+	echo "zzzzz"
 	# start daemons and services not auto started at boot
 	#[ -z "$(pidof httpd)" ] && sudo lamp.sh start
 	[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
-	#[ -z "$(pidof mocp)" ] && urxvtc -name "MOCP" -e mocp &
+	# start root terminal apps
+	[ -z "$(pidof iotop)" ] && sudo urxvtc -name "iotop" -e iotop &
+	# start root text editor
+	#[ -z "$(pidof sublime_text)" ] && sudo subl
 fi
 
 # focus tag 1
 #wmctrl -s 0
 
 # exit cleanly
-exit 0
