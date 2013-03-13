@@ -25,6 +25,10 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 		WM_NAME=""
 	fi
 
+	# start daemons and services not auto started at boot
+	#[ -z "$(pidof httpd)" ] && sudo lamp.sh start
+	[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
+
 	if [ "$WM_NAME" = "awesome" ]; then
 		[ -z "$(pidof compton)" ] && compton -cF &
 		sleep 2s
@@ -32,7 +36,7 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 		#sh ~/bin/rotate_wallpaper &
 	else
 		## start drop down terminal emulator
-		[ -z "$(pidof stjerm)" ] && stjerm -p right -k f12 -o 80 -fg 66ff11 -ah false -sh /bin/sh -l 7000 -h 350 &
+		[ -z "$(pidof stjerm)" ] && stjerm -p top -k f12 -o 80 -ah false -sh /bin/sh -l 7000 -h 350 &
 	fi
 
 	# start dmenu clipboard (dmenuclip/dmenurl)
@@ -66,7 +70,7 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	fi
 
 	# start text editor
-	[ -z "$(pidof sublime_text)" ] && subl &
+	#[ -z "$(pidof sublime_text)" ] && subl &
 
 	# start gui applications
 	# [ -z "$(pidof kdenlive)" ] && kdenlive &
@@ -78,10 +82,7 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	sleep 2s
 	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 60 --aur --icon "$HOME/.config/awesome/icons/pacman_icon_48x48.png" &
 
-	echo "zzzzz"
-	# start daemons and services not auto started at boot
-	#[ -z "$(pidof httpd)" ] && sudo lamp.sh start
-	[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
+	echo "applications running..."
 	# start root terminal apps
 	#[ -z "$(pidof iotop)" ] && sudo urxvtc -name "iotop" -e iotop &
 	# start root text editor
