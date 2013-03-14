@@ -40,7 +40,8 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	fi
 
 	# start dmenu clipboard (dmenuclip/dmenurl)
-	[ -z "$(pidof clipbored)" ] && clipbored
+	killall -q clipbored
+	clipbored
 	
 	# start system information display
 	[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkye17 &
@@ -78,7 +79,7 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 
 	# start systray applications
 	#[ -z "$(pidof dropbox)" ] && dropboxd &
-	killall aarchup
+	killall -q aarchup
 	sleep 2s
 	[ -z "$(pidof aarchup)" ] && /usr/bin/aarchup --loop-time 60 --aur --icon "$HOME/.config/awesome/icons/pacman_icon_48x48.png" &
 
