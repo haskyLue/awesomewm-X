@@ -41,10 +41,10 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 
 	# start dmenu clipboard (dmenuclip/dmenurl)
 	killall -q clipbored
-	clipbored
+	clipbored 
 	
 	# start system information display
-	[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkye17 &
+	#[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkye17 &
 
 	# start IM server and IRC client
 	[ -z "$(pidof bitlbee)" ] && sudo bitlbee -D
@@ -89,6 +89,8 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	# start root text editor
 	#[ -z "$(pidof sublime_text)" ] && sudo subl
 fi
+
+exit 0
 
 # focus tag 1
 #wmctrl -s 0
