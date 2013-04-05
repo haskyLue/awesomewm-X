@@ -36,8 +36,9 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 		#sh ~/bin/rotate_wallpaper &
 	else
 		## start drop down terminal emulator
-		[ -z "$(pidof stjerm)" ] && stjerm -p top -k f12 -o 80 -ah false -sh /bin/sh -l 7000 -h 350 &
+		[ -z "$(pidof stjerm)" ] && stjerm -p top -k f12 -o 60 -ah false -sh /bin/sh -l 7000 -h 350 &
 	fi
+
 
 	# start dmenu clipboard (dmenuclip/dmenurl)
 	killall -q clipbored
@@ -59,7 +60,7 @@ if [ -f "$tc1" ] && [ -f "$tc2" ] || [ "$USER" != "pdq" ] ; then
 	#[ -z "$(pidof mocp)" ] && urxvtc -name "MOCP" -e mocp &
 	#[ -z "$(pidof saidar)" ] && urxvtc -name "Saidar" -e saidar -c
 	#[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyload
-	#sudo killall journalctl && urxvtc -name "Logs" -e sudo journalctl -f
+	urxvtc -name "Logs" -e sudo journalctl -f
 
 	if [ "$WM_NAME" = "awesome" ]; then
 		[ -z "$(pidof tail)" ] && urxvtc -name "STDerr" -e tail -f "$HOME/.cache/awesome/stderr"

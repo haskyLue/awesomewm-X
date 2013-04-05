@@ -62,7 +62,7 @@ URxvt*tabbed.tab-bg:    0
 URxvt*font: xft:terminus:pixelsize=16:antialias=false
 !URxvt*font: xft:Envy Code R-10
 !URxvt*iconFile: /usr/share/icons/gnome/16x16/apps/gnome-terminal.png
-URxvt*background: rgba:1111/1111/1111/0000
+URxvt*background: rgba:0000/0000/0000/dddd
 URxvt*foreground: #d3d3d3
 URxvt*transparent: false 
 Urxvt*fading: 10
