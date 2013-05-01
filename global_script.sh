@@ -9,7 +9,7 @@
 ## Run from terminal:
 
 ## sh $XDG_CONFIG_HOME/awesome/custom/script_regeneration.sh
-
+sudo pacman -Syu && pacaur -Syua
 tc1="/media/truecrypt1/test"
 tc2="/media/truecrypt2/test"
 
