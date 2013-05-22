@@ -28,11 +28,7 @@ if [ "$WM_NAME" = "awesome" ]; then
 	#sh ~/bin/rotate_wallpaper &
 else
 	## Start drop down terminal emulator
-<<<<<<< HEAD
 	[ -z "$(pidof yeahconsole)" ] && yeahconsole &
-=======
-	[ -z "$(pidof stjerm)" ] && stjerm -p top -k f12 -o 60 -ah false -sh /bin/sh -l 7000 -h 350 &
->>>>>>> 0a7e24c2894e481ad048a78257189ea764921ed8
 fi
 
 # Start dmenu clipboard (dmenuclip/dmenurl)
@@ -83,11 +79,7 @@ fi
 [ -z "$(pidof firefox)" ] && firefox &
 [ -z "$(pidof dolphin)" ] && dolphin &
 #[ -z "$(pidof steam)" ] && steam &
-<<<<<<< HEAD
 # [ -z "$(pidof nvidia-settings)" ] && nvidia-settings &
-=======
-[ -z "$(pidof nvidia-settings)" ] && nvidia-settings &
->>>>>>> 0a7e24c2894e481ad048a78257189ea764921ed8
 
 # Start systray applications
 [ -z "$(pidof dropbox)" ] && dropboxd &
