@@ -47,7 +47,7 @@ clipbored
 # Start terminal apps
 [ -z "$(pidof htop)" ] && urxvtc -name "Htop" -e htop
 
-# Main terminal
+# Main terminals
 urxvtc -name "Term"
 urxvtc -name "Term2"
 
@@ -92,5 +92,5 @@ fi
 #[ -z "$(pidof bitlbee)" ] && sudo bitlbee -D
 
 # Focus tag 1
-xdotool key alt+F1
+#xdotool key alt+F1
 #wmctrl -s 0
