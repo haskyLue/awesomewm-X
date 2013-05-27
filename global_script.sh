@@ -41,7 +41,7 @@ clipbored
 # Start IM server and IRC client
 [ -z "$(pidof weechat-curses)" ] && urxvtc -name "IRC1" -e weechat-curses && urxvtc -name "IRC2" -e weechat-curses -d ~/.weechat-priv
 
-# Start custom keyboard shortcuts
+# Start custom ksseyboard shortcuts
 [ -z "$(pidof xbindkeys)" ] && xbindkeys &
 
 # Start terminal apps
