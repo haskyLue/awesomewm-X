@@ -53,7 +53,7 @@ urxvtc -name "Term2"
 
 # SSH @linux
 urxvtc -name "SSH" -e ssh 192.168.0.10 -p34567
-
+urxvtc -name "SSH2" -e ssh 192.168.0.10 -p34567
 #[ -z "$(pidof nmon)" ] && urxvtc -name "nmon" -e nmon -s 5 &
 #[ -z "$(pidof mocp)" ] && urxvtc -name "MOCP" -e mocp &
 #[ -z "$(pidof saidar)" ] && urxvtc -name "Saidar" -e saidar -c
