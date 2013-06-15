@@ -19,6 +19,7 @@ fi
 #[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
 
 # Mount @linux
+urxvtc -name "SSH" -e ssh 192.168.0.10 -p34567
 sshfs pdq@192.168.0.10:/ /mnt/linux-pdq -C -p 34567
 
 if [ "$WM_NAME" = "awesome" ]; then
@@ -45,20 +46,19 @@ clipbored
 [ -z "$(pidof xbindkeys)" ] && xbindkeys &
 
 # Start terminal apps
-[ -z "$(pidof htop)" ] && urxvtc -name "Htop" -e htop
+#[ -z "$(pidof htop)" ] && urxvtc -name "Htop" -e htop
 
 # Main terminals
 urxvtc -name "Term"
-urxvtc -name "Term2"
+#urxvtc -name "Term2"
 
 # SSH @linux
-urxvtc -name "SSH" -e ssh 192.168.0.10 -p34567
-urxvtc -name "SSH2" -e ssh 192.168.0.10 -p34567
+#urxvtc -name "SSH" -e ssh 192.168.0.10 -p34567
+#urxvtc -name "SSH2" -e ssh 192.168.0.10 -p34567
 #[ -z "$(pidof nmon)" ] && urxvtc -name "nmon" -e nmon -s 5 &
 #[ -z "$(pidof mocp)" ] && urxvtc -name "MOCP" -e mocp &
 #[ -z "$(pidof saidar)" ] && urxvtc -name "Saidar" -e saidar -c
-#[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyload
-urxvtc -name "Logs" -e sudo journalctl -f
+#[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyloadurxvtc -name "Logs" -e sudo journalctl -f
 #urxvtc -name "IOtop" -e sudo iotop -o
 
 if [ "$WM_NAME" = "awesome" ]; then
@@ -75,14 +75,15 @@ fi
 
 # Start gui applications
 # [ -z "$(pidof kdenlive)" ] && kdenlive &
-[ -z "$(pidof gkrellm)" ] && gkrellm &
-[ -z "$(pidof firefox)" ] && firefox &
-[ -z "$(pidof dolphin)" ] && dolphin &
+#[ -z "$(pidof gkrellm)" ] && gkrellm &
+#[ -z "$(pidof firefox)" ] && firefox &
+#[ -z "$(pidof dolphin)" ] && dolphin &
 #[ -z "$(pidof steam)" ] && steam &
 # [ -z "$(pidof nvidia-settings)" ] && nvidia-settings &
+[ -z "$(pidof claws-mail)" ] && usewithtor claws-mail &
 
 # Start systray applications
-[ -z "$(pidof dropbox)" ] && dropboxd &
+#[ -z "$(pidof dropbox)" ] && dropboxd &
 #[ -z "$(pidof nm-applet)" ] && nm-applet & 
 
 # Start update notifier
