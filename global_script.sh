@@ -3,34 +3,36 @@
 # author pdq 11-27-2012 - 04-18-2013
 #urxvtc -name "Screencaster" -e ffmpeg -f alsa -ac 2 -i pulse -f x11grab -r 30 -s 1920x1080 -i :0.0 -acodec pcm_s16le -vcodec libx264 -preset ultrafast -crf 0 -threads 0 startx.mkv
 #sleep 2s
+
 # Grab window manager name
-if [ ! -z $DISPLAY ]; then
-	WM_WINDOW=$(xprop -root _NET_SUPPORTING_WM_CHECK)
-	WM_WINDOW=${WM_WINDOW##* }
-	WM_NAME=$(xprop -id $WM_WINDOW 8s _NET_WM_NAME)
-	WM_NAME=${WM_NAME##* }
-	WM_NAME=`echo $WM_NAME | sed 's/\"//g'`
-else
-	WM_NAME=""
-fi
+# if [ ! -z $DISPLAY ]; then
+# 	WM_WINDOW=$(xprop -root _NET_SUPPORTING_WM_CHECK)
+# 	WM_WINDOW=${WM_WINDOW##* }
+# 	WM_NAME=$(xprop -id $WM_WINDOW 8s _NET_WM_NAME)
+# 	WM_NAME=${WM_NAME##* }
+# 	WM_NAME=`echo $WM_NAME | sed 's/\"//g'`
+# else
+# 	WM_NAME=""
+# fi
 
 # start daemons and services not auto started at boot
 #[ -z "$(pidof httpd)" ] && sudo lamp.sh start
 #[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
 
 # Mount @linux
+urxvtc -name "SSH" -e ssh 192.168.0.10 -p34567
 urxvtc -name "SSH2" -e ssh 192.168.0.10 -p34567
 sshfs pdq@192.168.0.10:/ /mnt/linux-pdq -C -p 34567
 
-if [ "$WM_NAME" = "awesome" ]; then
-	[ -z "$(pidof compton)" ] && compton -cF &
-	sleep 2s
-	feh --bg-scale $HOME/Pictures/wallpaper/1088253-bludragon.jpg &
-	#sh ~/bin/rotate_wallpaper &
-else
+#if [ "$WM_NAME" = "awesome" ]; then
+	#[ -z "$(pidof compton)" ] && compton -cF &
+	#sleep 2s
+	#feh --bg-scale $HOME/Pictures/wallpaper/1088253-bludragon.jpg &
+	##sh ~/bin/rotate_wallpaper &
+#else
 	## Start drop down terminal emulator
-	[ -z "$(pidof yeahconsole)" ] && yeahconsole &
-fi
+[ -z "$(pidof yeahconsole)" ] && yeahconsole &
+#fi
 
 # Start dmenu clipboard (dmenuclip/dmenurl)
 killall -q clipbored
@@ -50,7 +52,7 @@ clipbored
 
 # Main terminals
 urxvtc -name "Term"
-#urxvtc -name "Term2"
+urxvtc -name "Term2"
 
 # SSH @linux
 #urxvtc -name "SSH" -e ssh 192.168.0.10 -p34567
@@ -61,9 +63,9 @@ urxvtc -name "Term"
 #[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyloadurxvtc -name "Logs" -e sudo journalctl -f
 #urxvtc -name "IOtop" -e sudo iotop -o
 
-if [ "$WM_NAME" = "awesome" ]; then
-	[ -z "$(pidof tail)" ] && urxvtc -name "STDerr" -e tail -f "$HOME/.cache/awesome/stderr"
-fi
+# if [ "$WM_NAME" = "awesome" ]; then
+# 	[ -z "$(pidof tail)" ] && urxvtc -name "STDerr" -e tail -f "$HOME/.cache/awesome/stderr"
+# fi
 
 # Start vlc media player and playlist
 if [ -d "$HOME/Videos/tempvideo" ] ; then
