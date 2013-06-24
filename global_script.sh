@@ -19,7 +19,7 @@ fi
 #[ -z "$(pidof transmission-daemon)" ] && sudo systemctl start transmission.service
 
 # Mount @linux
-urxvtc -name "SSH" -e ssh 192.168.0.10 -p34567
+urxvtc -name "SSH2" -e ssh 192.168.0.10 -p34567
 sshfs pdq@192.168.0.10:/ /mnt/linux-pdq -C -p 34567
 
 if [ "$WM_NAME" = "awesome" ]; then
