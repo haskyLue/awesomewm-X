@@ -35,8 +35,8 @@ sshfs pdq@192.168.0.10:/ /mnt/linux-pdq -C -p 34567
 #fi
 
 # Start dmenu clipboard (dmenuclip/dmenurl)
-killall -q clipbored
-clipbored 
+#killall -q clipbored
+#clipbored 
 
 # Start system information display
 #[ -z "$(pidof conky)" ] && conky -d -c "$HOME"/.config/conky/.conkye17 &
@@ -60,7 +60,8 @@ urxvtc -name "Term2"
 #[ -z "$(pidof nmon)" ] && urxvtc -name "nmon" -e nmon -s 5 &
 #[ -z "$(pidof mocp)" ] && urxvtc -name "MOCP" -e mocp &
 #[ -z "$(pidof saidar)" ] && urxvtc -name "Saidar" -e saidar -c
-#[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyloadurxvtc -name "Logs" -e sudo journalctl -f
+#[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyload
+urxvtc -name "Logs" -e sudo journalctl -f
 #urxvtc -name "IOtop" -e sudo iotop -o
 
 # if [ "$WM_NAME" = "awesome" ]; then
