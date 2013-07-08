@@ -21,7 +21,7 @@
 
 # Mount @linux
 urxvtc -name "SSH" -e ssh 192.168.0.10 -p34567
-urxvtc -name "SSH2" -e ssh 192.168.0.10 -p34567
+urxvtc -name "SSH2" -e ssh 192.168.0.10 -p34567 -t "htop"
 sshfs pdq@192.168.0.10:/ /mnt/linux-pdq -C -p 34567
 
 #if [ "$WM_NAME" = "awesome" ]; then
@@ -52,12 +52,12 @@ sshfs pdq@192.168.0.10:/ /mnt/linux-pdq -C -p 34567
 
 # Main terminals
 urxvtc -name "Term"
-urxvtc -name "Term2"
+urxvtc -name "Term2" -e htop
 
 # SSH @linux
 #urxvtc -name "SSH" -e ssh 192.168.0.10 -p34567
 #urxvtc -name "SSH2" -e ssh 192.168.0.10 -p34567
-#[ -z "$(pidof nmon)" ] && urxvtc -name "nmon" -e nmon -s 5 &
+#[ -z "$(pidof nxmon)" ] && urxvtc -name "nmon" -e nmon -s 5 &
 #[ -z "$(pidof mocp)" ] && urxvtc -name "MOCP" -e mocp &
 #[ -z "$(pidof saidar)" ] && urxvtc -name "Saidar" -e saidar -c
 #[ -z "$(pidof ttyload)" ] && urxvtc -name "TTYload" -e ttyload
@@ -80,6 +80,7 @@ fi
 # [ -z "$(pidof kdenlive)" ] && kdenlive &
 #[ -z "$(pidof gkrellm)" ] && gkrellm &
 #[ -z "$(pidof firefox)" ] && firefox &
+[ -z "$(pidof gtk-youtube-viewer)" ] && gtk-youtube-viewer &
 #[ -z "$(pidof dolphin)" ] && dolphin &
 #[ -z "$(pidof steam)" ] && steam &
 # [ -z "$(pidof nvidia-settings)" ] && nvidia-settings &
